@@ -1,0 +1,9 @@
+Day 1:
+    In Day 1, we explore our interest and the company projects like krispcall, dialaxy, tivazo and omni-channel.
+    We also got some goddies and account for tracking work progress like tivazo account and krispcall account.
+    We also got invited to slack and migadu with the business email.    kiran.khayamali@codavatar.tech
+    Also we got our business profile(HRIS) for the mayahold where all the information about us are listed.
+
+Day 2:
+    Today we got curriculum to follow during the internship program.
+    https://fastapi.tiangolo.com/tutorial/ for FASTAPI
