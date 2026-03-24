@@ -1,0 +1,193 @@
+Python Installation and Refreshers
+    Introduction to section 
+        Python is a popular programming language
+        Created by Guido van Rossum and released in 1991
+        used for:
+            web development(server-side)
+            software development
+            mathematics
+            system scripting
+        why python? 
+            works on different platform
+            similar syntax to english language
+            allows to write program with fewer lines than other programming language
+            runs on interpreter system, meaning that code can be executed as soon as it is written
+            can be treated in procedural, object-oriented and functional way
+        python syntax
+            similar to english language with influence from mathematics
+            uses new lines to complete a command rather than using semicolons or parenthesis
+            relies on indentation, using whitespace to define scope, such as the scope of loops, functions and classes
+        
+Python Installation Overview
+    Checking whether python is installed or not
+        python --version
+    if not installed, download form the official python website:
+        https://python.org
+
+Python Setup(Windows) / Python Setup(Mac)
+    Python can be installed from the official website of python "python.org" for different operating system. User can download as their needs and install python to their device.
+
+Python Integrated Development Environment Overview (VS Code)
+    Software app that help you write, run and debug python code efficiently in one place
+    Combination of multiple tools in single interface:
+        Code editor
+        Python interpreter (to run code)
+        Debugger (to find errors)
+        File/Project manager
+    Popular Python IDEs are:
+        Pycharm:
+            very powerful and widely used
+            great for beginners and professionals
+            has free(community) and paid version
+        Visual Studio Code:
+            lightweight but powerful
+            Requires installing python extensions
+            very popular among developers
+        Jupyter Notebook
+            Great for data science and learning
+            lets you run code in small blocks(cell)
+            supports visualization and notes
+
+Setup Integrated Development Environment(VS Code)
+    IDE(VS Code) can be easily downloaded and installed to the device from "code.visualstudio.com/download". User cna choose according to their OS.
+
+Download python refresher source code 
+    There are many refresher source code found in online. Some of the commonly used among them are from github, freeCodeCamp, Coursera and W3schools.
+    I have watched refresher source code form github with "https://github.com/akb-7/PythonRefresher/", "https://github.com/ehmatthes/pcc_3e" and from W3schools.
+
+Variables in python
+    containers for storing data values
+    no command for declaring a variables
+    created the moment we first assign a value to it.
+    no need to declared with particular types, and can even change type after they have been set.
+    variables names are case-sensitve.
+
+Comments
+    used to explain python code.
+    used to make the code more readable.
+    used to prevent executiong when testing code.
+    starts with a #, and python will ignore them.
+    can be placed at the end of the line, and python will ignore the rest of the line.
+    doesn't have to be text that explains the code, can also be used to prevent python from executing code.
+    doesn't really have syntax for multi-line comment. or not quite as intended, we can use multi-line string. Since, Python will ignore string literals that are not assigned to a variable, we can add a multi-line string(triple quotes) in our code and place our comment in it. 
+
+Python Collections (Arrays)
+    There are four collection data types in the Python programming language:
+        List is a collection which is ordered and changeable. Allows duplicate members.
+        Tuple is a collection which is ordered and unchangeable. Allows duplicate members.
+        Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members.
+        Dictionary is a collection which is ordered** and changeable. No duplicate members.
+
+Getting Started with FASTAPI
+    What is FastAPI?
+        mordern, fast(high-performance), web framework for building APIs with python based on standard python type hints.
+        Key features:
+            Fast: Very high performance, on par with NodeJS and GO(thanks to Starlette and Pydantic)
+            Fast to cod: Increase the speed to develop features by about 200% to 300%
+            Fewer bugs: Reduce about 40% of human(developers) induced errors
+            Intuitive: Great editor support, Completion everywhere, less time debugging
+            Easy: Designed to be easy to use and learn, less time reading documents
+            Short Minimize code duplication, Multiple features from each parameter duplication, Fewer bugs
+            Robust: Get production-ready code, with automatic interactive documentation
+            Standard-based: Based on(and fully compatible with) the open standards for APIs: OpenAPI(previously known as swagger) and JSON schema
+        FastAPI stands on the shoulder of giants:
+            Starlette for the web parts 
+            Pydantic for the data parts
+        
+Installing FastAPI and virtual enviroment installation (Window, Mac and Linux)
+    Setting up virtual environment 
+        python -m venv venv 
+        the above code snippet is written as CLI in the terminal of the project directory. Then
+        ".\venv\Scripts\activate" for windows and "source venv/bin/activate" for MacOS and Linux to start or activate the virtual environment.
+        pip freeze or pip list can be used to see the installed package in the virtual enviroment
+    Installation of FastAPI can be done in 2 ways;
+        pip install fastapi 
+            This install only the core FastAPI package:
+                includes the main frameworks
+                depends on essentials like Starlette and Pydantic
+                doesnot include extras for running a full production application
+                we will need to manually install things like:
+                    ASGI server (eg: Uvicorn)
+                    Performance tools
+                    Optinoal features
+        pip install "fastapi[standard]"
+            This install fastAPi plus a bundle of commonly used extras
+            The [standard] extra typically includes:
+                Uvicorn (to run our application)
+                Uvloop (faster async performance, Unix only)
+                httptools (better performance)
+                python-multipart (for file uploads)
+                jinja2 (if we use templates)
+            In short, it gives us a ready to run, production-friendly setup without installing each piece manually
+        When to use which?
+            If we want full control over dependencies and are building minimal or custom setup using fastapi is enough.
+            If we want to start quickly and are building a typical weh API using fastapi[standard] is prefered.
+
+interactive API docs 
+    ".../docs" can be used to see the automatice interactive API documentation(provided by swagger UI)
+    ".../redoc" can be used to see the alternative automatic documentation(provided by ReDoc)
+
+Recap of FastAPI
+    declared once the types of parameters, body etc as function parameters
+    we do that with standard mordern python types
+    don't need to learn new syntax, methods or classes of a specific libary, etc.
+    just standard python. For eg--> item_id: int for an integer and item_id: Item for complex item model
+    with that single declaration, we get:
+        Editor support, including:
+            Completion
+            Type Checks
+        Validation of data:
+            Automatic and clear errors when data is invalid
+            validation even for deeply nested JSON object
+        Conversion of input data: coming from the network to python data and types. Reading from:
+            JSON
+            path parameters
+            Query parameters
+            Cookies
+            Headers
+            Forms
+            Files
+        Conversion of output data: converting from python data and types to network data(as JSON)
+            Convert Python types(str, int, float, bool, list, etc)
+            datetime objects
+            UUID objects
+            Database models
+            ... and many more
+        Automatic interactive API documentation, including 2 alternative user interface:
+            Swagger UI and ReDoc
+
+Dependencies 
+    FastAPI depends on Pydantic and Starlette
+    Standard dependencies
+        when we install fastapi with pip install "fastapi[standard]", it comes with the standard group of optional dependencies
+    used by Pydantic
+        email-validator --> for email validation
+    used by Starlette
+        httpx --> Required if we want to use the TestClient
+        Jinga2 --> Required if we want to use the default template configuration
+        python-multipart --> Required if we want to support form "parsing", with request.form()
+    used by FastAPI
+        uvicorn --> for the server that loads and serves our application. THis include uvicor[standard] which includes (eg: uvloop) needed for high performance serving
+        fastapi-cli[standard] --> to provide the fastapi command
+            this include fastapi-cloud-cli, which allows us to deploy out fastapi-application to fastapi cloud
+
+
+Python Hint Types 
+    Python type hint's Introduction
+        python has support for optional "type hints"(also known as "type annotations")
+        These "type hints" or annotations are a special syntax that allows declaring the type of a variable 
+        By declaring types for our variables, editors and tools can give us better support
+        FastAPI is all based on these type hints, they give it many advantages and benefits.
+        Type hints are mainly declared as the function parameter.
+    Type hints in FastAPI
+        FastAPI takes advantages of these type hints to do several things
+        with FastAPI, we declare parameters with type hints and we get:
+            Editor support 
+            Type check 
+        ___ and FastAPI uses the same declaration to :
+            Define requirements: from request path parameters, query parameters, headers, bodies, dependencies, etc.
+            Convert data: from request to required type
+            validate data: coming from each request
+                Generating automatic errors returned to the client when the data is invalid
+            Document the API using OpenAPI
+                which is then used by the automatic interactive documentation user interfaces.
