@@ -171,6 +171,35 @@ Dependencies
         fastapi-cli[standard] --> to provide the fastapi command
             this include fastapi-cloud-cli, which allows us to deploy out fastapi-application to fastapi cloud
 
+GET and PUT 
+    GET: Retrieve data from the server(read-only)
+    PUT: Update or replace an existing resources
+
+JSON Format
+    represents data in structured, text-based format that is easy for humans to read and machines to parse(breaking down something into smaller parts and understand how those parts are structured)
+    Data in key-value pairs 
+    Keys must be in string(in double quotes)
+    JSON Resopnse: data returned by an API in JSON(JavaScript Object Notation) format
+    In fastAPI, we don't need to manually create JSON responses, fastapi automatically converts python data into JSON 
+
+What is uvicorn?
+    a fast ASGI server used to run python web application like those built with FastAPI
+    a server that runs our FastAPI application
+    without uvicorn, our FastAPI code won't actually be accessible in browser or via API calls
+    Why uvicorn is needed?
+        when we write a FastAPI application, we're just defining routes and logic.
+        Uvicorn:
+            starts a web server
+            Listens for incoming request(Like GET/POST)
+            sends responses back to the client 
+    What is ASGI(Asynchronous Server Gateway Interface)?
+        supports async/await
+        handles many request efficiently
+        mordern alternative to WSGI(used by older frameworks)
+    Runs using: uvicorn main:app --reload or fastapi dev main.py 
+        main: our file name 
+        app: FastAPI instance
+        --reload: auto restarts server when code changes
 
 Python Hint Types 
     Python type hint's Introduction
@@ -191,3 +220,59 @@ Python Hint Types
                 Generating automatic errors returned to the client when the data is invalid
             Document the API using OpenAPI
                 which is then used by the automatic interactive documentation user interfaces.
+
+Concurrency and async/await
+    Concurrency is the concept of dealing with multiple tasks at once. It doesn't neccessarily means they are being executed at the exact time but rather, they are managed in a overlapping manners. Threads and coroutines are used to achieve concurrency.
+    async/await are keywords used in python to handle asynchronous programming. This allows the program to perform other tasks while waiting for long-running tasks(like network calls or file I/O) to complete, instead of blocking the whole process.
+    async: Marks a functions as asynchronous, meaning it can be paused and resumed later.
+    await: Used to call an asynchronous function and tells python to "pause" and wait for that function to finish without blocking the rest of the code.
+    Key difference between concurrency and parallelism 
+        concurrency: managing multiple tasks at once(task may or may not run at the same time)
+        parallelism: Actually running multiple tasks simultaneously(requires multiple CPU cores or threads)
+    Use of async/await 
+        If we are using third party libaries that tell us to call them with await. Then, declare our path operation function with async function with async def 
+        If we are using third party libaries that communicates with something(like database, an API, the file systme, etc) and doesn't have support for using await, then declare our path operation functions as normally with just def 
+        If our application(somehow) doesn't have to communicates with anything else and wait for it to respond, use async def, even in case of no usage of await inside
+        (Note: We can only use await inside async functions)
+    
+    Starlette and FastAPI are based on AnyIO which makes it compatible with both python standard libary asyncio and trio.
+    AnyIO can be used directly for our advanced concurrency use cases that require more advanced patterns in our code.
+    with the use of AnyIO, we can write our own async application without using FastAPI.
+    Coroutine is just the very fancy term for the thing returned by an async def function
+    Mordern versions of python support for "asynchronous code" using something called "coroutines", with async and await syntax.
+
+Environment Variables
+    variable that live outside the python code in the operating system, and could be read by our python code.
+
+OpenAPI 
+    FastAPI generates a "schema" with all our API using the OpenAPI standard for defining APIs.
+    A "schema" is a definition or description of something. Not the code that implements it, but just an abstract description
+    API schemas definition includes our API paths, the possible parameter they take etc.
+    Data schemas refers to the shape of some data, like JSON content(JSON attributes, and datatypes)
+    "___/openapi.json" can be used to check hte json content for the APIs.
+    uv can be consider to used instead of pip for package installer and manager, as uv is 10-100x times faster than pip.
+
+Importing FastAPI: from fastapi import FastAPI
+Creating FastAPI instance: app = FastAPI()
+URL(Uniform Resource Locator)
+    is the address used to access a resource on the web
+    structure of URL: schema://domain:port/path?query#fragments
+        Schema: defines the protocols used to access resource
+            Example: http, https, ftp ----> https://
+        Domain(Host): Human-readable name that identifies the server where the resource is hosted
+            Example: www.example.com 
+        Port(optional): Numbers that identifies the specific service on the server to connect to. If not specified, the default port for the schema is used.
+            Example: 80 for HTTP; :443 for HTTPS 
+        Path: Specific location of resource on the server 
+            Example: /blog/article 
+        Query(optional): Provides additional data to the server, typically in form of key-value pairs.
+            Example: ?search=python&limit=5
+        Fragment(optional): Reference to a specific section of the resource(often a specific part of a webpage)
+            Example: #section1  or #comments 
+
+What is decorator?
+    @something syntax in python is called "decorator"
+    we put it on top of function, like a pretty decorative had(that's where the term came from)
+    Takes the function below and does something with it.
+    In case of FastAPI, the decorator tells that the function below corresponds to the path "/path_routes" with an operation "HTTP_methods".
+    It is called as the path operation decorator.
