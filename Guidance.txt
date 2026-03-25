@@ -7,3 +7,10 @@ Day 1:
 Day 2:
     Today we got curriculum to follow during the internship program.
     https://fastapi.tiangolo.com/tutorial/ for FASTAPI
+    I had also relearn basics of python as list, set, tuple and dictionary.
+    I had also relearn about the if else statements and loops
+    I also relearn about the function and concepts of oop.
+    I had also learn about the python type hints, and a little about starlette and pydantic
+    I also partake an assesment from the W3schools for the python mastery where i got a score of 28 out of 49, and gotten a skill rating of intermediate.
+    FASTAPI was the major learning factor of this intership so i follow the fastapi official document for better understanding.
+    
