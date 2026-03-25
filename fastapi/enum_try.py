@@ -21,3 +21,7 @@ async def get_model(model_name: ModelName):
         return {"model_name": model_name, "message": "LeCNN all the images"}
 
     return {"model_name": model_name, "message": "Have some residuals"}
+
+@app.get("/model/{model_path: path}") #Path parameters that contains another path,
+async def get_model_path(model_path: str):
+    return (f"Model path: {model_path}")
