@@ -13,4 +13,6 @@ Day 2:
     I had also learn about the python type hints, and a little about starlette and pydantic
     I also partake an assesment from the W3schools for the python mastery where i got a score of 28 out of 49, and gotten a skill rating of intermediate.
     FASTAPI was the major learning factor of this intership so i follow the fastapi official document for better understanding.
-    
+    I had finish learning about the python types introduction chapter in this day.
+    I had also learned and gotten hand experience using interactive API docs and alternative API docs with swagger UI and ReDoc.
+    Difference between pip install fastapi and pip install "fastapi[standard]" was also learned in this day.
