@@ -21,6 +21,6 @@ Day 3:
     In this day, I was getting hands on experience on FastAPI while following the FastAPI document.
     I learned about path parameters, query paramaters and request body mainly in this day.
     I got to learn and try working with python enumeration.
-    I also learn a little about pydantic and starlette in this day.
+    I learned to validate data with pydantic models and path converter using starlette where path parameter contains another path.
     Query parameters with string validation and Path paramaters with number validation was also experienced.
     I also got hands on multiple query and path paramaters exercise.
