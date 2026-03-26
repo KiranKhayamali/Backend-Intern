@@ -344,4 +344,34 @@ Query Parameters and String Validations
                 We could call the same function in other places without FastAPI, and it would work as expected. If there's a required parameter(without a default value), our editor will let us know with an error, Python will also complain if we run it without passing the required parameter.
                 When we don't use Annotated, And instead use the (old) defauld value style. If we call that function without FastAPI in other places, we have to pass the arguments to the function for it to work correctly, otherwise the values be different from what we expect(eg: QueryInfo or something similar instead of str). And our editor won't complain, and python won't complain running that function, only when the operation inside error out.
 
- 
+Request Body with Singular values
+    Body() can be used to force a parameter to come from request body(not from query parameters)
+    Body(min_length=3, max_length=30) can be used for adding validation or metadata.
+    Body() is a helper that lets us:
+        explicitly mark data as coming from request body 
+        validate and constrain input 
+        customize API documentation 
+        control JSON structure(like embedding)
+
+Body Fields 
+    Field works the same ways as Query, Path and Body, it has all the same parameters, etc
+    Actually, Query, Path and others are the sub classes of a common Param class, which is itself a subclass of pydantic's FieldInfo class.
+    And Pydantic's Field returns an instance of FieldInfo as well.
+    Body also returns objects of sub class of FieldInfo directly. Remeber that when we import Query, Path and others from fastapi, those are actually functions that returns special classes. 
+
+Bodies of pure lists 
+    When i tried to post a list of image using(def func(images: list[Image])), it showed "{detail: "Not Found"}" error. This error was showcased because FastAPI reads the body using Starlette's sync request parsing, which block the event loop while reading JSON, So it doesn't parse the body properly in case of large JSON arrays.
+    Then i tried using async and it works reliably, because FastAPI awaits the JSON parsing properly.
+    Why async def fixes it?
+        FastAPI internally calls await request.json() when parameter type is complex(Like list[Image]).
+        If our endpoint is sync, it uses a "sync wrapper" around request.json() -> may fails on lists at top-level or with certain clients(Postman sometimes triggers this).
+        If our endpoint is async, FastAPI directly awaits the body parsing, so it works reliably.
+    Quick rule of Thumb:
+        Use asunc def when our endpoint:
+            Accepts raw lists or large JSON bodies 
+            Uses nested models
+            Might perform I/O operations later 
+        Use def for simple, small, synchronous endpoint 
+
+(Note: * on def func(*, user_id: int = ...) helps to force user_id to be keyword-only. without *, Python would allow us to accidentallu call it. with *, client request /users/123/ , FastAPI matches 123->user_id, so we con't call read_user(123))
+
