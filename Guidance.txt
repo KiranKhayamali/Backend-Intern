@@ -16,3 +16,11 @@ Day 2:
     I had finish learning about the python types introduction chapter in this day.
     I had also learned and gotten hand experience using interactive API docs and alternative API docs with swagger UI and ReDoc.
     Difference between pip install fastapi and pip install "fastapi[standard]" was also learned in this day.
+
+Day 3:
+    In this day, I was getting hands on experience on FastAPI while following the FastAPI document.
+    I learned about path parameters, query paramaters and request body mainly in this day.
+    I got to learn and try working with python enumeration.
+    I also learn a little about pydantic and starlette in this day.
+    Query parameters with string validation and Path paramaters with number validation was also experienced.
+    I also got hands on multiple query and path paramaters exercise.
