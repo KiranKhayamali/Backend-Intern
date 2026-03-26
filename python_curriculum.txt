@@ -427,3 +427,39 @@ Duplicate Headers
     We can define those cases using a list in the type declaration.
     we will receive all the values from the duplicate header as a python list.
 
+Response Model: Return Type 
+    We can declare the type used for the response by annotating the path operation function return type 
+    We can use type annotations the same way we would for input data in function parameters, we can use pydantic models, lists, dictionaries, scalar values like integers, boolean, etc.
+        Example : async def func(item: Item) -> Item: or async def func(item: Item) -> list[Item]:
+    FastAPI will use this return type to:
+        Validate the returned data 
+            If the data is invalid(eg: we are missing a field), it means that our application code is broken, not returning what it should, and it will return server error instead of returning incorrect data. This way we and our clients can be certain that they will receive the data and the data shape expected.
+        Add a JSON Schema for the response in the OpenAPI path operations 
+            This will be used by automatic docs 
+            It will also be used by automatice client code generation tools. 
+        Serialize the returned data to JSON using pydantic, which is written in Rust, so it will be much faster.
+        But most importantly:
+            It will limit and filter the output data to what is defined in the return type.
+                This is particularly important for security.
+            
+response_model 
+    response_model is used as the parameter of get, post methods(ie decorators).
+    response_model is more prioritized than return type.
+    response_model or return type:
+        In the case of different models, if we annotate the function return type as UseOut, the editor and tools would complain that we are returning an invalid type, as those are different classes.
+        That's why in this cases we have to declare it in the response_model parameter.
+
+Response Status Code 
+    The same way we can specify a response model, we can also declare the HTTP status code used for the response with the parameter status_code in any or the path operations.
+        Example: @app.post("/items/", status_code=201)
+    status_code is a parameter of the "decorators" method(get,post,etc), Not of our path operation functions, like all the parameter and the body.
+    The status_code parameter receive a number with the HTTP status code.
+    About HTTP status code
+        200 is the default status code, which means everthing was "OK".
+        201, "Created". It is commonly used after creating a new record in the database 
+        204, "No Content". This response is used when ther is no content to return to the client, and so the response must not have a body.
+        400 is used for generic errors from the client 
+        404 for a "Not Found" response 
+        500-599 are for server error. 500 is normally used for internal server error.
+
+        
