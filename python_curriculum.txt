@@ -276,3 +276,37 @@ What is decorator?
     Takes the function below and does something with it.
     In case of FastAPI, the decorator tells that the function below corresponds to the path "/path_routes" with an operation "HTTP_methods".
     It is called as the path operation decorator.
+
+Path Parameters 
+    We can declare path "parameter" or "variables" with the same syntax used by python format string.
+        Example: ".../items/{item_id}"
+            async def eg_function(item_id):
+                pass 
+    
+Path Parameters with types 
+    We can declare the type of a path parameter in the function, using standard python type annotations.
+        Example: ".../items/{item_id}"
+            async def eg_function(item_id: int):
+                pass 
+
+Pydantic 
+    all the data validation is performed under the hood by pydantic, so we get all the benefits from it.
+
+Working with Python enumeration
+    we use enum for the predefined values
+    for the use, we first of all create a enum class by importing enum and create a sub class that inherits from str and from enum 
+    by inheriting form str the API docs will be able to know that the values must be of type string and will be able to render correctly.
+    Then we create class attributes with fixed values, which will be the available valid values.
+    The value of the path parameter will be an enumeration member.
+    Compare enumeration member: We can compare it with the enumeration member in our created enum class.
+    We can get actual value using "parameter.value"(parameter = enum_member)
+
+Path parameters containing path
+    a path operation with a path ".../files/{file_path}"
+    file_path itself contain a path "/home/file.txt"
+    So, the URL would be ".../files/home/file.txt"
+    OpenAPI doesn't support a way to declare a path parameter containing a path inside as it could lead to scenarios that are difficult to test and run.
+    Nevertheless, we can still do it in FastAPI using internal tools from Starlette.
+    path converter (from Starlette):
+        using an option directly from Starlette we can declare a path parameter containing a path using URL likes ".../files/{fie_path: path}"
+
