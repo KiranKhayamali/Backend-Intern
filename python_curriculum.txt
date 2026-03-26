@@ -404,3 +404,26 @@ Extra Data Types
             standard python decimal 
             In request and responses, handled the same as float 
         There are also many other tyoes of valid Pydantic data types.
+
+Cookie Parameters 
+    We can define cookie parameter the same way as we define Query and Path parameters 
+    Cookie is a "sister" class of path and query. It also inherits from the same common Param class. 
+    To declare cookies, we need to use Cookie, because otherwise the parameter would be interpreted as query parameters. 
+    As browser handle cookies in special ways and behind the scenes, they don't easily allow JavaScript to touch them.
+
+Header Parameters 
+    we can define header parameters the same way as we define path, query and cookie parameters.
+    similar to cookies; ie "sister" class of path and query amd tp declare hearder we need to use Header, otherwise the parameters would be interpreted as query parameters.
+    Header has a little extra functionality on top of what path. query and cookie provide.
+    Most of the standard header are separated by a "hyphen" character also known as the "minus symbol"(-).
+    But vairable like "variable-name" is invalid in python.
+    so, by default, Header will convert the parameters names characters from underscore(_) to hyphen(-) to extract and document the headers.
+    Also HTTP headers are case sensitive, so we can declare them with python style(also known as snake_case).
+    So, we can use user_agent as we normally would in python code, instead of needing to capitalize the first letters as User_Agent or something similar.
+    If for some reason we need to disable automatic conversion of underscores to hyphens, set the paramet convert_underscores of Header to False>(Before setting convert_underscores to False, bear in mind that some HTTP proxies and servers disallow the usage of header with underscores)
+
+Duplicate Headers 
+    It is possible to receive duplicate headers. That means, the same header with multiple values.
+    We can define those cases using a list in the type declaration.
+    we will receive all the values from the duplicate header as a python list.
+
