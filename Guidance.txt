@@ -27,7 +27,7 @@ Day 3:
     I also learned about the multiple parameter with request body.
 
 Day 4:
-    I learned about the the request body with singular valuues and body fields.
+    I learned about the the request body with singular values and body fields.
     I also learned about the bodies of pure lists and the error that we got after using def function. I learned why the error occurs, and also solve the error with the async def.
     I also got to know about the quick thumb rule for using function(def and async def).
     I also got to know about other data types execpt the commonly used data types(int, float, str and bool).
@@ -37,4 +37,3 @@ Day 4:
     I got to know about form data and form model.
     I learned about request files and got familiarized with using request forms and files.
     I also learned about handling errors using FastAPI HTTPException and Starlette HTTPException.
-    
