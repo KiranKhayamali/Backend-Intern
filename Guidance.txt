@@ -24,3 +24,17 @@ Day 3:
     I learned to validate data with pydantic models and path converter using starlette where path parameter contains another path.
     Query parameters with string validation and Path paramaters with number validation was also experienced.
     I also got hands on multiple query and path paramaters exercise.
+    I also learned about the multiple parameter with request body.
+
+Day 4:
+    I learned about the the request body with singular valuues and body fields.
+    I also learned about the bodies of pure lists and the error that we got after using def function. I learned why the error occurs, and also solve the error with the async def.
+    I also got to know about the quick thumb rule for using function(def and async def).
+    I also got to know about other data types execpt the commonly used data types(int, float, str and bool).
+    I learned about Cookie and Header parameters and also how they are defined.
+    I also tried response model(return type) and response_model.
+    I also got to know about Response Status Code.
+    I got to know about form data and form model.
+    I learned about request files and got familiarized with using request forms and files.
+    I also learned about handling errors using FastAPI HTTPException and Starlette HTTPException.
+    
