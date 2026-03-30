@@ -600,8 +600,185 @@ Dependencies
                 The yielded value is what is injected into path operations and other dependencies
                 The code following yield statement is executed after the response 
 
+Security 
+    There are many ways to handle security, authentication, and authorization 
+    And it normally is a complex and "difficult" topic 
+    In many frameworks and systems just handling security and authentication tasks takes a big amount of efforts and code(in many cases can be 50% or more of all the code written)
+    FastAPI provides several tools to help us deal with security easily, rapidly in a standard way without having to study and learn all the security specifications.
 
+    OAuth2
+        OAuth2 is a specification that defines several ways to handle authentication and authorization
+        It is quite an extensive specification and covers several complex use cases 
+        It includes ways to authenticate using a "third party" 
+        That's what all the systems with "login with Facebook, Google, X(Twitter), Github" use underneath 
+
+    OAuth1 
+        There was an OAuth1, which is very different from OAuth2 and more complex, as it included direct specifications on how to encrypt the communication.
+        It is not very popular nowadays
+        OAuth2 doesn't specify how to encrypt the communication, it expects us to have our application served with HTTPS 
+    
+    OpenID Connect 
+        OpendID Connect is another specification, based on OAuth2 
+        It just extends OAuth2 specifying some things that are relatively ambiguous in OAuth2 to try to make it more interoperable 
+        For example, Google login uses OpenID Connect(which underneath uses OAuth2)
+        But Facebook login doesn't support OpenID Connect. It has its own flavor of OAuth2 
+
+    OpenID (not "OpenID Connect")
+        There was also an "OpenID" specificatino that tried to solve the same thing as OpenID Connect, but was not based on OAuth2 
+        So, it was a complete additional system 
+        It is not very popular or used nowadays 
+
+    OpenAPI 
+        OpenAPI(previously known as Swagger) is the open specification for building APIs(now part of the Linux Foundation)
+        FastAPI is based on OpenAPI 
+        That's what makes it possible to have multiple automatic interactive document interfaces, code generation etc. 
+        OpenAPI has a way to define multiple security "schemes"
+        By using them, we can take advantages of all these standard based tools, including these interactive documentation systems 
+        OpenAPI defines the following security scheme  
+            "apikey": ann application specific key that can comed from 
+                A query parameter
+                A header 
+                A cookie 
+            http: standard HTTP authentication system, including 
+                bearer: a header Authorization with a value of Bearer plus a token. This is inherited from OAuth2 
+                HTTP Basic Authentication 
+                HTTP Digest etc 
+            oauth2: all the OAuth2 ways to handle security(called "Flow")
+                several of these flows are appropriate for building an OAuth2.0 authentication provider(like Google, Facebook, X(Twitter), Github, etc)
+                    implicit 
+                    client credentials
+                    authorization code 
+                But there is one specific "flow" that can be perfectly used for handling authentication in the same application directly:
+                    password 
+            OpenID Connect: has a way to define how to discover OAuth2 authentication data automatically 
+                This automaic discovery is what is defined in OpenID Connect specification 
+
+    Flow of Security
+        To have a way for frontend to authenticate with the backend, using a username and password 
+        we can use OAuth2 to build that with FastAPI 
+        The password flow: 
+            The password "flow" is one of the ways ("flows") defined in OAuth2, to handle security and authentication 
+            OAuth2 was designed so that the backend or API could be independent of the servers that authenticates the user 
+            But in this case, the same FastAPI application will handle the API and the authentication 
+            So, lets review it from the simplified point of view: 
+                The user types the username and password in the frontendm, and hits Enter     
+                The frontend(running in the user's browser) sends that username and password to a specific URL in our API(declared with tokenUrl = "token")
+                The API check that username and password, and responds with a "token"  
+                    A "token" is just a string with some content that we can use later to verify the user 
+                    Normally, a token is set to expire after some time 
+                        So, the user will have to login again at some point later 
+                        And if token is stolen, the risk is less, It is not like a permanent key that will work forever(in most of the cases) 
+                The frontend store that token temporarily somewhere 
+                The user clicks in the frontend to go to anoter section of the frontend web app 
+                The frontend needs to fetch some more data from the API 
+                    But it needs authentication for that specific endpoint 
+                    So, to authenticte with out API, it sends a header Authorization with a value of Bearer plus the token 
+                    If the token contains Kiran, the content of the Authorization header would be Bearer Kiran 
+
+    (Note: tokenUrl refers to relative URL token as it's a relative URL, it's equivalent to "./token")
+
+    FastAPI's OAuth2 Password Bearer 
+        FastAPI provides several tools, at different levels of abstraction, to implement these security features 
+        A "bearer" token is not the only option, But it's the best one for our normal use case 
+        And It might be the best for most use cases, unless, someone is an OAuth2 expert and know exactly why theres another option that better suits their needs 
+        In that case, FastAPI also provide them with tools to build it 
+
+    Code Size 
+        We are mixing security, data models, utility functions and path operations in the same file
+        But here's the key point, the security and dependency injection stuff is written once 
+        And we can make it as complex as we want, and still, have it written only once in single place with all the flexibility 
+        But we can have thousands of endpoints(path operations) using the same security system and all of them(or any portion of them that we want) can take advantage of re-using these dependencies or any other dependencies we create, and all these thousands of path operations can be as small as 3 lines 
+
+    Simple OAuth2 with Password and Bearer 
+        We are going to use FastAPI security utilities to get the username and password 
+        OAuth2 specifies that when using the "password flow"(that we are using) the client/user must sent a username and password fields as form data 
+        And the specifications says that the fields have to be named like that. So, user-name or email wouldn't work 
+        But we can show it as we wish to our final users in the frontend and our database models can use any other names we want 
+        But for login path operation, we need to use these names to be compatible with the specifications(and to be able to use the integrated API documentation system)
+        The specification also state that the username and password must be sent as form data(so, no JSON here)
+    
+        Scope 
+            The specification also says that the client can send another form field "scope"
+            The form field name is scope(in singular), but it is actually a long string with "scopes" seperated by spaces 
+            Each "scopes" is just a string(without spaces) 
+            They are normally used to declare specific security permissions, for example:
+                users.read or user.write are common examples 
+                instagram_basic is used by Facebook/Instagram 
+                https://www.googleapis.com/auth/drive is used by Google 
+            In OAuth2 a "scope" is just a string that declares a specific permission required 
+            It doesn't matter if it has other characters like ":" or if it is a URL 
+            Those details are implemenation specific. FOr OAuth2 they are just strings
+                OAuth2 PasswordRequestForm is a class dependency that declares a form body with:
+                    The username 
+                    The password 
+                    An optional scope field as a big string, composed of string seperated by spaces
+                    An optional grant_type 
+                    An optional client_id 
+                    An optional client_secret 
+                By the specification, we should return a JSON with an access_token and a token_type 
+                This is something that we have to do ourself in our code, and make sure we use those JSON keys 
+                It's almost the only thing that we have to remember to correctly, to be compliant with the specification 
+                For the rest, FastAPI handles it for us 
+
+    OAuth2 with Password(and Hashing), Bearer with JWT Tokens
+        Now, we have all the security flow, let's make the application actually secure, using JWT tokens and secure password hashing 
+        This code is something we can actually use in out application, save the password hashes in our database, etc 
+
+    About JWT 
+        JWT means "JSON Web Tokens"
+        It's a standard to codify a JSON object in a long dense string without spaces. It looks like a compact string dump 
+        It is not encrypted, so anyone could recover the information from the contents 
+        But its signed, so when we receive a token that we emitted, we can verify that we actually emitted it 
+        That way, we can create a token with an expiration of let's say 1 week and then whe the users comes back the next day with the token, we know that user is still logged in to our system 
+        After a week, the token will be expired and the user will not be authorized and will have to sign in again to get a new token and if the user(or a third party) tried to modify the token to change the expiration, we would be able to discover it, because the signature would not match 
+    
+    Password Hashing 
+        "Hashing" means converting some content(a password) into a sequence of bytes(just a string) that looks like glibberish 
+        Whenever we pass exactly the same content(exactly the same password) we get exactly the same glibberish 
+        But we cannot convert from the glibberish back to password 
+
+        Why use password hashing?
+            If our database is stolen, the thief won't have our user's plaintext passwords only the hashes 
+            So, the thief won't be able to try to use that password in another system (as many users use the same password everywhere, this would be dangerous)
+            Install pwdlib 
+                pwdlib is a great python package to handle password hashes 
+                It supports many secure hashing algorithm and utilities to work with them 
+                The recommended algorithm is "Argon2"
+                with pwdlib, we could even configure it be able to read Django, a Flask security plug-in or many others 
+                so, we would be able to, for example, share the same data from a Django application in a database with a FastAPI application. Or gradually migrate a Django application using the same database 
+                And our users would be able to login from our Django application of from our FastAPI application at same time 
         
+        Hash and verify the passwords 
+            Import the tools we need from pwdlib
+            Create a PasswordHash instance with reccommended setting it will be used for hashing and verifying passwords 
+            pwdlib also supports the bcrypt hashing algorithm but doesn't include legacy algorithms for working with outdated hashes. It is recommended to use the passlib libary 
 
+    JWT implementation
+        Install and Import pwdlib 
+            pip install "pwdlib[argon2]"
+        Hash and verify the password using pwdlib 
+            Create a utility function to hash a password coming from the user 
+            and another utility function to verify if a received password matches the hash stored 
+            and another one to authenticate and return user 
+        Handle JWT Tokens 
+            Import the modules installed 
+            Create a random secret key that will be used to sign the JWT tokens 
+                -openssl rand -hex 32 
+            and copy the output to the variable SECRET_KEY 
+            Create a variable ALGORITHM with the algorithm used to sign the JWT Token and set it to "HS256"(symmetric signing algorithm used for single SECRET_KEY, "RS256" an asymmetric signing algorithm is used when we have a private and public key)
+            Create a variable for expiration of token 
+            Define a pydantic model that will be used in the token endpoint for the response 
+            Create a utility function to generate a new access token 
+        Update the dependencies
+            Update get_current_user to receive the same token as before, But this time using JWT tokens
+            Decode the received token, verify it and return the current user 
+            If the token is invalid, return an HTTP error right away 
+        Update the /token path operations
+            Create a time delta with the expiration time of token 
+            Createa a real JWT access token and return it 
+
+    
+
+                
 
         
