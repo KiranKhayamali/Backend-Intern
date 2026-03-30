@@ -504,6 +504,10 @@ Request Files
             Example: await myfile.seek(0) would go to start of the file 
         close(): closes the file 
 
+Request Form and Files 
+    We can define files and form fields at the same time using File and Form 
+
+
 
 
 
