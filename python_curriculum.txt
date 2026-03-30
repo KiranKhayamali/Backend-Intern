@@ -462,4 +462,24 @@ Response Status Code
         404 for a "Not Found" response 
         500-599 are for server error. 500 is normally used for internal server error.
 
+Form Data (encoded using "media type" application X-waveform-urlencoded)
+    When we need to, receive form fields instead of JSON, we can use Form (import Form from fastapi )
+    Create form parameter the same way we would for Body or Query 
+    An example, in one of the ways the OAuth2 specification can be used(called "password flow") it is required to send username and password as form fields
+    The spec requires the fields to be exactly name username and password , and to be sent as form fields, not JSON 
+        with Form we can declare the same config as with Body(and Query, Path, Cookie), including validation
+        Example: an alias(eg: user_name instead of username), etc.
+
+Form Model 
+    we can also use pydantic models to declare form fields in FastAPI
+    we just need to declare a pydantic model with the field we want to receive as form fiels and the declare the parameter as form 
+    FastAPI will extract the data for each field from the form data in the request and give us the pydantic model we defined 
+
+(Note: model_config = {"extra": "forbid"} is used to forbid entry of parameter except the listed attributes in pydantic models)
+
+
+
+
+
+
         
