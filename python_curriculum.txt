@@ -477,6 +477,33 @@ Form Model
 
 (Note: model_config = {"extra": "forbid"} is used to forbid entry of parameter except the listed attributes in pydantic models)
 
+Request Files 
+    we can define files to be uploaded by the client using File
+    import File and UploadFile from fastapi 
+    Create file parameter the same way we would for Body or Form 
+    File is a class that inherits directly from Form 
+    The files will be uploaded as "form data" 
+    If we declare the type of our path operation function parameter as bytes , FastAPI will read the file for us and we will receive the contents as bytes. 
+    The whole content will be stored in memory so it will only work for small files
+    But there are several cases in which we might benefits from UploadFile
+    Using UploadFile has several advantages over bytes:
+        we don't have to use File() in the default value of parmeter 
+        It uses a "spooled" file 
+            A file stored in memory up to maximum size limit, and after passing the limit it will be stored in disk 
+        This means that it will work well for large files like image , videos, large binaries, etc. without consuming all the memory. 
+            We can get metadata from the uploaded file 
+            It has file-like async interface 
+    UploadFile has following attributes:
+        filename: A str with original file name that was uploaded(eg: image.jpg) 
+        content_type: A str with the content-type(MIME type, media type) (eg: image/jpeg) 
+        file: A Spooled Temporary File(as FIle-like object) that we can pass directly to other functions or libaries that exxpects a "file-like" objects 
+    UploadFile has following async methods:
+        write(data): Write data(str or bytes) to the file 
+        read(size): Reads size(int) bytes/characters of the file 
+        seek(offset): Goes to the byte position offset(int) in the file 
+            Example: await myfile.seek(0) would go to start of the file 
+        close(): closes the file 
+
 
 
 
