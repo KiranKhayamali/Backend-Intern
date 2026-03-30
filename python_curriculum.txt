@@ -507,7 +507,26 @@ Request Files
 Request Form and Files 
     We can define files and form fields at the same time using File and Form 
 
+Handling Errors 
+    There are many situations in which we need to notify an error to a client that is using our API 
+    This client could be browser with a frontend, a code from someone else, an IoT device, etc
+    we could need to tell the client that: 
+        The client doesn't have enough privilege for that operation 
+        The client doesn't have access to that resource 
+        The item client was trying to access doesn't exists, etc 
+    In these cases, we normally return a HTTP status code in range of 400-499. This is similar to HTTP status codes in range of 200-299 in case of "success" in the request(Status code 200)
 
+    Using HTTPExecption(Raising an HTTPExecption) 
+        HTTPExecption is a normal python execption with additional data relevent for APIs, because it's a python execption, we don't return it, we raise it 
+        The benefits of raising an execption over returning a value is because of dependencies and security 
+
+    FastAPI's HTTPExecption Vs Starlette's HTTPExecption
+        FastAPI has its own HTTPExecption, and FastAPI's HTTPExecption error class inherits from starlette's HTTPExecption error class 
+        The only difference is that FastAPI's HTTPExecption accepts any JSON-able data for the detail field, while starlette's HTTPExecption only accepts string for it 
+        So, we can keep raising FastAPI's HTTPExecption as normally in our code 
+        But when we register a execption handler we should register it for starlette's HTTPExecption 
+        This way, if any part of Starlette's internal code or a starlette extension or plug-in, raises a Starlette HTTPExecption our handler will be able to catch and handle it 
+        
 
 
 
