@@ -526,10 +526,82 @@ Handling Errors
         So, we can keep raising FastAPI's HTTPExecption as normally in our code 
         But when we register a execption handler we should register it for starlette's HTTPExecption 
         This way, if any part of Starlette's internal code or a starlette extension or plug-in, raises a Starlette HTTPExecption our handler will be able to catch and handle it 
+
+Dependencies
+    FastAPI has a very powerful but intuitive Dependency Injection System 
+    Designed to be very simple to use, and to make it very easy for any developer to integrate other components with FastAPI 
+    
+    What is Dependency Injection?
+        It means, in programming, that is a way for our code to declare things that it requires to work and use "dependencies"
+        And then, that system(ie FastAPI) will take care of doing whatever is needed to provide our code with those needed dependencies("inject" the dependencies)
+        This is very useful when we need to 
+            have shared logic(the same code logic again and again)
+            share database connections
+            enforce security, authentication role requirements etc
+        All these, while minimizing code repetition 
+    
+    How Dependency Injection works?
+        Create a dependency or dependable 
+            Dependecy or dependable is a function that can take all the same parameters that a path operation function can take 
+            Import Depends from fastapi 
+        Declare the dependency, in the "dependent" 
+            The same way we use Body, Query, etc with our path operation function parameters, use Depends with new parameter. We only give a single parameter. This parameter must be something like function. We don't call it directly, so there is no need of parenthesis'()' at the end.
+
+    FastAPI Compatibility
+        The simplicity of the dependency injection system makes FastAPI compatible with 
+            all the relational databases 
+            NoSQL database
+            external packages 
+            external APIs 
+            authentication and authorization systems 
+            API usage monitoring systems 
+            response data injection systems, etc 
         
+    Class as Dependencies
+        The key factor is that a dependency should be a "callable"
+        In python, a class is also a "callable"
+        So, in FastAPI, we could use a python class as dependency 
+        What FastAPI actually checks is that it is a "callable"(function, class or anything else) and the parameters defined
+        If we pass a "callable" as a dependency in FastAPI it will analyze the parameters for that "callable", and process them in the same way as the parameters for a path operation function(including sub-dependencies)
+        That also applies to callable with no params at all. The same as it would be for path operation functions with no parameters 
+        By using instances as the parameter dependency would be called 
+
+    Sub Dependencies
+        We can create dependencies that have sub-dependencies 
+        They can be as deep as we need them to be 
+        FastAPI will take care of solving them 
+    
+    Dependencies in path operation decorators 
+        In some cases we don't really need the return value of a dependency inside our path operation function(error handling dependencies) 
+        Or the Dependecy doesn't return a value but, we still need it to be executed/solve 
+        For those cases, instead of declaring a path operation function parameter with Depends, we can add a list of dependencies to the path operation decorator 
+        path operation decorator receives an optional argument dependencies 
+        These dependencies will be executed/solved the same way as normal dependencies, But their vaule(if they return any) won't be passed to our path operation function
+
+    Global Dependencies 
+        For some types of applications we might want to add dependencies to the whole application 
+        Similar to the way, we can add dependencies to the path operation decorators, we can add them to the FastAPI application 
+        In this case, they will be applied to all the path operations in the application 
+
+    Dependenies with yield 
+        FastAPI supports dependencies that do some extra steps after finishing 
+        To do this, we use yield instead of return, and write the extra steps(code) after 
+        Make sure to use yield one single time per dependency 
+        Example: 
+            async def get_db():
+                db = DBSession()
+                try:   
+                    yield db 
+                finally:
+                    db.close()
+            A database dependency with yield:
+                We could use this to create a database session and close it after finishing
+                Only the code prior to and including the yield statement is executed before creating a response 
+                The yielded value is what is injected into path operations and other dependencies
+                The code following yield statement is executed after the response 
 
 
-
+        
 
 
         
