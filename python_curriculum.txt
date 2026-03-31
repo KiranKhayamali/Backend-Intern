@@ -826,7 +826,366 @@ Security
                 Specific HTTP Headers or all of them with the wildcard "*" 
 
 GIT Version Control     
+Git Introduction
+    Git is a fast, scalable, distributed revision control system with an unually rich commands set that provides both high-level operations and full access to internals 
+    Created by linus torvalds in 2005
+    It allows us to:
+        Save snapshots of our code(called commits)
+        Go back to previous versions 
+        Work on multiple features at once (branches)
+        Collaborate without overwritting each other's work 
+    Key concepts:
+        Repository/Repo:
+            A project folder tracked by Git 
+            git init 
+        Commit 
+            A snapshot of our project at a time 
+                git add 
+                git commit -m "commit message"
+        Branch 
+            A seperate line of development 
+                git branch seperate_branch
+                git checkout seperate_branch 
+        Merge
+            Combining changes from one branch into another 
+                git merge seperate_branch
+        Remote Repository
+            A version of our repository stored online(eg: GitHub, GitLab, etc)
+                git remote add origin <remote_url>
+                git push -u origin main 
+    
+    Basic Workflow 
+        Create or clone repository
+        Make changes 
+        Stage changes -> git add 
+        Commit changes -> git commit 
+        Push to remote -> git push 
+    
+    Most Common commands 
+        git init: Start a repository
+        git clone <url>: clone or copy a repository
+        git status: Check Changes 
+        git add <files>: Stage changes 
+        git commit -m "commit message": Save/Commit Changes 
+        git push: Upload changes 
+        git pull: Download changes 
 
+    Why Git is Important? 
+        Prevent losing code 
+        Enables teamworks 
+        Keeps full history of changes 
+        Make experimenting safe(via branches) 
+
+    Reset, restore and revert 
+        git revert is about making a new commit that reverts the changes made by other commits 
+        git restore is about restoring files in the working tree from either the index or another commit. This command can also be used to restore files in the index from another commit 
+        git reset is about updating our branch, moving the tip in order to add or remove commits from the branch. This operation changes the commit history 
+            git reset can also be used to restore the index, overlapping with git restore 
+        
+    Git Installation 
+        Git is the version control tool itself(not the same as platforms like Github, Gitlab) 
+        For windows installation:
+            Go to the official web "git-scm.com" 
+            Download Git for windows 
+            Run the installer and keep most of setting to default and change editor to VSCode and path to "Git from command line"
+            Finish installation and verify (git --version or git -v)
+        For Mac Installation:
+            In mac, we can directly install git from CLI using "brew install git" and verify using "git --version"
+
+    Git Basic Overview 
+        What is Git? 
+            Git is a version control system that help us: 
+                Track changes in our code 
+                Collaborate with others 
+                Revert mistakes early 
+            
+            Core Ideas 
+                Git works like a timeline of snapshots in our projects 
+                    Each Snapshots = commit 
+                    We can move backward/forward anytime 
                 
+            Basic Terminology 
+                Repository: A folder tracked by Git 
+                Working Directory: Our actual files where we make changes
+                Staging Area: Where we prepare changes before saving 
+                Commit: A saved version of our project 
+                Branch: A seperate version of our code 
+                Merge: Combines branches together
+                Remote: Online repositories(eg: Github, Gitlab) 
+
+    Git Branch Overview 
+        A branch in Git is a seperate line of development 
+        It let us: 
+            work on new features 
+            fix bugs 
+            Experiment Safely 
+        Without affecting our main code(usually main or master)
+
+        Simple Idea 
+            Think of branches like parallel version of our projects 
+                main -> stable code 
+                feature -> new changes 
+        
+        Why use Branches? 
+            Keep main code stable 
+            Work on multiple features at once 
+            Collaborate without conflicts 
+            Easily test and discard ideas 
+
+        Basic Branch Commands 
+            Create a branch: git branch seperate_branch
+            Switch a branch: git checkout seperate_branch
+                modern way: git switch seperate_branch
+                Create + Switch: git checkout -b seperate_branch
+            See all branches: git branch 
+            Merge a branch: Switch to main branch and then merge the feature branch 
+                git checkout main 
+                git merge seperate_branch
+            Delete a branch: git branch -d seperate_branch
+
+        Typical Workflow 
+            Create a branch 
+            Work on feature 
+            Commit changes 
+            Merge into main 
+            Delete a branch 
+            
+        Merge Conflicts 
+            Sometimes git can't automatically merge changes 
+            We'll see a merge conflicts when:
+                Two branches edit the same line 
+                Fix manually, then commit the changes 
+            
+        Types of Branches 
+            main/master -> stable production code 
+            feture/* -> new features 
+            bugfix/* -> bug fixes 
+            hotfix/* -> urgent fixes 
+
+        Branch Vs Commit 
+            Commit -> snapshot of code 
+            Branch -> Pointer to a series of commits 
+        
+        Good tips for git branch 
+            Keep branches short-lived 
+            Name clearly(features/login-api)
+            Pull latest changes before merging 
+            Use branches for everything(even small changes)
+
+        A branch let us work independently without breaking our main project
+        Merge Vs Rebase 
+            Both are used to combine changes from one branch into another, but they do it differently 
+            git merge (safe and simple)
+                Combines branches while preserving history 
+                Create a merge commit 
+                Pros:
+                    It keeps full history(good for teams)
+                    Non-destructive(safe)
+                    Easy to understand 
+                Cons: 
+                    History can get messy(many merge commits)
+            git rebase (clean and linear)
+                Move our branch on top of another branch 
+                Rewrite commit history 
+                Pros:
+                    Clean, Linear history
+                    Looks like everthing happened in sequence 
+                Cons:
+                    Rewrite history(can be dangerous)
+                    Not safe for shared branches 
+            Advice for using rebase:
+                Never rebase shared/public branches 
+                Why? 
+                    It rewrites history 
+                    Can break our teamates work 
+            When to use what?
+                Use merge when:
+                    Working in teams 
+                    We want safe, traceable history 
+                    We're merging into main 
+                Use rebase when:
+                    Cleaning up our local commits 
+                    Updating our branch with latest changes 
+                    Working in solo or on private branches 
+
+Github Introduction
+    What is Github?
+        Github is a cloud platform that host git repositories.
+        In simple terms:
+            Git = tool to track code 
+            Github = place to store and share that code online 
+    What we can do with github?
+        Store our project online 
+        Collaborate with others 
+        Track issues and bugs 
+        Manage code changes(pull requests)
+        Share our work publicly 
+    Key Concepts:
+        Repository(Repos):
+            A project stored on Github:
+                can be public(anyone can see)
+                or private(only myself/my team)
+        Profile 
+            Our developer identity:
+                Projects 
+                Contributions
+                Activity 
+        Branches 
+            Same as Git:
+                Work on features seperately 
+                keep main stable 
+        Pull Request(PR)
+            A request to merge changes from one branch to another 
+            This is the heart of collaboration
+                Other review our code 
+                Suggest changes 
+                Approve before merging 
+        Issues 
+            Used to: 
+                Track bugs 
+                Suggest features 
+                Manage tasks 
+        Stars and Forks 
+            Star -> Like/Bookmark a repository
+            Fork -> Copy someone's repository to our account 
+    
+    Basic Workflow with Github 
+        Create a repository on github 
+        Clone it locally 
+        Make changes 
+        Commit changes 
+        Push to github 
+        Open Pull request
+        Merge Changes 
+    Collaboration Example 
+        We create a branch 
+        work on Features 
+        Push to github 
+        Open Pull Request 
+        Team Reviews 
+        Merge into main 
+    Real world use 
+        Companies uses github to :
+            Manage large codebases 
+            Review code before deployment 
+            Co-ordinate teams 
+        Even major open-source project live there 
+    Why Github is important?
+        Industry standard 
+        Essential for developers 
+        Builds our portfolio 
+        Enables teamworks 
+    Github is where we store, share and collaborate on git projects online.
+
+    Git Vs Github
+        Git -> Tool >> Local >> Track Changes 
+        Github -> Platform >> Cloud >> Host and shares 
+
+Git remote Commands Slides 
+    Git remote commands manage connections between our local git repository and remote ones like github and gitlab. They enable fetching, pushing and syncing changes effectively 
+    Core Commands 
+        These commands handle adding, viewing and removing remotes 
+            git remote add origin <url>: Add new remote repository or connect local repository to remote (origin is the default remote name)
+            git remote -v: list all remote with fetch/push URLs
+            git remote remove <name> or git reomte rm <name>: Deletes a remote 
+            git remote rename <old> <new>: Renames a remote 
+            git remote set_url <name> <new_url>: Updates a remote's URL 
+            git remote show <name>: Display details on a remote's branches and status
+    Sync Commands 
+        Use these commands to interact with remote data 
+            git fetch <remote>: Download remote changes without merging 
+            git pull <remote>: Fetches and merges remote changes 
+            git push <remote> <branch>: Uploads local commit to remote 
+            git push --all: Pushes all branches to remote 
+            git push -u origin main: links local branch to remote (Needed to use only at the start of the remote)
+    Multiple Remotes 
+        We can have more than one remote:
+            origin -> our repository 
+            upstream -> original repository 
+        useful for open source contributions 
+    Typical Workflow 
+        git add -> git commit -> git push 
+        git pull -> work -> repeat 
+    Common Mistakes 
+        Pushing to wrong branch 
+        Forgetting git pull before push 
+        Wrong remote URL 
+    
+Gitlab: Create Account and Remote Repository 
+    Create Gitlab Account 
+        Go to "gitlab.com"
+        Click Sign up 
+        Enter: Email, username, password 
+        Verify our email 
+        Now, we have a gitlab account 
+    Create a new repository (Project)
+        Click "New Project"
+        Choose "Create blank project"
+        Fill in: Project name, visiblity 
+        Click create project 
+    Copy Repository URL 
+        After creating the project, copy the repository url 
+    Connect local project to gitlab 
+        If we already have a project: 
+            git init
+            git remote add gitlab <repo_url>
+            push code to gitlab 
+        Else we don't have local project clone the repository
+    We should see our files uploaded on gitlab 
+
+    HTTPS Vs SSH Key 
+        HTTPS (easier)
+            https://gitlab.com/username/repo.git 
+        SSH Key (more secure)
+            git@gitlab.com:username/repo.git 
+            requires adding an SSH Key 
+
+    Setting up SSH Key(Gitlab: Use SSH Keys)
+        Why use SSH keys with Gitlab?
+            Password-free authentication 
+            More secure than HTTPS
+            Required for some CI/CD pipelines 
+        Check for Existing SSH Keys 
+            Open Git bash:
+                ls -al ~/.ssh
+                look for files like:
+                    id_rsa/id_rsa.pub 
+                    id_ed25519/id_ed25519.pub 
+                If we see them, we already have a key, Else, Create one 
+        Generate a new SSH Key 
+            ssh keygen -t ed25519 -C "our_email@example.com"
+                -t ed25519 -> modern, secure algorithm 
+                -C -> adds a label(our_email)
+            Press Enter to accepts defaults and optimally set a pass phrase
+            This creates:
+                ~/.ssh/id_ed25519 -> private key (should be kept secret)
+                ~/.ssh/id_ed25519.pub -> public key (share this key)
+        Add SSH Key to ssh-agent 
+            Start the agent:
+                eval "$(ssh-agent-s)"
+            Add our key:
+                ssh -add ~/.ssh/id_ed25519
+            Copy the public key 
+                cat ~/.ssh/id_ed25519.pub
+                copy the output(starts with ssh-ed25519)
+        Add SSH Keys to Gitlab 
+            Login to Gitlab
+            Go to User setting -> SSH Keys 
+            Paste our public key 
+            Give it a title
+            Click Add Key 
+        Test SSH Connection 
+            ssh -T git@gitlab.com
+            first time: confirm by typing yes 
+            successful output:
+                Welcome to Gitlab, @username!
+        Use SSH for our Repository
+            Change remote URL from HTTPS to SSH.
+                git remote set-url origin git@gitlab.com:username/repo.git 
+
+    
+        
 
         
+
+
