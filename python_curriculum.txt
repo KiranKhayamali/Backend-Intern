@@ -1222,6 +1222,33 @@ Introduction to poetry
         We can also use poetry to "initialize" a prepopulated directory. To interactively create a "pyproject.toml" file in the directory 
         [Note: pyproject.toml is similar to package.json from NodeJS. The difference between pyproject.toml and package.json is that package.json has built-in scripts(npm run dev, etc) while pyproject.toml's scripts depends upn tools like poetry]
 
+GET Request Method Overview 
+    What is GET?
+        GET is one of the main HTTP methods used to retreive data from a server 
+        It is read-only: It should not change server state 
+        Typically used to fetch web pages, APIs, images, or any resources 
+    Key Characteristics
+        Purpose: Retreive a resource from a server 
+        Safe: Should not modify data on server 
+        Idempotent: Multiple identical request have the same effect 
+        Cacheable: Responses can be cached by browser or proxies 
+        Data Location: Sent in the URL query string(eg: ...?key=value)
+        Request Body (X): Usually not used(most servers ignore it)
+    Advantages:
+        Simple and easy to use 
+        Can be bookmarked or shared(parameters are in url)
+        Supports caching for performance 
+    Limitations 
+        URL length limits: Most browser/servers have a max URL length(~2000 characters)
+        Security: Data in URL is visible in browser history and logs 
+        Not suitable for sending sensitive data or large payloads 
+    Best Practices 
+        Use GET only for retreiving data, never for updates 
+        Keep query strings simple and readable 
+        Encode special characters properly in the URL 
+        Use HTTPS if transmitting sensitive information 
+        Support caching headers like ETag or Cache-Control when possible 
+        
 
 
 
