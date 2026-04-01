@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request 
-from pydantic import BaseModel
+from fastapi import FastAPI, Request, HTTPException, status
+from pydantic import BaseModel, Field
 
 app = FastAPI() 
 
@@ -23,12 +23,12 @@ book_db = [
 
 class Book(BaseModel):
     id: int | None = None
-    title: str
-    author: str
-    published_year: int
+    title: str = Field(min_length=3, max_length=100)
+    author: str = Field(min_length=3, max_length=50)
+    published_year: int = Field(gt=1800, description="In this project we are only accepting books published after 17th Century(ie after 1800)")
     genre: str
     summary: str | None = None
-    rating: float | None = None
+    rating: float | None = Field(ge=0.0, le=5.0, default=None)
 
 
 @app.get("/")
@@ -37,6 +37,8 @@ def read_root():
 
 @app.get("/books")
 def read_books(skip: int = 0, limit: int = 5):
+    if skip >= len(book_db):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="All the books have been skipped!!!")
     return book_db[skip: skip + limit]
 
 @app.get("/books/search")
@@ -92,10 +94,12 @@ async def update_book(book_id: int, book: Book):
 
 @app.delete("/books/{book_id}")
 def remove_book(book_id: int):
+    if book_id >=len(book_db) or book_id < 0:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Book with ID:{book_id} is not found in the book database")
     for book in book_db:
         if book["id"] == book_id :
             book_db.remove(book)
             # return {"message": f"{book_id} has been removed from the database"}
             return book_db
-    return {"message": "No book found to delete in the id."}
+    return {"message": f"No book found to delete in the book database with the book id of {book_id}."}
 
