@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 #     hero_name: str = Field(index=True) #index can be used to search for while using query
 #     full_name: str #The hero's real name is publicly showcased
 
-#Creating Multiple Models 
+#Creating Multiple Models
 class HeroBase(SQLModel):
     hero_name: str = Field(index=True)
     age: int | None = Field(default=None, index=True)
@@ -19,15 +19,15 @@ class Hero(HeroBase, table=True):
     full_name: str
 
 class HeroPublic(HeroBase):
-    id: int 
+    id: int
 
 class HeroCreate(HeroBase):
-    full_name: str 
+    full_name: str
 
 class HeroUpdate(HeroBase):
-    hero_name: str | None = None 
+    hero_name: str| None = None 
     age: int | None = None 
-    full_name: str | None = None 
+    full_name: str | None = None
 
 
 #Creating a engine
@@ -91,29 +91,29 @@ def delete_hero(hero_id: int, session:SessionDep):
     session.commit()
     return {"message": f"{hero.hero_name} with ID{hero_id} has been deleted from the database."}
 
-#Using Multiple Models
+# With multiple models
 @app.get("/heroes/", response_model=list[HeroPublic])
-def read_heroes(session:SessionDep, offset:int =0, limit: Annotated[int, Query(le=10)] = 10 ):
+def read_heroes(session:SessionDep, offset:int = 0, limit: Annotated[int, Query(le=10)] = 10):
     heroes = session.exec(select(Hero).offset(offset).limit(limit)).all()
     return heroes
-
+    
 @app.get("/heroes/{hero_id}", response_model=HeroPublic)
-def read_hero(hero_id:int, session:SessionDep):
+def read_hero(hero_id: int, session:SessionDep):
     hero = session.get(Hero, hero_id)
     if not hero:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hero Not Found")
     return hero
 
 @app.post("/heroes/", response_model=HeroPublic)
-def create_hero(hero:HeroCreate, session:SessionDep):
-    db_hero= Hero.model_validate(hero)
+def create_hero(hero: HeroCreate, session:SessionDep) -> Hero:
+    db_hero = Hero.model_validate(hero) #validate the created hero with the original Hero model
     session.add(db_hero)
     session.commit()
     session.refresh(db_hero)
     return db_hero
 
 @app.patch("/heroes/{hero_id}", response_model=HeroPublic)
-def update_hero(hero_id: int, hero:HeroUpdate, session:SessionDep):
+def update_hero(hero_id: int, hero:HeroUpdate, session:SessionDep) -> Hero:
     hero_db = session.get(Hero, hero_id)
     if not hero_db:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hero Not Found")
@@ -122,4 +122,5 @@ def update_hero(hero_id: int, hero:HeroUpdate, session:SessionDep):
     session.add(hero_db)
     session.commit()
     session.refresh(hero_db)
-    return hero_db    
+    return hero_db
+
