@@ -1249,6 +1249,26 @@ GET Request Method Overview
         Use HTTPS if transmitting sensitive information 
         Support caching headers like ETag or Cache-Control when possible 
         
+Create FastAPI Endpoint 
+    Basic Setup 
+        Import FastAPI: from fastapi import FastAPI 
+        Create APP Instance: app = FastAPI() 
+        Define root endpoint: @app.get("/")
+        Basic function: async def root(): return {"message": "Hello World!"}
+
+    Installation and Run 
+        Install: pip install "fastapi[standard]"
+        Run server: fastapi dev main.py or uvicorn main:app --reload 
+        Access: http://127.0.1.8000 
+        Docs: http://127.0.1.8000/docs 
+
+    Path Parameters 
+        Endpoint: @app.get("/items/{item_id})
+        Parameters: item_id: int, q: str | None = None 
+        Return: {"item_id": item_id, "q": q}
+        Example URL: ".../items/5?q=test"
+
+
 
 
 
