@@ -1200,8 +1200,29 @@ Introduction to python virtual environment
         using uv (uv venv)
             uv manages project dependencies and enviroments with support for lockfiles, workspaces and similar to rye or poetry 
         
+Introduction to poetry 
+    Tool for dependency management and packaging in python
+    It allows us to declare the libaries our project depends on and it will manage(install/update) them for us 
+    It offers a lockfile to ensure repeatable installs and can build our project for distributions 
+    poetry supports generating completion scripts for Bash, Fish and Zsh 
 
+    Install poetry on windows/Mac 
+        I had installed poetry with CLI using 
+            pip install -U pip setuptools 
+            pip install poetry,  inside the virtual environment 
+        Poetry can also be install using powershel: 
+            Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing
         
+    Initialize project with poetry 
+        We can create a new project with poetry:
+            poetry new poetry-demo 
+            This create the poetry-demo directory that contains readme, src, test and pyproject.toml 
+            The pyproject.toml file is what is the most important here, This will orchestrate our project and its dependencies 
+            pyproject.toml defines project metadata(name, version, author), Build system(like setuptools, poetry) and sometimes dependencies
+        We can also use poetry to "initialize" a prepopulated directory. To interactively create a "pyproject.toml" file in the directory 
+        [Note: pyproject.toml is similar to package.json from NodeJS. The difference between pyproject.toml and package.json is that package.json has built-in scripts(npm run dev, etc) while pyproject.toml's scripts depends upn tools like poetry]
+
+
 
 
     
