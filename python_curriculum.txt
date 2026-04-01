@@ -1268,7 +1268,34 @@ Create FastAPI Endpoint
         Return: {"item_id": item_id, "q": q}
         Example URL: ".../items/5?q=test"
 
+POST Request Method Overview
+    Purpose:
+        Used to create a new resource on the server 
+        Sends data in the request body(usually JSON) 
+    Characteristics:
+        Safe(X): changes server state 
+        Idempotent(X): repeating may create multiple resources
+        Typical usage: Creating new entries(users, books, orders)
+        Data Location: Request body 
 
+PUT Request Method Overview 
+    Purpose: 
+        Used to update a resource completely or create it if it doesn't exist 
+        Sends full updated data in request body 
+    Characteristics: 
+        Safe(X): modifies server data 
+        Idempotent: repeating the same request has the same effect 
+        Typical usage: updating full resource data 
+        Data Location: Request body 
+
+DELETE Request Method Overview
+    Purpose: 
+        Used to delete a resource from the server 
+    Characteristics: 
+        Safe(X): removes server data 
+        Idempotent: repeating a delete has same effect
+        Typical usage: Remove records by ID 
+        Data Location: Usually path parameter
 
 
 
