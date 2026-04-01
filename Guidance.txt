@@ -37,3 +37,34 @@ Day 4:
     I got to know about form data and form model.
     I learned about request files and got familiarized with using request forms and files.
     I also learned about handling errors using FastAPI HTTPException and Starlette HTTPException.
+
+Day 5:
+    I learned about dependencies in FastAPI 
+    I majorly spends the day learning about security in FastAPI 
+    I learned about the types of security used, and flow of security in FastAPI 
+    I learned and implemented OAuth2PasswordBearer of FastAPI 
+    I learned about JWT and generated for the prototype security system
+    I also learned about password hashing and implemented them using "pwdlib[argon2]"
+    I also learned about Middleware and implement them
+    I also learned about CORS and CORSMiddleware
+
+
+Day 6:
+    Today i relearned about the Git - Version Control(from git docs)
+    I learned about the basic workflow of git and checked the usages of the commands in git 
+    I also learned about the difference between reset, restore and revert, and when to use what?
+    I also relearned the Overview of Git Basic, Git Branch(Merge Vs Rebase) 
+    I relearned about Github and Git remote Commands Slides 
+    I learned and use Gitlab in this day(Created a new gitlab account)
+    I also learned about the difference between HTTPS Vs SSH Key 
+    I generated a new SSH Key and used it in both github and gitlab, and test it 
+
+Day 7:
+    Today i learned about poetry, installated and initialized project with poetry 
+    I also explore the alternative for poetry and pip(uv)
+    I also relearned about the GET Request Method Overview 
+    I also relearned other HTTP Request Method Overview(like POST, PUT, DELETE)
+    I also relearned about PATH and QUERY Parameter Overview
+    And Implemented all in one project for books
+
+Day 8:
