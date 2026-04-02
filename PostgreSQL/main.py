@@ -45,7 +45,7 @@ async def create_user(name:str, email:str, db: SessionDep):
 async def update_user(user_id: int, user: UserUpdate, db:SessionDep):
     user_db = await db.get(User, user_id)
     if not user_db:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
     user_data = user.model_dump(exclude_unset=True)
     for key, value in user_data.items():
         setattr(user_db, key, value)
@@ -53,3 +53,12 @@ async def update_user(user_id: int, user: UserUpdate, db:SessionDep):
     await db.commit()
     await db.refresh(user_db)
     return user_db
+
+@app.delete("/users/{user_id}")
+async def delete_user(user_id: int, db:SessionDep):
+    user = await db.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
+    await db.delete(user)
+    await db.commit()
+    return{"message": f"{user.name} has been successfully deleted from the database."}
