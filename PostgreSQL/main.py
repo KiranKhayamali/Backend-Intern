@@ -1,9 +1,9 @@
 from typing import Annotated
-from fastapi import FastAPI, Depends, Query
+from fastapi import FastAPI, Depends, Query, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from contextlib import asynccontextmanager
-from models import User, Base, UserSchema
+from models import User, Base, UserSchema, UserUpdate
 from database import engine
 from deps import get_db
 
@@ -33,10 +33,6 @@ async def read_user(user_id: int, db: SessionDep):
     user = await db.get(User, user_id)
     return user
 
-
-
-
-
 @app.post("/users/", response_model=UserSchema)
 async def create_user(name:str, email:str, db: SessionDep):
     user= User(name=name, email=email)
@@ -44,3 +40,16 @@ async def create_user(name:str, email:str, db: SessionDep):
     await db.commit()
     await db.refresh(user)
     return user
+
+@app.patch("/users/{user_id}", response_model=UserSchema)
+async def update_user(user_id: int, user: UserUpdate, db:SessionDep):
+    user_db = await db.get(User, user_id)
+    if not user_db:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found")
+    user_data = user.model_dump(exclude_unset=True)
+    for key, value in user_data.items():
+        setattr(user_db, key, value)
+
+    await db.commit()
+    await db.refresh(user_db)
+    return user_db
