@@ -1425,6 +1425,63 @@ Fields - Data Validation
             show constraints in API docs(Swagger UI)
             Help frontend developers understand requirements 
 
+Status Code Overview
+    What are HTTP status codes?
+        HTTP status codes are 3-digit numbers returned by a server to indicate the result of client's request.
+        They are part of HTTP response abd tell us whether a request was:
+            Successful 
+            Failed 
+            Redirected 
+    Categories of Status Codes 
+        HTTP status codes are grouped into 5 classes:
+            1XX - Informational 
+                Request received, still processing 
+                Example: 100 Continue 
+                Rarely used in everydar API development 
+            2XX - Success 
+                Request was successfully received and processed 
+                Common codes:
+                    200 OK -> Request successful
+                    201 Created -> Resource created(eg; new user)
+                    204 No Content -> Success, but no response body 
+            3XX - Redirection 
+                Client must take additional action(usually follow a new URL)
+                Example: 
+                    301 Moved Permanently 
+                    302 Found 
+                    304 Not Modified 
+            4XX - Client Errors 
+                Problem with the request made by the client 
+                Common codes:
+                    400 Bad Request -> Invalid input/data 
+                    401 Unauthorized -> Authentication required 
+                    403 Forbidden -> No permission
+                    404 Not Found -> Resource doesn't exist 
+            5XX - Server Errors 
+                Problem on the server side 
+                Common codes:
+                    500 Internal Server Error -> Generic server failure 
+                    502 Bad Gateway
+                    503 Service Unavailable 
+
+Explict Status Code Responses 
+    What are Explict Status Code Response?
+        Explict status code responses mean that we manually specify which HTTP status code our API should return, instead of relying on default behaviour
+        This is commonly used in frameworks like FastAPI to make APIs clearer and more predictable 
+    Why use Explicit Staus Codes?
+        By default, many frameworks return 
+            200 OK for success
+            422 Uprocesable Entity for validation errors 
+        But explicit responses help us 
+            Follow REST standard 
+            Communicate intent clearly 
+            Improve frontend/backend co-ordination
+            Handle edge cases properly 
+    How to set Explicit Status Code (FastAPI) 
+        Method 1: using status_code in Decorator 
+        Method 2: using response 
+        Method 3: using HTTPExecption
+
 
     
 
