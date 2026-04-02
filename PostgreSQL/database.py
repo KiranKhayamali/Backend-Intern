@@ -20,8 +20,8 @@ DB_URL = os.getenv("DATABASE_URL")
 #Async Version for better performance
 if not isinstance(DB_URL, str):
     raise ValueError(f"DATABASE_URL must be a string, got {DB_URL}")
-engine = create_async_engine(DB_URL)
-sessionLocal = sessionmaker(
+engine = create_async_engine(DB_URL) # Engine are the connection to the Database
+sessionLocal = sessionmaker( #Session are used to communicate with the Database
     engine, class_=AsyncSession, expire_on_commit=False
 )
 
