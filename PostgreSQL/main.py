@@ -28,6 +28,12 @@ async def read_users(db: SessionDep, offset:int = 0, limit: Annotated[int, Query
     users = result.scalars().all()
     return users 
 
+@app.get("/users/{user_id}", response_model=UserSchema)
+async def read_user(user_id: int, db: SessionDep):
+    user = await db.get(User, user_id)
+    return user
+
+
 
 
 
