@@ -10,9 +10,14 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
 
 class UserSchema(BaseModel):
-    id: int
+    id: int | None = None
     name: str
     email: str 
 
     class Config:
         orm_mode = True
+
+class UserUpdate(BaseModel):
+    id: int | None = None 
+    name: str | None = None 
+    email: str | None = None
