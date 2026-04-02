@@ -22,6 +22,14 @@ async def database_lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=database_lifespan) 
 
+@app.get("/users/", response_model=UserSchema)
+async def search_user_by_name(name: str, db:SessionDep):
+    result = await db.execute(select(User).filter_by(name=f"{name}"))
+    user = result.scalar_one()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found")
+    return user
+
 @app.get("/users/", response_model=list[UserSchema])
 async def read_users(db: SessionDep, offset:int = 0, limit: Annotated[int, Query(le=10)] = 10):
     select_sql = select(User).offset(offset).limit(limit)
@@ -29,12 +37,14 @@ async def read_users(db: SessionDep, offset:int = 0, limit: Annotated[int, Query
     users = result.scalars().all()
     return users 
 
+
 @app.get("/users/{user_id}", response_model=UserSchema)
 async def read_user(user_id: int, db: SessionDep):
     user = await db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
     return user
+
 
 # #Creating User from query parameter
 # @app.post("/users/", response_model=UserSchema)
