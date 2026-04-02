@@ -1366,6 +1366,40 @@ Query Parameter Overview
         Optional in most cases 
         Used for filtering, searching, pagination and sorting 
 
+Pydantic and Data Validation Overview 
+    What is Pydantic?
+        Pydantic is a python libary used for data validation, parsing and settings management using python type hints 
+        It ensure that the data our application received is:
+            Correct 
+            Well-structured 
+            Type-safe 
+        It's widely used with Frameworks like FastAPI 
+    Why Pydantic?
+        When building APIs or apps, data often comes from:
+            User input 
+            External APIs 
+            Databases 
+        Pydantic helps us:
+            Validate incoming data automatically
+            Convert data into correct types 
+            Raise clear errors when data is invalid 
+    Core Concept: Data Model 
+        Pydantic uses python classes(called models) to define data structure 
+    Key Features: 
+        Type Validation: Ensure Fields match expected type 
+        Data Conversion(Parsing): Automatically convets compatible types("123" -> 123)
+        Default Values: assign default value(=True, =None)
+        Field Constraints: range data(Field(gt=0, lt=100))
+        Nested Models
+        Custom Validation 
+    Validation Errors:
+        Pydantic provides structured format
+    Pydantic + FastAPI 
+        In FastAPI, Pydantifc is used to:
+            validate request bodies 
+            Defined response models 
+            Generate automatic API docs 
+        
 
 
     
