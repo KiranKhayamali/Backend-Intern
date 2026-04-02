@@ -1400,6 +1400,30 @@ Pydantic and Data Validation Overview
             Defined response models 
             Generate automatic API docs 
         
+Fields - Data Validation 
+    In pydantic, fields define the structure, rules, and constraints for each piece of data in a model. 
+    They are the building blocks of validation.
+    What is a Field?
+        A field is simply an attribute in a pydantic model with:
+            A type 
+            Optional default value 
+            Optional validatio rules(constraints)
+        Example: name and age of a user pydantic model 
+    Fields with validation Rules 
+        Pydantic provides a special helper called Field() to add constraints 
+        Example: name: str = Field(min_length=2, max_length=50)
+            This force name to be between 2 and 50 characters 
+        Common field constraintss:
+            String constraints: as the above example(min_length, max_length)
+            Numeric constraints: gt(greater than), lt(less than), ge(greater than or equals to), le(less than or equals to)
+            pattern/Regex validation: r"^[\w\.-]+@[\w\.-]+\.\w+$" for email validation 
+            Default Values: default=None
+            Metadata (Extra Info): Field(...., description=".........")
+    Fields in FastAPI 
+        In FastAPI, fields:
+            validate incoming request data 
+            show constraints in API docs(Swagger UI)
+            Help frontend developers understand requirements 
 
 
     
