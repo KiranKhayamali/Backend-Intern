@@ -9,6 +9,7 @@ from deps import get_db
 
 SessionDep = Annotated[AsyncSession, Depends(get_db)]
 
+#Create tables in PostgreSQL
 @asynccontextmanager
 async def database_lifespan(app: FastAPI):
     print("App is Starting.....")
@@ -31,15 +32,27 @@ async def read_users(db: SessionDep, offset:int = 0, limit: Annotated[int, Query
 @app.get("/users/{user_id}", response_model=UserSchema)
 async def read_user(user_id: int, db: SessionDep):
     user = await db.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
     return user
 
+# #Creating User from query parameter
+# @app.post("/users/", response_model=UserSchema)
+# async def create_user(name:str, email:str, db: SessionDep):
+#     user= User(name=name, email=email)
+#     db.add(user)
+#     await db.commit()
+#     await db.refresh(user)
+#     return user
+
+#Creating User from Request Body
 @app.post("/users/", response_model=UserSchema)
-async def create_user(name:str, email:str, db: SessionDep):
-    user= User(name=name, email=email)
-    db.add(user)
+async def create_user(user:UserSchema, db:SessionDep):
+    db_user = User(**user.model_dump())
+    db.add(db_user)
     await db.commit()
-    await db.refresh(user)
-    return user
+    await db.refresh(db_user)
+    return db_user
 
 @app.patch("/users/{user_id}", response_model=UserSchema)
 async def update_user(user_id: int, user: UserUpdate, db:SessionDep):
