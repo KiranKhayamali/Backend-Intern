@@ -46,8 +46,12 @@ async def create_note(note:NoteSchema, db: SessionDep):
 async def update_note(note_id: int, note:NoteSchema, db:SessionDep):
     note_db = await db.get(Note, note_id)
     if not note_db:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note Not Found")
-    
+        db_note = Note(**note.model_dump())
+        db.add(db_note)
+        await db.commit()
+        await db.refresh(db_note)
+        return {"message": f"{db_note.title} has been created to the todo list."} 
+
     existing = await db.execute(
         select(Note).where(
             Note.title == note.title,
@@ -63,3 +67,11 @@ async def update_note(note_id: int, note:NoteSchema, db:SessionDep):
     await db.refresh(note_db)
     return note_db
 
+@app.delete("/notes/{note_id}")
+async def delete_note(note_id:int, db:SessionDep):
+    note = await db.get(Note, note_id)
+    if not note:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note Not Found")
+    await db.delete(note) 
+    await db.commit()
+    return {"message": f"{note.title} has been successfully removed from the todo list."}
