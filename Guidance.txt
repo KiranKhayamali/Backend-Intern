@@ -68,3 +68,9 @@ Day 7:
     And Implemented all in one project for books
 
 Day 8:
+    Today, I relearned about the Path parameter and Query parameter 
+    I learned little more in depth about pydantic and data validation 
+    I also relearned about the Fields - Data Validation
+    I also relearned about the Status Code and Explicit Status Code Responses
+    I also learned about the sqlmodel and connected my FastAPI application with sqlite.
+    I worked with multiple models to hide the sensitive data from the user while fetching all the data from the database.
