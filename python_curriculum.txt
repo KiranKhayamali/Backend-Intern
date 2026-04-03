@@ -1624,3 +1624,38 @@ Database Tables(Models)
             SQLAlchemy Model -> Database Structure 
             Pydantic Schema -> Request/Response Validation 
 
+SQL Queries Introduction 
+    What is SQL Query?
+        An SQL Query is a command used to interact with a database 
+        using SQL, we can:
+            Store Data 
+            Retreive Data
+            Update Data 
+            Delete Data 
+    The 4 Core Operations(CRUD)
+        The CRUD operations was descritbed before, so skipping in this portion.
+    Import SQL Clauses:
+        WHERE (filtering)
+            SELECT * FROM users WHERE id>5;
+        ORDER BY (Sorting)
+            SELECT * FROM users ORDER BY name ASC;
+        LIMIT(restrict results)
+            SELECT * FROM users LIMIT 5;
+        AND/OR(Conditions)
+            SELECT * FROM users WHERE name="Alice" AND id<10;
+        Working with mulitple tables(JOIN)
+            SELECT users.name, posts.title FROM users JOIN posts ON users_id=post.user_id;
+        Aggregation Functions 
+            SELECT COUNT(*) FROM users;
+            SELECT MAX(id) FROM users;
+            SELECT AVG(id) FROM users;
+    SQL Vs SQLAlchemy(ORM)
+        SQL -> SELECT * FROM users > WHERE name="Alice"
+        SQLAlchemy -> select(User) > .filter_by(name="Alice")
+    Example Flow in API 
+        Client -> FastAPI -> SQLAlchemy -> SQL Query -> PostgreSQL -> Response
+    Common Mistakes 
+        Forgetting WHERE in UPDATED or DELETE -> affecting all rows 
+        Using SELECT * in large table(slow)
+        Not using indexes for frequent queries
+        
