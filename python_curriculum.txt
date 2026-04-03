@@ -1482,6 +1482,70 @@ Explict Status Code Responses
         Method 2: using response 
         Method 3: using HTTPExecption
 
-
-    
-
+Setup Database 
+SQL Database Introduction with PostgreSQL 
+    What is SQL Database?
+        A SQL database is a structured way to store and manage data using tables 
+            Data is stored in rows and columns 
+            We interact with it using SQL 
+            It enforces relationship and constraints(great for relability)
+    Why PostgreSQL?
+        PostgreSQL is one of the most powerful open-source database 
+        Key features:
+            ACID compliant(safe transactions)
+            Strong data integrity 
+            Advanced features(JSON, indexing, full-text search)
+            Widely used in production systems 
+    Basic Concepts 
+        Database: A container for all our data 
+        Table: A structure to store data 
+        Rows: Each entry in a table 
+        CRUD Operations 
+            Create (Insert data)
+                INSERT INTO users(name, email) VALUES ("Kiran Khayamali", "kirankhayamali@gmail.com");
+            Read (Query data)
+                SELECT* FROM users;
+                Filtering:
+                    SELECT * FROM users WHERE name="Kiran Khayamali";
+            Update 
+                UPDATE users SET name="Unknown Something" WHERE id=1;
+            Delete 
+                DELETE FROM users WHERE id = 4;
+        Relationship
+            One-to-Many Example 
+                CREATE TABLE posts (
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER REFERNCES users(id),
+                    title TEXT,
+                    content TEXT
+                );
+                one user can have multiple/many posts
+        Indexes(Performance Boost)
+            CREATE INDEX idx_users_email ON users(email);
+            speeds up searches on large datasets 
+        Constraints (Data Safety)
+            PRIMARY KEY -> unique identifier 
+            UNIQUE -> no duplicates 
+            NOT NULL -> required field 
+            FOREIGN KEY -> realationship 
+    Using postgresql with FastAPI
+        Typically we connect using:
+            ORM: SQLAlchemy #Object Relational Mapper(ORM)
+            Driver: psycopg2
+        Example Connection string:
+            postgresql://user:password@localhost:5432/myapp 
+    Quick CLI Commands 
+        Start PostgreSQL shell:
+            psql - U postgres 
+        List databases:
+            \l 
+        Connect to Database:
+            \c myapp 
+        List tables:
+            \dt 
+    When to use PostgreSQL?
+        Use it when we need:
+            Structured data(users, orders, payments)
+            Relationalships between data 
+            Strong consistency 
+        
