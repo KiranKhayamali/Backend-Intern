@@ -48,6 +48,14 @@ async def update_note(note_id: int, note:NoteSchema, db:SessionDep):
     if not note_db:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note Not Found")
     
+    existing = await db.execute(
+        select(Note).where(
+            Note.title == note.title,
+            Note.id != note_id
+        )
+    )
+    if existing.scalar():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Title doesn't exists on {note_id} in the database")
 
     if note_db.title== note.title:
         note_db.memo = note.memo
