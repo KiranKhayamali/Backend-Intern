@@ -1603,3 +1603,24 @@ About SQLAlchemy
         Closing a session 
             session.close()
 
+Database Tables(Models)
+    What is Database Table?
+        A table is the core structure in SQL database 
+            Columns -> define data types(name, email)
+            Rows -> actual data records 
+    What is Model?
+        In backend development, a model is a python representation of a table 
+        Using SQLAlchemy, each model class maps to a table. Thus creating tables in PostgreSQL
+    Key Components of a Model?
+        Table Name: __tablename__="users" -> it is used to create the table of table name users 
+        Columns: id = Column(Integer, primary_key = True) -> it is used to create ad column of id that contain unique identifier 
+        Primary Key: Uniquely indentifies each row, Required for every table
+        Constraints: Unique=True -> no duplicated, nullable=false -> required Field 
+    Relationship Between Tables 
+        Example: One to Many 
+            user_id = Column(Integer, ForeignKey("users.id"))
+    Model Vs Schema 
+        In FastAPI 
+            SQLAlchemy Model -> Database Structure 
+            Pydantic Schema -> Request/Response Validation 
+
