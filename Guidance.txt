@@ -74,3 +74,12 @@ Day 8:
     I also relearned about the Status Code and Explicit Status Code Responses
     I also learned about the sqlmodel and connected my FastAPI application with sqlite.
     I worked with multiple models to hide the sensitive data from the user while fetching all the data from the database.
+
+Day 9:
+    Today i majorly study about databases and setting up database in Fastapi.
+    I relearned about the SQL queries, indexes, relationship, constraints, and many more in database
+    I also read the document of sqlalchemy for knowledge of sqlalchemy.
+    I also learned about the Database tables(Models) in sqlalchemy
+    I setup my fastAPI application with the postgresql database using sqlalchemy as orm 
+
+Day 10:
