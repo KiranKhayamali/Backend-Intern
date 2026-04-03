@@ -33,6 +33,10 @@ async def read_notes(db:SessionDep, offset:int = 0, limit: Annotated[int, Query(
     notes = result.scalars().all()
     return notes
 
+@app.get("/notes/{note_id}")
+async def read_note(note_id:int, db:SessionDep):
+    note = await db.get(Note, note_id)
+    return note
 
 @app.post("/notes/")
 async def create_note(note:NoteSchema, db: SessionDep):
