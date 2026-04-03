@@ -1658,4 +1658,25 @@ SQL Queries Introduction
         Forgetting WHERE in UPDATED or DELETE -> affecting all rows 
         Using SELECT * in large table(slow)
         Not using indexes for frequent queries
+
+Authentication and Authorization
+    Authentication(Who you are)
+        verifies the identity of the user 
+        Commonly done with JWT tokens or OAuth2 
+        Implemented as a dependency 
+        Steps:
+            Client sends JWT token in Authorization header 
+            Server decodes token -> get user information 
+            If valid -> return current_user object, otherwise -> 401 error
         
+    Authorization
+        checks if the authenticated user has permission to perform the action 
+        For example: a user can only update or delete their own notes 
+        Denied -> 403 Forbidden 
+        Allowed -> Proceed with database operations 
+    
+    How if fits together?
+        Client send request with JWT token 
+        get_current_user dependency authenticates the user 
+        Route checks resource ownership(authorization)
+        If authorized -> update/delete, else -> raise 403
