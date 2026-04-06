@@ -1724,3 +1724,81 @@ Authentication Enhancements
             Level 3: Enhanced Auth(MFA, refresh tokens, roles)
             Level 4: Enterprise Auth(OAuth, SSO, device tracking)
 
+JSON Web Token(JWT) Overview
+    What is JWT?
+        JWT(JSON Web Token) is a compact, secure way to transmit user identity between client and server. Instead of storing session n the server, we store identity inside a token.
+    Structure of a JWT 
+        A JWT has 3 parts:
+            HEADER.PAYLOAD.SIGNATURE 
+        Header 
+            {
+                "alg": "HS256",
+                "typ": "JWT"
+            }
+            Algorithm used(eg: HS256)
+            Token type 
+        Payload 
+            This contains data(claims)
+                {
+                    "sub": 1, #sub represents the claims
+                    "exp": .........
+                }
+                Common fields:
+                    sub -> user_id/claims 
+                    exp -> expiration time 
+                    iat -> issued at 
+                Not encrypted -> don't store password here 
+        Signature 
+            Created using 
+                Header + Payload + SECRET_KEY
+            Ensures:
+                Token is not tampered 
+                Token is valid 
+    JWT Flow (Todo project)
+        User logs in 
+            POST /users/token 
+            Server:
+                Verifies username/password
+                Creates JWT 
+        Server Sends Token 
+            {
+                "access_token": ".........",
+                "token_type": "bearer"
+            }
+        Client stores token 
+            Usually:
+                Local storage 
+                Memory(better for security)
+        Client sends Token in Requestss 
+            Authorization: Bearer <token>
+        Server verifies token 
+            In our get_current_user:
+                Decode token 
+                Extract sub 
+                Fetch user 
+                Allow or reject request 
+    Why JWT is powerful?
+        Stateless:
+            No need to store sessions in database
+                Server does NOT remeber users 
+                Token carries everthing
+        Scalable:
+            works great for 
+                APIs 
+                Microservices 
+                Mobile Applications 
+        Fast 
+            No database lookup needed(except when verifying user)
+
+    Important Security Notes 
+        Don't store sensitive data in payload 
+        Always set expiration 
+        Keep SECRET_KEY safe 
+    Types of JWT Usage 
+        Access Token 
+            Short lived(15 - 30 minutes)
+            Used for API calls 
+        Refresh Token 
+            Long lived(7 days)
+            Used for generating new access tokens 
+        
