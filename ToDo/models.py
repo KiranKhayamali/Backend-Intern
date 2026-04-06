@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base 
 from pydantic import BaseModel
@@ -10,6 +10,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     password = Column(String)
+    is_admin = Column(Boolean)
 
     notes = relationship("Note", back_populates="owner")
     
@@ -35,6 +36,7 @@ class NoteSchema(BaseModel):
 class UserCreate(BaseModel):
     username: str 
     password: str 
+    is_admin: bool = False
 
 class UserSchema(UserCreate):
     id: int | None = None
