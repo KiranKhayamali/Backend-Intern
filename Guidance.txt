@@ -83,3 +83,8 @@ Day 9:
     I setup my fastAPI application with the postgresql database using sqlalchemy as orm 
 
 Day 10:
+    Tody i majorly study about the authentication and authorization 
+    I also implement authentication file using Router scale 
+    I learned more about the relationship in database, How to use Foreign Keys 
+    I also added a user authentication for the user in the todo project
+    I also used authorization to give what power to the user(update and delete notes)
