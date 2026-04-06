@@ -90,3 +90,9 @@ async def get_current_active_user(current_user: Annotated[User, Depends(get_curr
     if getattr(current_user, "disabled", False):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user")
     return current_user
+
+async def get_admin_user(current_user: Annotated[User, Depends(get_current_user)]):
+    if current_user.username == "Admin":
+        return current_user
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"{current_user.username} is not authorized for this features!!!")
