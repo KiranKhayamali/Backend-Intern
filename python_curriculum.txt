@@ -1660,7 +1660,7 @@ SQL Queries Introduction
         Not using indexes for frequent queries
 
 Authentication and Authorization
-    Authentication(Who you are)
+    Authentication(Who are you?)
         verifies the identity of the user 
         Commonly done with JWT tokens or OAuth2 
         Implemented as a dependency 
@@ -1669,7 +1669,7 @@ Authentication and Authorization
             Server decodes token -> get user information 
             If valid -> return current_user object, otherwise -> 401 error
         
-    Authorization
+    Authorization (What you can do?)
         checks if the authenticated user has permission to perform the action 
         For example: a user can only update or delete their own notes 
         Denied -> 403 Forbidden 
@@ -1680,3 +1680,47 @@ Authentication and Authorization
         get_current_user dependency authenticates the user 
         Route checks resource ownership(authorization)
         If authorized -> update/delete, else -> raise 403
+(Note: A user must be authenticated before the system can authorize actions. Authentication proves identity, Authorization grant access)
+
+Authentication Enhancements 
+    Stronger Security (Username + Password -> JWT)
+        Enhancements Example:
+            Add password hashing 
+            Use stronger hashing(bcrypt/argon2)
+            Add rate limiting(prevent brute force)
+    Multi-Factor Authentication(MFA)
+        Instead of just password:
+            Password + OTP(phone/email/app)
+        Example:
+            login -> enter password 
+            then -> enter 6 digits code 
+        much harder to hack 
+    Better Token Handling 
+        using Access token and refresh tokens 
+        Flow 
+            Access token(short life, eg: 15 min)
+            Refresh token(long life, eg: 7 days)
+        More secure + better UX 
+    Smarter Session Control 
+        Enhancements:
+            Auto logout after inactivity 
+            Track logged-in devices 
+            Revoke tokens 
+    Authorization Improvements(often included)
+        Even though technically different people includ this:
+            Ensure users only access their own data 
+            Role-based access:
+                Admin -> can delete all notes 
+                User -> only their notes 
+    Attack Protection 
+        Enhancement Include:
+            Prevent brute force login 
+            Detect suspicious activity 
+            CAPTCHA after multiple failures 
+    Mentor Insights 
+        Think of it like levels:    
+            Level 1: Basic Auth 
+            Level 2: Secure Auth(JWT, hashing)
+            Level 3: Enhanced Auth(MFA, refresh tokens, roles)
+            Level 4: Enterprise Auth(OAuth, SSO, device tracking)
+
