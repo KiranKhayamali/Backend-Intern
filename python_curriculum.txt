@@ -1888,4 +1888,22 @@ Database with SQLAlchemy
             Makes applications scalable and maintainable 
             Supports both sync and async operations 
 
+Boilerplate Code 
+    Boilerplate code is a pre-written, reusable template that sets up the basice structure of a project 
+    It saves time by handling repetitive setup so we can focuse on building Features
+    Think of it as a starting skeleton for our application 
+    Dependencies (What it usually includes)
+        Framework setup (eg: FastAPI app instance)
+        Project structure(folders like models/, routes/, schemas/)
+        Database configurations (using tools like SQLAlchemy)
+        Environment Configuration (.env, settings management)
+        Required libaries(installed -via pip)
+        Basic routing and example endpoints 
+    Why use boilerplate?
+        Faster project setup 
+        Organized codebase from the start 
+        Reusable across projects 
+        Reduces errors in configuration 
+    Boilerplate Code is like a house blueprint, we don't start from scratch everytime, we begin with a standard design and customize it 
 
+    
