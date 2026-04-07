@@ -1833,3 +1833,59 @@ Working with Files
         Store files outside root if sensitive
         Use unique filnames(avoid overwrite)
 
+Database with SQLAlchemy
+    Quick Introduction with Dependencies
+        A dependency is something a system, project, or piece of code relies on to function properly 
+        IN most context(mostly software), dependencies are external libaries, tools, or components that provide required functionality instead of building everything from scratch 
+        Dependencies (Key Requirement)
+            To understand or work with dependencies, we typically need:
+                Basice knowledge of the domain(Eg: programming fundamentals if in software)
+                Environment setup(runtime like Python, NodeJS, Java, etc)
+                Package manager(tool to install/manage dependencies, such as npm, pip, uv)
+                Version comaptibility awareness(ensuring all parts works together)
+        Simple Example:
+            If we're building a FastAPI application:
+                We may install a libary like "fastapi[standard]"
+                But "fastapi[standard]" itself depends on other smaller packages
+                    These are called nested dependencies
+        Why does it matters?
+            Saves development time 
+            Provides code reuse 
+            Helps builds complex system faster 
+            Requires proper management to avoid conflict 
+
+    Databases in FastAPI 
+        FastAPI is a mordern python web framework for buildings APIs quickly and efficiently. When building real application, we need database to store and manage data(users, products, etc)
+        FastAPI itself doesn't include a built-in database layer - we integrate it with external tools 
+        Common Database options 
+            We can use FastAPI with:
+                Relational databases(SQL)
+                    PostgreSQL
+                    MySQL
+                    SQLite(great for begineers)
+                NoSQL databases 
+                    MongoDB 
+        Key Dependencies (Tools we need)
+            To connect FastAPI with a database, we usually use:
+                ORM / Database Toolkit 
+                    SQLAlchemy -> Most popular ORM 
+                    Tortoise ORM -> Async-friendly alternative 
+                Database Driver 
+                    These allow python to talk to the database 
+                        PostgreSQL -> psycopg2 or asyncpg
+                        MySQL -> mysqlclient or aiomysql 
+                        SQLite -> built into python 
+                Migration Tool 
+                    Alembic 
+                        Helps manage database schema changes over time 
+                Optional (Async Support)
+                    Databases 
+                        Works well with FastAPI's async nature 
+        How It All Connects?
+            FastAPI -> ORM (SQLAlchemy) -> Database Driver -> Database 
+        Why Does This Setup Matters?
+            Seperate logic(API) from data(database)
+            Makes applications scalable and maintainable 
+            Supports both sync and async operations 
+
+
