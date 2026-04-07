@@ -496,7 +496,7 @@ Request Files
     UploadFile has following attributes:
         filename: A str with original file name that was uploaded(eg: image.jpg) 
         content_type: A str with the content-type(MIME type, media type) (eg: image/jpeg) 
-        file: A Spooled Temporary File(as FIle-like object) that we can pass directly to other functions or libaries that exxpects a "file-like" objects 
+        file: A Spooled Temporary File(as File-like object) that we can pass directly to other functions or libaries that expects a "file-like" objects 
     UploadFile has following async methods:
         write(data): Write data(str or bytes) to the file 
         read(size): Reads size(int) bytes/characters of the file 
@@ -1801,4 +1801,35 @@ JSON Web Token(JWT) Overview
         Refresh Token 
             Long lived(7 days)
             Used for generating new access tokens 
-        
+
+Working with Files 
+    File (basic file upload )
+        Use File when we just need raw bytes 
+        Good for 
+            Small files 
+            Quick processing (no metadata)
+    UploadFile (recommended file upload)
+        UploadFile is better for real-world applications 
+        Why it's better 
+            Uses streaming(less memory)
+            Has useful attributes
+                file.filename
+                file.content_type 
+                file.file (file-like object)
+    Checking file types 
+        Method 1: Using MIME type(/jpeg, /png)
+        Method 2: Check file extension(.jpg, .png)
+    Saving files(making them static)
+        The code for this can be seen in the fastapi folder 
+    Making files statically available 
+        FastAPI lets us serve files like a website 
+        We can access files via(for eg: http://localhost:8000/static/ourfile.jpg)
+    Download files 
+        We can use FileResponse for downloading files 
+    Best Practices
+        Use UploadFile instead of bytes 
+        Validate file type(don't trust filename alone)
+        Limit file size(important for security)
+        Store files outside root if sensitive
+        Use unique filnames(avoid overwrite)
+
