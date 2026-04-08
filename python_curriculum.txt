@@ -1978,3 +1978,64 @@ Large Production Database Setup
         MySQL Workbench (for MySQL)
         Robo 3T (for MongoDB)
         Adminer (for mulit-database support)
+
+PostgreSQL Introduction 
+    What is PostgreSQL?
+        PostgreSQL(often called Postgres) is an open-source relational database management system(RDBMS)
+        It is designed to handle large amount of data and is known for its stability, extensiblity, and compliance with SQL standards 
+        Unlike some other databases, PostgreSQL also supports NoSQL like features (eg: JSON storage, key-value pairs) while remaining a true relational database 
+    Brief History
+        1986: Originated as POSTGRES project of UC Berkley 
+        1996: Renamed PostgreSQL to reflect its support for SQL 
+        Present: Widely used in enterprise apps, webapps, GIS systems, and data analytics.
+    Key Features
+        ACID Compliance
+            PostgreSQL ensures Atomicity, Consistency, Isolation, and Durability, which makes it reliable for transactional systems 
+        Extensibility 
+            We can define our own data types, operators, and functions 
+        Advanced Data Types 
+            Arrays 
+            JSON/JSONB 
+            HSTORE(key-value store)
+            Geometric types(PostGIS for GIS data)
+        Indexes and Performance
+            B-tree, Hash, GIN, GiST, BRIN indexes 
+            Full-text search 
+            Partitioning for large datasets 
+        Concurrency 
+            PostgreSQL uses MVCC(Multi-Version Concurrency Control) to allow multiple users to work simultaneously without locking issues 
+        Cross-Platform and Open Source 
+            Runs on Windows, MacOS, Linux, and most UNIX variants. Licensed under PostgreSQL License(Permissive open-source)
+    Basic PostgreSQL Architecture
+        Client -> Applications that sends SQL queries 
+        Server(Postmaster) -> Handles requests, manages data storage 
+        Database cluster -> A collection of database managed by one server instance 
+        Tablespaces -> Logical storage locations of data 
+        WAL(Write-Ahead Logging) -> Ensure data durability and recovery 
+    Basic PostgreSQL Commands 
+        Connecting to PostgreSQL 
+            psql -h localhost -U username -d database_name 
+        Creating a Database 
+            CREATE DATABASE mydb;
+        Creating a Table 
+            CREATE TABLE employees (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(50),
+                department VARCHAR(50),
+                salary NUMERIC
+            );
+        Inserting Data 
+            INSERT INTO employees(name, department, salary) VALUES ('Kiran', 'Engineering', 5000);
+        Querying Data 
+            SELECT * FROM employees;
+        Updating Data
+            UPDATE employees SET salary = 8000 WHERE name = 'Kiran';
+        Deleting Data 
+            DELETE FROM employees WHERE name = 'Kiran';
+    Use Cases 
+        Web applications: Backends for e-commerce, social media, SaaS 
+        Data warehousing: Large datasets and analytics 
+        Geospatial Applications: PostGIS extension for maps and GIS 
+        Financial systems: ACID compliance ensures relability for transactions
+    PostgreSQL is a powerful, versatile, and reliable database. Whether we're building a small application or a large enterprise system, it scales well and support mordern data types and operations 
+    
