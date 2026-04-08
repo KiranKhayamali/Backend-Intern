@@ -2243,3 +2243,51 @@ Alembic Data Migration Tool
         Continuous deployment from Git pushes 
         Logs and metrics available in the dashboard
     
+Introduction to Docker and Docker-Compose 
+    What is Docker?
+        Docker is a platform to package applications and their dependencies into containers 
+        A container is a lightweight, isolated environment where our app runs consistently across different machines 
+        Think of it as a portable virtual enviroment that runs anywhere 
+        Key Benefits:
+            Consistency across deployment, staging and production
+            Easy to deply applications without worrying about OS or installed libary versions 
+            Isolation of applications and dependencies
+    Docker Terminology
+        Image -> A snapshot of our application + dependencies, used to create containers 
+        Container -> A runnig instance of an image 
+        Dockerfile -> Instructions to build an image 
+        DockerHub -> Public registry for storing Docker image 
+        Volume -> Persistent storage for containers 
+        Network -> Allows containers to communicate 
+    What is Docker-compose?
+        Docker Compose is a tool to define and run mulit-container applications 
+        We describe our services in a docker-compose.yml file instead of running each container manually 
+        Example use case:
+            A FastAPI API + PostgreSQL database + Redis cache 
+            Docker compose manges all containers together, networking them automatically 
+    Basic Docker Workflow 
+        Write a DockerFile 
+        Build Docker Image 
+        Run Container 
+    Basic Docker Compose Example
+        In docker-compose.yml:
+            web -> FastAPI application 
+            db -> PostgreSQL database
+            depends_on -> ensure the database starts before the API 
+            volumes -> persist data even if the container is removed 
+    Start the Application with Docker Compose 
+        docker-compose up --build 
+        Rebuilds images and starts all services 
+        API accessible at http://localhost:8000 
+        Database persists in db_data volume 
+    Advantages of Docker + Compose 
+        Easily replicate enviroment for all developers 
+        Simplifies deployment in production
+        Encapsulates dependencies and configuration
+        Supports multi-service application with automatic networking 
+
+    Add Requirements File 
+        requirements.txt -> List of dependencies
+        created via pip freeze (pip freeze > requirements.txt) or manually listing dependencies
+        Used in deployment with pip install -r requirements.txt 
+        Essential for Render, Docker, CI/CD pipelines
