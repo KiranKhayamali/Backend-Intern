@@ -2064,4 +2064,28 @@ PostgreSQL Introduction
     PostgreSQL Mac Installation
         PostgreSQL can be installed in Mac like windows and also using Homebrew
     
-    
+Alembic Data Migration 
+    Alembic Data Migration Overview 
+        What is Alembic?
+            Alembic is a lightweight database migration tool for SQLAlchemy
+            It allows us to:
+                Tracks changes to our database schema 
+                Apply incremental migrations to our database 
+                Keep our database in sync with our python models 
+            Think of it as Git for our database schema 
+        Why Alembic is Important?
+            Without Alembic, we'd have to:
+                Manually write SQL ALTER TABLE statements 
+                Keep track of which schema changes were applied 
+                Risk breaking production databases 
+            With Alembic, we can:
+                Auto-generate migrations from SQLAlchemy models 
+                Apply migrations consistently across dev, staging, and production 
+                Revert or downgrade changes if needed 
+        How Alembic works?
+            Alembic uses a migration environment:
+                Versioned Scripts: Each migration is a python scripts in a versions/ folder 
+                Revision ID: Each migrations has a unique ID 
+                Head/Current State: Alembic knows which migrations have been applied 
+                Upgrade/Downgrade functions: Each migrations defines how to move forward or backward 
+
