@@ -2064,7 +2064,7 @@ PostgreSQL Introduction
     PostgreSQL Mac Installation
         PostgreSQL can be installed in Mac like windows and also using Homebrew
     
-Alembic Data Migration 
+Alembic Data Migration Tool
     Alembic Data Migration Overview 
         What is Alembic?
             Alembic is a lightweight database migration tool for SQLAlchemy
@@ -2121,4 +2121,40 @@ Alembic Data Migration
                 alembic downgrade -1
                     head -> latest revision 
                     -1 -> previous revision 
-            
+    Typical Workflow in FastAPI projects 
+        Update SQLAlchemy models(models.py)
+        Run 'alembic revision --autogenerate -m "description"'
+        Review and tweak migration file in alembic/version 
+        Run 'alembic upgrade head' to apply changes to PostgreSQL 
+    Why Alembic Rocks?
+        Keeps database schema version-controlled 
+        Safe upgrades and downgrades 
+        Works with production-ready workflow 
+        Integrates seamlessly with FastAPI + SQLAlchemy
+
+    Alembic Introduction
+        Core Concepts
+            Revision: A single migration file representing a change to the database schema 
+            Upgrade: Function to apply a migration(move schema forward)
+            Downgrade: Function to revert a migration(move schema backward)
+            Head: The latest applied revision in the database 
+            Autogenerate: Alembic can auto-detect changes in SQLAlchemy models and create migrations 
+            Version folder: Where migration scripts are stored 
+        Key Features:
+            Version Control for Database: Keep a record of all schema changes 
+            Automated Migrations: Can detect changes in SQLAlchemy models 
+            Safe Rollbacks: Downgrade functions allow reversing changes 
+            Environment Support: Work across dev, staging, production databases 
+            Extensible: Write custom python code in migrations if needed 
+        Quick Starting Notes:
+            Initialize Alembic:
+                alembic init alembic 
+            Configure alembic.ini: Set sqlalchemy.url to our database 
+            Configure env.py: Ser target_metadata = Base.metadata
+            Create migration:
+                alembic revision --autogenerate -m "description"
+            Apply migration:
+                alembic upgrade head 
+            Rollback migration:
+                alembic downgrade -1 
+
