@@ -2038,4 +2038,30 @@ PostgreSQL Introduction
         Geospatial Applications: PostGIS extension for maps and GIS 
         Financial systems: ACID compliance ensures relability for transactions
     PostgreSQL is a powerful, versatile, and reliable database. Whether we're building a small application or a large enterprise system, it scales well and support mordern data types and operations 
+
+    PostgreSQL Windows Installation 
+        Download Installer 
+            Go to official postgresql website "https://postgresql.org/download/windows/" and download the window installer(usually provided by EnterpriseDB)
+        Run Installer 
+            Open the downloaded .exe file and follow:
+                Choose installation directory(default is fine) 
+                Select components:
+                    PostgreSQL Server(mandatory)
+                    pgAdmin(GUI tool, optional but reccommended)
+                    stack Builder(optional, for additional tools)
+                Set the password for PostgreSQL superuser(postgres)
+                Choose the port(default is 5432)
+                Select the default locale(usually default is fine)
+        Finish the Installation 
+            Installer will initialize the database cluster automatically
+            We can launch pgAdmin to manage databases visually 
+            To test in command line:   
+                psql -U postgres 
+            Enter the password we set during installation 
+        Optional - Add to Environment Variables 
+            Add PostgreSQL bin folder to PATH(eg: C:\Program Files\PostgreSQL\18\bin) to run psql from anywhere 
+        
+    PostgreSQL Mac Installation
+        PostgreSQL can be installed in Mac like windows and also using Homebrew
+    
     
