@@ -88,3 +88,11 @@ Day 10:
     I learned more about the relationship in database, How to use Foreign Keys 
     I also added a user authentication for the user in the todo project
     I also used authorization to give what power to the user(update and delete notes)
+
+Day 11:
+    Today i learned about the various techniques that can enhance authentication (Like Stronger Security, Multi-Factor Authentication(MFA), Better Token Handling, Smarter Session Control)
+    I also learned about the authorization improvements with role-based access control(RBAC)
+    I also relearned JWT token in little detailed and implement jwt token and authentication in todo project 
+    I also relearned to work with files
+    I learned about SQLAlchemy and used to connect to a postgresql database 
+    I also learned about boilerplate code and production DBMS
