@@ -96,3 +96,13 @@ Day 11:
     I also relearned to work with files
     I learned about SQLAlchemy and used to connect to a postgresql database 
     I also learned about boilerplate code and production DBMS
+
+Day 12:
+    Today, I relearned about postgresql and some most commonly used postgresql commands 
+    I also learned to install postgresql in both windows and mac 
+    I learned about Alembic Data Migration Tool in this day.
+    I setup Alembic and used it to add new column to users table 
+    I also learned about the upgrade and enhancement in application with alembic 
+    I learned about Render and how we can deploy our application, and database through render.
+    I also relearned docker and applied docker in the todo project 
+
