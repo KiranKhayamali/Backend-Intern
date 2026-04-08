@@ -2196,4 +2196,50 @@ Alembic Data Migration Tool
                 Implement FastAPI endpoints for the new functionality
             Alembic ensures database change are versioned, applied safely, and consistent across enviroments, making it essential when extending APIs
 
- 
+ Deploying FastAPI applications 
+ Deployment: Render Introduction 
+    What is Render?
+        Render is a cloud platform that lets us deploy web applications, APIs, Static Sites, and database with minimal configuration
+        It is similar to Heroku but generally more cost-effective and has a mordern developer-friendly workflow 
+        Supports FastAPI, Flask, Node.js, Django, static sites, and PostgreSQL/MySQL databases 
+    Why use Render for Deployment?
+        Easy setup: Connect our Github or Gitlab repo and deploy automatically 
+        Free tier: Great for prototypes and small projects 
+        Managed Services: Databases, background workers, cron jobs 
+        Automated SSL: HTTPS is enabled by default 
+        Auto Deploy on Push: Push to a Branch, and Render redeploys our app automatically 
+    Key concepts in Render 
+        Web services: Our API or web application 
+        Static Sites: HTML/CSS/JS static project 
+        Private Services: Services not exposed to the public 
+        PostgreSQL Databases: Fully managed Postgres instance 
+        Environment Variables: Securely store API keys, secrets, or database credentials 
+    Typical Deployment Workflow for a FastAPI Application 
+        Push our code to Github/Gitlab 
+        Create a Web Service on Render :
+            Connect our repo 
+            Choose the branch to deploy 
+            Select python environment 
+            Set the build command:
+                pip install -r requirements.txt 
+            Set the start command:
+                uvicorn main:app --host 0.0.0.0 --port 10000 or fastapi run main.py --host 0.0.0.0 --port 10000
+            Render set an environment variable PORT, so we can:
+                uvicorn main:app --host 0.0.0.0 --port $PORT or fastapi run main.py --host 0.0.0.0 --port $PORT 
+        Configure Environment variables(like DATABASE_URL) in Render dashboard 
+        Deploy -> Render automatically builds and deploy our applications 
+        Access our application -> It will be available at https://our-app-name.onrender.com 
+    Connecting a PostgreSQL Database on Render 
+        Create a PostgreSQL Database in Render 
+        Copy the database URL(something like postgre://......)
+        Set it as an environment variable(like DATABASE_URL) for our web services 
+        In our FastAPI, use it in SQLAlchemy 
+            SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL)
+        Run Alembic Migrations(can be done locally or via a Render shell) to initialize the schema 
+    Advantages of Render for FastAPI Deployment
+        No need to manage servers 
+        Automatic scaling for production
+        Built-in database hosting 
+        Continuous deployment from Git pushes 
+        Logs and metrics available in the dashboard
+    
