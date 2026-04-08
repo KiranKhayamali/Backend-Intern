@@ -2088,4 +2088,37 @@ Alembic Data Migration
                 Revision ID: Each migrations has a unique ID 
                 Head/Current State: Alembic knows which migrations have been applied 
                 Upgrade/Downgrade functions: Each migrations defines how to move forward or backward 
-
+    Alembic Setup 
+        Installing Alembic 
+            pip install alembic 
+        Initializing Alembic in a Project 
+            Inside our FastAPI or SQLAlchemy project:
+                alembic init alembic 
+                Creates an alembic/ folder with:
+                    env.py -> migration environment configuration
+                    scripts.py.mako -> template for migrations scripts 
+                    versions/ -> folder where migrations are stored 
+                Creates alembic .ini for database connection settings 
+        Configuring Alembic
+            In alembic .ini, set our database URL:
+                sqlalchemy.url = postgresql://fastapi_user:password@localhost:5432/mydb 
+            In alembic/env.py, make sure Alembic can access our models:
+                from models import Base 
+                target_metadata = Base.metadata 
+                This allows Alembic to auto-detect changes in our SQLAlchemy models 
+        Creating Migrations 
+            Auto-generate a migration 
+                alembic revision --autogenerate -m "Create Users table"
+                Alembic compares current database schema with SQLAlchemy models 
+                Generates python codes in alembic/versions to reflect changes 
+            Manual migration 
+                alembic revision -m "add a column to users"
+                open an empty migration file where we write custom upgrade() and downgrade() SQL 
+        Applying Migrations 
+            Upgrade(apply migrations)
+                alembic upgrade head 
+            Downgrade(revert migrations)
+                alembic downgrade -1
+                    head -> latest revision 
+                    -1 -> previous revision 
+            
