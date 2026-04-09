@@ -2291,3 +2291,18 @@ Introduction to Docker and Docker-Compose
         created via pip freeze (pip freeze > requirements.txt) or manually listing dependencies
         Used in deployment with pip install -r requirements.txt 
         Essential for Render, Docker, CI/CD pipelines
+
+Extra I Explore without following the curriculum:
+    FastCRUD 
+        can be used to avoid repeatative CRUD operation codes 
+        Project Fit Analysis 
+            Admin Dashboard (Excellent) -> Standard CRUDs with filtering, minimal custom logic 
+            REST APIs (Very Good) -> Consistent endpoints, pagination, OpenAPI docs 
+            Microservices(Very Good) -> Each service has focused CRUD operations 
+            Analytics platforms (Mixed) -> Good for user/config management, poor for reporting queries 
+            Workflow Engine(Poor) -> State transistion, complex business rule 
+            High Frequency Trading (Poor) -> Hard-optimized queries, microsecond performance 
+    Explore Boilerplate Code of benavlabs:
+        https://github.com/benavlabs/FastAPI-boilerplate.git boilerplate was explored and tried to gain knowledge on how to use Redis and nginx in the project 
+        I also got knowledge about how we can rate limit for our project and keep logs also.
+        I also got to know about the tier based user for our project 
