@@ -106,3 +106,11 @@ Day 12:
     I learned about Render and how we can deploy our application, and database through render.
     I also relearned docker and applied docker in the todo project 
 
+Day 13:
+    Today i explore at my own, i read blog posts, got guidance for learning AWS 
+    I also learned and tried boilerplate code from benavlabs(https://github.com/benavlabs/FastAPI-boilerplate.git)
+    I explored the boilerplate and got knowledge about the use Redis for caching, rate limiting and tier based user, logging 
+    I also learned about FastCRUD which helps to avoid CRUD operation repeatative codes using both crud_router and instance of FastCRUD
+
+Day 14:
+    
