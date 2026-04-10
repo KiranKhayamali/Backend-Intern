@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field, field_serializer
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 from typing import Any
 
 import uuid as uuid_pkg
-from uuid import uuid7
+from uuid6 import uuid7
 
 
 class HealthCheck(BaseModel):
@@ -13,22 +13,12 @@ class HealthCheck(BaseModel):
     timestamp: str
 
 
-class ReadyCheck(BaseModel):
-    status: str
-    environment: str
-    version: str
-    app: str
-    database: str
-    redis: str
-    timestamp: str
-
-
 class UUIDSchema(BaseModel):
     uuid: uuid_pkg.UUID = Field(default_factory=uuid7)
 
 
 class TimestampSchema(BaseModel):
-    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC).replace(tzinfo=None))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
     updated_at: datetime | None = Field(default=None)
 
     @field_serializer("created_at")
@@ -56,6 +46,7 @@ class PersistentDeletion(BaseModel):
 
         return None
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -65,18 +56,18 @@ class TokenData(BaseModel):
     username_or_email: str
 
 
-class TokenBlacklistBase(BaseModel):
-    token: str
-    expires_at: datetime
+# class TokenBlacklistBase(BaseModel):
+#     token: str
+#     expires_at: datetime
 
 
-class TokenBlacklistRead(TokenBlacklistBase):
-    id: int
+# class TokenBlacklistRead(TokenBlacklistBase):
+#     id: int
 
 
-class TokenBlacklistCreate(TokenBlacklistBase):
-    pass
+# class TokenBlacklistCreate(TokenBlacklistBase):
+#     pass
 
 
-class TokenBlacklistUpdate(TokenBlacklistBase):
-    pass
+# class TokenBlacklistUpdate(TokenBlacklistBase):
+#     pass
