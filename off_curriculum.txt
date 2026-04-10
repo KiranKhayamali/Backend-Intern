@@ -1,0 +1,224 @@
+Extra I Explore without following the curriculum:
+    FastCRUD 
+        can be used to avoid repeatative CRUD operation codes 
+        Project Fit Analysis 
+            Admin Dashboard (Excellent) -> Standard CRUDs with filtering, minimal custom logic 
+            REST APIs (Very Good) -> Consistent endpoints, pagination, OpenAPI docs 
+            Microservices(Very Good) -> Each service has focused CRUD operations 
+            Analytics platforms (Mixed) -> Good for user/config management, poor for reporting queries 
+            Workflow Engine(Poor) -> State transistion, complex business rule 
+            High Frequency Trading (Poor) -> Hard-optimized queries, microsecond performance 
+    Explore Boilerplate Code of benavlabs:
+        https://github.com/benavlabs/FastAPI-boilerplate.git boilerplate was explored and tried to gain knowledge on how to use Redis and nginx in the project 
+        I also got knowledge about how we can rate limit for our project and keep logs also.
+        I also got to know about the tier based user for our project 
+
+AWS Learning Guidance 
+    Phase 0: What we're Actually Learning 
+        Before touching AWS, understand this 
+            AWS(Amazon Web services) is not "one thing" 
+            It is a collection of services to solve problem like 
+                Hosting applications 
+                Storing data 
+                Running backend systems 
+                Scaling infrastructure 
+                Handling Security 
+            So, instead of "Learning AWS", we're learning 
+                How to design and run system in cloud 
+    Phase 1: Foundations(Must Not Skip)
+        Core Concepts 
+            Learn thse first
+                What is cloud computing?
+                Iaas Vs PaaS Vs SaaS?
+                Regions and Availability Zones 
+                Pay-as-you-go pricing 
+            Key AWS Concepts
+                Region -> Geographic Area(Eg: Asia South)
+                Availability Zone -> Isolated data centers 
+                IAM -> Permission System 
+            Think of AWS like 
+                Regions = Countries 
+                Availability Zones = Cities 
+                Sevices = tools in those cities 
+    Phase 2: Core Service 
+        These are our "daily tools" as a developer 
+        Compute 
+            Amazon EC2 -> raw servers 
+            AWS Lambda -> run code without servers 
+            Learn difference
+                EC2 = we manage server 
+                Lambda = AWS manage everthing
+        Storage 
+            Amazon S3 
+            Tasks 
+                Upload file
+                Host a static Website 
+                Set public/private permission
+        Database
+            Amazon RDS 
+            Tasks 
+                Create MySQL/PostgreSQL
+                Connect from EC2 
+        Networking 
+            Amazon VPC 
+            Tasks/learn 
+                Subnets 
+                Public Vs Private 
+                Internet Gateway
+    Phase 3: Build Real Projects
+        Now, we move from "services" of "systems" 
+        Project I: Simple Web App 
+            Architecture
+                EC2 -> backend server 
+                RDS -> database 
+                S3 -> static files 
+            we would learn 
+                How services connect 
+                Security groups 
+                Basic Architecture thinking 
+        Project II: Serverless App 
+            Use 
+                AWS Lambda 
+                Amazon API Gateway
+            Build 
+                REST API without servers 
+    Phase 4: Security and permissions(Critical)
+        IAM(Most Important Skill)
+            AWS Identity and Access Management
+            Learn 
+                Users Vs Roles 
+                Policies(JSON)
+                Least privilege principle 
+            Mistake begineers make "Giving admin access everywhere"
+    Phase 5: Scaling and Production Thinking 
+        Now, Think like a senior engineer 
+            Learn 
+                Elastic Load Balancing 
+                Amazon Cloud Watch 
+                Auto Scaling 
+            Concepts 
+                High availability
+                Fault tolerance 
+                Observability 
+    Phase 6: DevOps and Automation 
+        Tools 
+            AWS Cloud Formattion 
+            AWS Cloud Pipeline 
+        Goal: Stop clicking in UI -> Start automating 
+    How to Study(Important)
+        Don't do this
+            Watch endless tutorials 
+            Memorize services 
+        DO this 
+            Build projects 
+            Break things and fix them 
+            Draw Architecture diagrams 
+    Roadmap for learning 
+        Week 1 
+            EC2, S3, RDS basics 
+            Launch + Connect Services 
+        Week 2
+            Build 2 projects 
+            Learn IAM + VPC 
+        Week 3 
+            Learn Lambda + API Gateway 
+            Add monitoring + scaling 
+    AWS is not about knowing 200 services 
+        It about "Given a problem, can we design a system that is scalable, secure and cost-efficient?"
+
+File Structure 
+    Core Principle(Before Structure)
+        Think in terms of seperation of concerns 
+            API layer -> handles HTTP(router)
+            Service layer -> business logic 
+            Data layer -> database interaction 
+            Schemas -> validation (pydantic)
+            Models -> database structure(ORM)
+        If we mix these, our code becomes painful very quickly 
+    Recommended Project Structure(From Chatgpt)
+        Here's solid, production ready layout 
+            schemas/
+                user.py 
+                item.py 
+            
+            services/
+                user_service.py 
+                item_service.py 
+            
+            repositories/
+                user_repository.py 
+                item_repository.py 
+
+            db/
+                base.py 
+                session.py 
+                migrations/
+            
+            test/ 
+                test_users.py 
+                test_items.py
+
+        Breakdown 
+            main.py -> Entry Point 
+                Keep it thin, No logic here 
+            api/ -> Routes Layer 
+                Only HTTP concerns 
+                    Request 
+                    Response 
+                    Status Code 
+                No database queries here 
+            schemas/ -> Pydantic Models(Validation)
+                Used for 
+                    Request Validation 
+                    Response Validation 
+            models/ -> Database Models(ORM)
+                These represents actual database tables 
+            services/ -> Business logic 
+                This is where 
+                    Rules lives 
+                    Logic grows 
+                    Complexity belong 
+                If our project get messy, it usually because this layer is missing 
+            repositories/ -> Database Access 
+                Only responsibility 
+                    CRUD operations 
+                    Queries 
+                No business logic 
+            core/ -> Shared infrastructure
+                config.py -> enviroment Variables
+                security.py -> auth helpers (JWT, hashing)
+                dependencies.py -> reusable FastAPI dependencies
+            db/ -> Database setup 
+                session.py -> Database session 
+                base.py -> Base Class 
+                migrations -> Alembic 
+            tests/ -> Tests 
+                for testing the models and features 
+            Optional(But useful as we grow)
+                We can later add 
+                    utils/
+                    exceptions/ 
+                    middlewares/
+        Common mistakes
+            Putting everthing in routes 
+                This becomes unmaintainable fast 
+            Skipping service layer 
+                Leads to duplicated logic 
+                Hard to test 
+                Tight coupling 
+            Mixing Schemas and Models 
+                Causing confusion 
+                Breaks seperation of concerns 
+            Mental Model(Remember This)
+                Think:
+                    Request -> API -> Service -> Repository -> Database 
+                                        ^
+                                        |
+                                      Schemas
+            Advice 
+                Start Simple, but structure early 
+                Enforce boundaries(routes != logic != database)
+                Name things clearly( user_service, not utils)
+                Refractor agressively as complexity grows 
+                
+            
