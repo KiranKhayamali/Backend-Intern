@@ -113,4 +113,16 @@ Day 13:
     I also learned about FastCRUD which helps to avoid CRUD operation repeatative codes using both crud_router and instance of FastCRUD
 
 Day 14:
-    
+    Today i explore different file structure and learned to use them effectively.
+    I also learned about the common mistake made during the file structure of a project 
+    I also started to build a blog service project with FastAPI 
+    I also learned about the difference between DeclarativeBase and declarative_base() 
+    I also learned about the difference between using Column and mapped_column 
+    I also designed the schema and models for the blog project 
+
+Day 15: 
+    Today i continue the blog project from the previous day.
+    I also explore the benavlabs boilerplate code for reference and proceed to use refresh token and access token for authentication
+    The schema and models are redesigned for easier understanding and less complexity 
+    I completed the creation of users and post and also fetching the created users and posts using swagger UI 
+    I also configured settings for the project.
