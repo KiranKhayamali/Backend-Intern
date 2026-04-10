@@ -10,8 +10,6 @@ class PostBase(BaseModel):
     
     
 class Post(PostBase, TimestampSchema, PersistentDeletion, UUIDSchema): 
-    comments: list[str] = []
-    likes: int = 0
     author_id: int 
 
 
@@ -19,8 +17,6 @@ class PostRead(BaseModel):
     id: int 
     title: str 
     content: str 
-    comments: list[str] = []
-    likes: int = 0
     author_id: int 
     created_at: datetime 
 
