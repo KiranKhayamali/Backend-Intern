@@ -209,16 +209,44 @@ File Structure
             Mixing Schemas and Models 
                 Causing confusion 
                 Breaks seperation of concerns 
-            Mental Model(Remember This)
-                Think:
-                    Request -> API -> Service -> Repository -> Database 
-                                        ^
-                                        |
-                                      Schemas
-            Advice 
-                Start Simple, but structure early 
-                Enforce boundaries(routes != logic != database)
-                Name things clearly( user_service, not utils)
-                Refractor agressively as complexity grows 
+        Mental Model(Remember This)
+            Think:
+                Request -> API -> Service -> Repository -> Database 
+                                    ^
+                                    |
+                                    Schemas
+        Advice 
+            Start Simple, but structure early 
+            Enforce boundaries(routes != logic != database)
+            Name things clearly( user_service, not utils)
+            Refractor agressively as complexity grows 
                 
-            
+DeclarativeBase Vs declarative_base
+    declarative_base() -> old style(functions that returns a base class)
+    DeclarativeBase -> new style (explicts base class we inherit from)
+    Both are from SQLAlchemy, but, DeclarativeBase is the mordern, recommended approach(SQLAlchemy 2.0.1)
+    Side-by-Side Comparision 
+        Old way: declarative_base()
+            What's happening?
+                We call a function 
+                It dynamically creates a base class 
+                We inherits from that 
+            Feels a bit "magical"
+        New way: DeclarativeBase
+            What's happening?
+                We explictly define a base class 
+                Much clearer and more type-safe
+    Why DeclarativeBase Exists?
+        The new approach improves 
+            Type hinting 
+                Better support for:
+                    IDE autocomplete 
+                    Static analysis(mypy, pyright)
+            Explictness 
+                Instead of : Base = declarative_base()
+                we now have: class Base(DeclarativeBase): pass 
+                more pythonic, less "magic"
+            Extensibility 
+                We can customize our base class 
+                And all models will inherit this behaviour automatically 
+                
