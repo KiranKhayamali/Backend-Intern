@@ -26,6 +26,7 @@ class UserRead(BaseModel):
 class UserCreate(UserBase):
     model_config = ConfigDict(extra="forbid") # raise error if extra fields are provided
 
+    is_admin: bool = False
     password: Annotated[str, Field(min_length=6, max_length=20, examples=["Password1", "MySecurePass123"])] 
 
 class UserCreateInternal(UserBase):
@@ -37,7 +38,8 @@ class UserUpdate(BaseModel):
     username: Annotated[str, Field(min_length=3, max_length=100, default=None)] 
     email: Annotated[EmailStr, Field(examples=["user@example.com", "user.name@example.com"], default=None)] 
     profile_picture: Annotated[str, Field(examples=["https://unsplash.com/photos/a-gorilla-sitting-on-the-ground-QGdmkyLK7jo"], default=None)]
-    
+    is_admin: bool = False
+
 class UserUpdateInternal(UserUpdate):
     updated_at: datetime
 
