@@ -10,6 +10,8 @@ from jose import jwt, JWTError
 from .config import settings
 from .schemas import TokenData
 from ..repositories.user_repository import crud_users
+from ..repositories.token_blacklist_repository import crud_token_blacklist
+from ..repositories.token_blacklist_repository import TokenBlacklistCreate
 
 
 if TYPE_CHECKING:
@@ -79,6 +81,10 @@ async def create_refresh_token(data:dict, expires_delta: timedelta | None = None
     return enocoded_jwt
 
 async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep) -> TokenData | None:
+    is_blacklisted = await crud_token_blacklist.exists(db, token=token)
+    if is_blacklisted:
+        return None
+    
     try:
         payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM]) 
         username_or_email:str | None = payload.get("sub")
@@ -92,5 +98,21 @@ async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep)
     except JWTError:
         raise None
     
+
+async def blacklist_tokens(access_token:str, refresh_token:str, db: SessionDep) -> None:
+    for token in [access_token, refresh_token]:
+        payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM])
+        exp_timestamp = payload.get("exp")
+        if exp_timestamp is not None:
+            expires_at = datetime.fromtimestamp(exp_timestamp)
+            await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=token, expires_at=expires_at))
+
+async def blacklist_token(token:str, db: SessionDep) -> None:
+    payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM])
+    exp_timestamp = payload.get("exp")
+    if exp_timestamp is not None:
+        expires_at = datetime.fromtimestamp(exp_timestamp)
+        await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=token, expires_at=expires_at))
+
 
         
