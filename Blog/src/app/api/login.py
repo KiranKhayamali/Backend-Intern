@@ -19,7 +19,7 @@ from ..core.security import (
 )
 
 
-router = APIRouter(tags=["login"])
+router = APIRouter(tags=["login"], prefix="/users")
 
 
 @router.post("/login", response_model=Token)
@@ -55,4 +55,4 @@ async def refresh_access_token(request:Request, db: SessionDep) -> dict[str, str
         raise UnauthorizedException("Invalid Refresh Token!!!")
     
     new_access_token = await create_access_token(data={"sub": user_data.username_or_email})
-    return {"access_token": new_access_token, "token_type": "bearer"}
+    return {"access_token_from_refresh_token": new_access_token, "token_type": "bearer"}
