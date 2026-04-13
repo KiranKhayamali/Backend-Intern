@@ -8,6 +8,7 @@ from ..core.security import get_password_hash
 from ..core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
 from ..schemas.user import UserRead, UserCreate, UserCreateInternal, UserUpdate
 from ..repositories.user_repository import crud_users
+from ..core.dependencies import get_current_active_user
 
 
 router = APIRouter(tags=["users"], prefix="/users")
@@ -24,6 +25,22 @@ async def read_users(request: Request, db: Annotated[SessionDep, Depends(async_g
 
     response: dict[str, Any] = paginated_response(crud_data=users_data, page=page, items_per_page=items_per_page)
     return response
+
+@router.get("/me", response_model=UserRead)
+async def read_current_user(current_user: Annotated[UserRead, Depends(get_current_active_user)]):
+    return current_user
+
+@router.get("/{username_or_email}", response_model=UserRead)
+async def read_user(username_or_email:str, db: Annotated[SessionDep, Depends(async_get_db)]):
+    if "@" in username_or_email:
+        db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserRead)
+    else:
+        db_user = await crud_users.get(db=db, username=username_or_email, is_deleted=False, schema_to_select=UserRead)
+
+    if not db_user:
+        raise NotFoundException("User Not Found!!!")
+    
+    return db_user
 
 @router.post("/", response_model=UserRead, status_code=201)
 async def create_user(request: Request, user: UserCreate, db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
