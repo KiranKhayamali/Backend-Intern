@@ -5,9 +5,11 @@ from fastcrud import PaginatedListResponse, compute_offset, paginated_response
 from ..core.dependencies import SessionDep, get_current_active_user
 from ..core.db.session import async_get_db
 # from ..core.security import 
-from ..core.exceptions.http_exceptions import NotFoundException
+from ..core.exceptions.http_exceptions import NotFoundException, ForbiddenException
 from ..schemas.post import PostRead, PostCreate, PostCreateInternal, PostUpdate
 from ..repositories.post_repository import crud_posts
+from ..repositories.user_repository import crud_users
+from ..schemas.user import UserRead
 
 
 
@@ -27,10 +29,19 @@ async def read_posts(request:Request, db: Annotated[SessionDep, Depends(async_ge
     response: dict[str, Any] = paginated_response(crud_data=posts_data,page=page, items_per_page=items_per_page)
     return response
 
-@router.post("/", response_model=PostRead, status_code=201)
-async def create_post(request: Request, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
+@router.post("/{username}/post", response_model=PostRead, status_code=201)
+async def create_post(request: Request, username:str, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
+    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+    if db_user is None:
+        raise NotFoundException("User Not Found!")
+    
+    if current_user["id"] != db_user["id"]:
+        raise ForbiddenException()    
+
     post_internal_dict = post.model_dump()
-    post_internal_dict["author_id"] = current_user.id
+    post_internal_dict["author_id"] = db_user["id"]
+    post_internal_dict["author_name"] = db_user["username"]
+
     post_internal = PostCreateInternal(**post_internal_dict)
     created_post = await crud_posts.create(db=db, object=post_internal, schema_to_select=PostRead)
 
