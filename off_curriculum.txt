@@ -249,4 +249,43 @@ DeclarativeBase Vs declarative_base
             Extensibility 
                 We can customize our base class 
                 And all models will inherit this behaviour automatically 
-                
+
+Difference between using Column and mapped_column()
+    Column -> Old style (classic SQLAlchemy)
+    mapped_column -> new style (SQLAlchemy 2.0, type-safe)
+    Both are from SQLAlchemy, but, mapped_column is designed to work with python hints(Mapped[])
+    Side-By-Side Comparision
+        Old way: Column 
+            Problems:
+                No real type safety 
+                IDEs/mypy struggle 
+                Types are duplicated(Python Vs SQLAlchemy)
+        New way: mapped_column()
+            Much cleaner:
+                Types comes from python(int, str)
+                SQLAlchemy infers the database logic 
+    Core difference
+        Column(old mental model)
+            id = Column(Integer)
+            This is a database column 
+        mapped_column(new mental model)
+            id: Mapped[int] = mapped_column()
+            This is a python mapped to database column 
+    Why mapped_column is better?
+        Type Safety 
+            name: Mapped[str]
+            works perfectly with:
+                mypy 
+                pyright 
+                IDE autocomplete
+        Less Duplication 
+            No need to repeat types in two systems 
+        Cleaner models 
+            We can even ommit mapped_column()
+            SQLAlchemy infers everthing
+        Designed for SQLAlchemy 2.0 
+            This is the official mordern pattern 
+    mapped_column() is the mordern, type-safe replacement for Column, designed to work seamlessly with python hints in SQLAlchemy 2.0 
+
+    (Note: init=False is used to tell puthon NOT to include this attribute in the model's __init__ method. In other words, we cannot set it when creating an instance)
+    
