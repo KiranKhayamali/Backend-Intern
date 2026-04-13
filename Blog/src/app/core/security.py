@@ -12,6 +12,8 @@ from .schemas import TokenData
 from ..repositories.user_repository import crud_users
 from ..repositories.token_blacklist_repository import crud_token_blacklist
 from ..repositories.token_blacklist_repository import TokenBlacklistCreate
+from ..core.exceptions.http_exceptions import CustomException
+
 
 
 if TYPE_CHECKING:
@@ -83,7 +85,7 @@ async def create_refresh_token(data:dict, expires_delta: timedelta | None = None
 async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep) -> TokenData | None:
     is_blacklisted = await crud_token_blacklist.exists(db, token=token)
     if is_blacklisted:
-        return None
+        raise CustomException(401, "Token has been blacklisted!, Please login with another token. ")
     
     try:
         payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM]) 
