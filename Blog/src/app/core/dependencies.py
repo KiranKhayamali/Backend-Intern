@@ -13,11 +13,9 @@ from .security import oauth2_scheme
 SessionDep = Annotated[AsyncSession, Depends(async_get_db)]
 
 
-if TYPE_CHECKING:
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: SessionDep):
     from .security import TokenType, oauth2_scheme, verify_token
 
-
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: SessionDep):
     token_data = await verify_token(token, TokenType.ACCESS, db)
     if not token_data:
         return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User not authenticated!!!")
