@@ -1,12 +1,13 @@
 from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Request
 from fastcrud import PaginatedListResponse, compute_offset, paginated_response
+from datetime import datetime, UTC
 
 from ..core.dependencies import SessionDep, get_current_active_user
 from ..core.db.session import async_get_db
 # from ..core.security import 
 from ..core.exceptions.http_exceptions import NotFoundException, ForbiddenException
-from ..schemas.post import PostRead, PostCreate, PostCreateInternal, PostUpdate
+from ..schemas.post import PostRead, PostCreate, PostCreateInternal, PostUpdate, PostUpdateInternal, PostDelete
 from ..repositories.post_repository import crud_posts
 from ..repositories.user_repository import crud_users
 from ..schemas.user import UserRead
@@ -49,7 +50,7 @@ async def read_post_of_user(username: str, db:Annotated[SessionDep, Depends(asyn
 
 
 @router.post("/posts/{username}", response_model=PostRead, status_code=201)
-async def create_post(request: Request, username:str, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
+async def create_post(username:str, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
     db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
     if db_user is None:
         raise NotFoundException("User Not Found!")
@@ -68,3 +69,27 @@ async def create_post(request: Request, username:str, post: PostCreate, current_
         raise NotFoundException("Failed to create the post!!!")
     
     return created_post
+
+
+@router.put("/posts/{username}/{post_id}", response_model=PostRead, status_code=201)
+async def update_post(username:str, post_id:int, post:PostUpdate, current_user:Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
+    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+    if not db_user:
+        raise NotFoundException("User Not Found!!!")
+    
+    if current_user["id"] != db_user["id"]:
+        raise ForbiddenException()
+    
+    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
+    if username != db_post["author_name"]:
+        raise ForbiddenException()
+    
+    post_internal_dict = post.model_dump(exclude_unset=True)
+    post_internal_dict["updated_at"] = datetime.now(UTC)
+    post_internal = PostUpdateInternal(**post_internal_dict)
+    updated_post = await crud_posts.update(db=db, id=post_id, object=post_internal, schema_to_select=PostRead, return_as_model=True)
+
+    if updated_post is None:
+        raise NotFoundException("Failed to update the post!!!")
+    
+    return updated_post
