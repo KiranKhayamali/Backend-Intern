@@ -7,7 +7,7 @@ from ..core.dependencies import SessionDep
 from ..core.db.session import async_get_db
 from ..core.security import get_password_hash
 from ..core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
-from ..schemas.user import UserRead, UserCreate, UserCreateInternal, UserUpdate, UserUpdateInternal
+from ..schemas.user import UserRead, UserCreate, UserCreateInternal, UserUpdate, UserUpdateInternal, UserDelete, UserRestoreDelete
 from ..repositories.user_repository import crud_users
 from ..core.dependencies import get_current_active_user
 
@@ -100,3 +100,20 @@ async def update_user(username_or_email:str, user_update: UserUpdate, current_us
         raise NotFoundException("Failed to update user!!!")
 
     return updated_user
+
+
+# @router.delete("/{username_or_email}", status_code=204)
+# async def delete_user(username_or_email:str, current_user: Annotated[UserRead, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]):
+#     if "@" in username_or_email:
+#         db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserRead)
+#     else:
+#         db_user = await crud_users.get(db=db, username=username_or_email,
+#         is_deleted=False, schema_to_select=UserRead)
+    
+#     if not db_user:
+#         raise NotFoundException("User Not Found !!!")
+        
+#     if current_user["id"] != db_user["id"]:
+#         raise ForbiddenException()
+    
+#     use_delete = UserDelete(deleted_at=datetime.now(UTC))

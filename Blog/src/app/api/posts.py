@@ -14,10 +14,10 @@ from ..schemas.user import UserRead
 
 
 
-router = APIRouter(tags=["posts"], prefix="/posts")
+router = APIRouter(tags=["posts"])
 
 
-@router.get("/", response_model=PaginatedListResponse[PostRead])
+@router.get("/posts", response_model=PaginatedListResponse[PostRead])
 async def read_posts(request:Request, db: Annotated[SessionDep, Depends(async_get_db)], page: int = 1, items_per_page: int = 10) -> dict:
     posts_data = await crud_posts.get_multi(
         db=db,
@@ -29,7 +29,26 @@ async def read_posts(request:Request, db: Annotated[SessionDep, Depends(async_ge
     response: dict[str, Any] = paginated_response(crud_data=posts_data,page=page, items_per_page=items_per_page)
     return response
 
-@router.post("/{username}/post", response_model=PostRead, status_code=201)
+@router.get("/post/{post_id}", response_model=PostRead)
+async def read_post(post_id: int, db: Annotated[SessionDep, Depends(async_get_db)]):
+    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
+    if not db_post:
+        raise NotFoundException("Post Not Found!!!")
+    
+    return db_post
+
+@router.get("/posts/{username}", response_model=PaginatedListResponse[PostRead])
+async def read_post_of_user(username: str, db:Annotated[SessionDep, Depends(async_get_db)], page: int =1, limit: int =10):
+    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+    if not db_user:
+        raise NotFoundException("User Not Found!!!")
+    
+    posts_data = await crud_posts.get_multi(db=db, author_id=db_user["id"], is_deleted=False, offset=compute_offset(page, limit), limit=limit)
+    result: dict[str, Any] = paginated_response(crud_data=posts_data, page=page, items_per_page=limit)
+    return result
+
+
+@router.post("/posts/{username}", response_model=PostRead, status_code=201)
 async def create_post(request: Request, username:str, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
     db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
     if db_user is None:
