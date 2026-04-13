@@ -288,4 +288,162 @@ Difference between using Column and mapped_column()
     mapped_column() is the mordern, type-safe replacement for Column, designed to work seamlessly with python hints in SQLAlchemy 2.0 
 
     (Note: init=False is used to tell puthon NOT to include this attribute in the model's __init__ method. In other words, we cannot set it when creating an instance)
-    
+
+Tracing the boilerplate of benavlabs
+    Big Picture 
+        The boilerplate code follows a layered architecture
+            Client -> API -> CRUD(business logic) -> Models(database) -> Database
+                               ^
+                               |
+                            Schemas(validations)
+            This seperation is intentional:
+                API = handles HTTP 
+                CRUD = Logic 
+                Models = database structure
+                Schemas = validation and serialization 
+            This is called seperation of concerns 
+    Root Structure(What matters Vs What doesn't)
+        FastAPI-boilerplate/
+            src/    <- our main code 
+            tests/  <- tests
+            docs/   <- documentation 
+            Docker stuff    <- Deployment 
+            
+            We can initially ignore the docker and spend 90% of our time in src/ 
+    Inside src/ (core of the system)
+        src/
+            app/
+            migrations/
+            scripts/
+
+        src/    <- The heart of everthing
+            app/
+                main.py
+                api/
+                core/
+                crud/
+                models/
+                schemas/
+                middlewares/
+            
+        Let's break this:
+            main.py -> Entry Point 
+                This is where the app starts 
+                Think: app = FastAPI()
+                But in this boilerplate:
+                    uses app factory pattern 
+                    loads configurations 
+                    register routes 
+                    adds middlewares
+                This is the bootloader of our backend 
+            api/ -> where HTTP lives
+                api/v1/
+                    users.py
+                    posts.py 
+                    login.py 
+                This is what or frontend talks to
+                Example: @router.post("/users")
+                         async def create_users():
+                But: 
+                    No heavy logic here 
+                    Only: 
+                        request validation 
+                        calling CRUD 
+                        returning response 
+                Rule: API layer should be thin  
+            schema/ -> Data Contracts 
+                These are pydantic models 
+                Example: UserCreate, UserRead, UserDelete, UserUpdate 
+                Why schemas exists?
+                    validate input 
+                    control output 
+                    prevent security issues
+                They sit between API and CRUD 
+            models/ -> Data Structure 
+                These are SQLAlchemy models 
+                Tis maps directly to database tables 
+            crud/ -> Business logic layer 
+                This is where:
+                    database queries happen 
+                    logic lives 
+                    reusable operation exists 
+                This project uses FastCRUD
+                    Generic CRUD generator 
+                    saves us from rewriting queries 
+                This is the service layer 
+            core/ -> the Brain 
+                core/ 
+                    config.py 
+                    security.py 
+                    db/
+                    exceptions/
+                This is where system-wide logic lives 
+    Important Part:
+        config.py 
+            Reads .env 
+            Stores settings 
+            Single source of truth 
+        security.py 
+            Handles 
+                JWT Token 
+                Password Hashing 
+                Auth logic 
+            Critical for authentication
+        db/ 
+            Database connections 
+            session management
+            used via dependency injection 
+        exceptions/
+            Custom errors 
+            Centralized error handling 
+    DataFlow 
+        Let's trace a real request 
+            Example: Create User 
+                Client request (POST /users)
+                API layer (create_users()) ---> validate using schemas 
+                Convert to internal schemas (password hashing)
+                CRUD layer 
+                Model -> Database (sqlalchemy saves to database)
+                Response 
+            Final Flow 
+                Request -> Schema -> API -> CRUD -> Model -> Database 
+                Response <- Schema <- API <- CRUD <- Model <- Database
+    Advanced Features 
+        This isn't just CRD - it includes:
+            Authentication
+                JWT access + refresh tokens 
+                Cookie-based security 
+            Async everywhere 
+                FastAPI + async SQLAlchemy
+            Background Jobs 
+                uses Redis + ARQ 
+            Rate Limiting 
+                Per user tier 
+            Caching 
+                Redis caching layer 
+            Deployment-ready 
+                Docker + NGNIX + Gunicorn 
+    Design Principles (Why it's built this way)
+        Seperation of Concerns 
+            API != Database != Logic 
+        Modularity 
+            We can 
+                Remove auth 
+                Replace database 
+                Add features 
+            Scalablity 
+                Async 
+                Background workers 
+                Caching
+            Maintainability 
+                Easy to debug 
+                Easy to extend 
+            
+    Common Mistakes 
+        Putting logic in API 
+        Mixing schema + model 
+        Direct database queries in routes 
+        Ignoring internal schemas 
+    Final mental model 
+        If we remember just one thing: 
+            API talks -> Schemas validate -> CRUD Thinks -> Models store 
