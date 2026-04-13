@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .app.core.db.session import async_engine
 from .app.models.base import Base
-from .app.api import users, posts, login
+from .app.api import users, posts, login, logout
 from .app.core.schemas import HealthCheck
 from datetime import UTC, datetime
 
@@ -33,3 +33,4 @@ def root():
 app.include_router(users.router)
 app.include_router(posts.router)
 app.include_router(login.router)
+app.include_router(logout.router)
