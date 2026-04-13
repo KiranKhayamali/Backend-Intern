@@ -21,7 +21,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES: int = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 REFRESH_TOKEN_EXPIRE_DAYS: int = settings.REFRESH_TOKEN_EXPIRE_DAYS
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
 passwword_hash = PasswordHash.recommended()
 
@@ -55,6 +55,8 @@ async def authenticate_user(db: SessionDep, username_or_email: str, password: st
         return False
     
     return db_user
+
+
 
 async def create_access_token(data: dict, expires_delta: timedelta | None = None)-> str:
     to_encode = data.copy()
