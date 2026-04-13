@@ -447,3 +447,12 @@ Tracing the boilerplate of benavlabs
     Final mental model 
         If we remember just one thing: 
             API talks -> Schemas validate -> CRUD Thinks -> Models store 
+
+Dataclass constraints in SQLAlchemy
+    What is dataclass means in SQLAlchemy?
+        SQLAlchemy can integrate with python's built-in dataclasses module to let us define ORM in more concise, typed way 
+    What is constraints means?
+        Constraints are still database-level rules, not dataclass-specific rules 
+        The dataclass constraints usually means 
+            "How do we define SQL constraints while using dataclass-style models?"
+        Eg: mapped_column()
