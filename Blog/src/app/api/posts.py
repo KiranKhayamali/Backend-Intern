@@ -93,3 +93,21 @@ async def update_post(username:str, post_id:int, post:PostUpdate, current_user:A
         raise NotFoundException("Failed to update the post!!!")
     
     return updated_post
+
+
+@router.delete("/posts/{username}/{post_id}")
+async def delete_post(username:str, post_id:int, current_user: Annotated[dict, Depends(get_current_active_user)], db: SessionDep) -> dict[str, str]:
+    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+    if not db_user:
+        raise NotFoundException("User Not Found!!!")
+
+    if current_user["id"] != db_user["id"]:
+        raise ForbiddenException()
+
+    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
+    if db_post is None:
+        raise NotFoundException("Post Not Found!!!")
+
+    await crud_posts.db_delete(db=db, id=post_id)
+
+    return {"message": f"{db_post["title"]} has been successfully deleted."} 
