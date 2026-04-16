@@ -32,7 +32,7 @@ def root():
     )
 
 
-app.add_middleware(LoggerMiddleware)
+# app.add_middleware(LoggerMiddleware)
 
 app.include_router(users.router)
 app.include_router(posts.router)
