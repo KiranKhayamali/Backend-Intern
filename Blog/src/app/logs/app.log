@@ -1,0 +1,53 @@
+{"event": "Started server process [2104]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:20:42.098678Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:20:42.100706Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:20:42.200604Z"}
+{"answer": 42, "event": "probe_event", "logger": "probe", "level": "info", "timestamp": "2026-04-16T04:20:49.364525Z"}
+{"answer": 43, "event": "probe_warning", "logger": "probe", "level": "warning", "timestamp": "2026-04-16T04:20:49.365527Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:20.900998Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:21.010735Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:21.014789Z"}
+{"event": "Finished server process [2104]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:21.015778Z"}
+{"event": "Started server process [26096]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:22.964843Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:22.965843Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:21:23.062606Z"}
+{"status_code": 200, "duration_ms": 0.45, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "GET", "path": "/docs", "request_id": "09f0b905-238a-4524-977e-f48a4b1a532f", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:21:31.834936Z"}
+{"event": "127.0.0.1:53303 - \"GET /docs HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "GET", "path": "/docs", "status_code": 200, "request_id": "09f0b905-238a-4524-977e-f48a4b1a532f", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:21:31.836226Z"}
+{"status_code": 200, "duration_ms": 54.23, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "GET", "path": "/openapi.json", "request_id": "043b8d0c-5489-4591-ab87-d8f969f83744", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:21:32.402555Z"}
+{"event": "127.0.0.1:53303 - \"GET /openapi.json HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "GET", "path": "/openapi.json", "status_code": 200, "request_id": "043b8d0c-5489-4591-ab87-d8f969f83744", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:21:32.403554Z"}
+{"status_code": 200, "duration_ms": 21.77, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "GET", "path": "/posts", "request_id": "8e4031fe-1629-4104-9013-cb536aaef131", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:21:44.463269Z"}
+{"event": "127.0.0.1:55788 - \"GET /posts?page=1&items_per_page=10 HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "GET", "path": "/posts", "status_code": 200, "request_id": "8e4031fe-1629-4104-9013-cb536aaef131", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:21:44.464278Z"}
+{"status_code": 200, "duration_ms": 13.08, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "POST", "path": "/users/login", "request_id": "4fc66e50-b021-4a12-ba00-b92828f77253", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:22:49.978654Z"}
+{"event": "127.0.0.1:50627 - \"POST /users/login HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "POST", "path": "/users/login", "status_code": 200, "request_id": "4fc66e50-b021-4a12-ba00-b92828f77253", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:22:49.980014Z"}
+{"status_code": 200, "duration_ms": 22.45, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "GET", "path": "/users/me", "request_id": "876baded-d4c0-4b36-8ab2-f67ce104282e", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:23:26.723911Z"}
+{"event": "127.0.0.1:65009 - \"GET /users/me HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "GET", "path": "/users/me", "status_code": 200, "request_id": "876baded-d4c0-4b36-8ab2-f67ce104282e", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:23:26.725896Z"}
+{"status_code": 200, "duration_ms": 4.71, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "GET", "path": "/posts", "request_id": "ff52aa3d-6fac-45a7-8796-255fbf48ebb2", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:23:46.185718Z"}
+{"event": "127.0.0.1:49167 - \"GET /posts?page=1&items_per_page=10 HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "GET", "path": "/posts", "status_code": 200, "request_id": "ff52aa3d-6fac-45a7-8796-255fbf48ebb2", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:23:46.191235Z"}
+{"status_code": 200, "duration_ms": 4.89, "event": "http_request_completed", "client_host": "127.0.0.1", "method": "POST", "path": "/users/login", "request_id": "78728bb1-9cf1-4fac-966e-7e7abe2cc69f", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:24:09.822791Z"}
+{"event": "127.0.0.1:62661 - \"POST /users/login HTTP/1.1\" 200", "client_host": "127.0.0.1", "method": "POST", "path": "/users/login", "status_code": 200, "request_id": "78728bb1-9cf1-4fac-966e-7e7abe2cc69f", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:24:09.823791Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:14.212864Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:14.322465Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:14.324441Z"}
+{"event": "Finished server process [26096]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:14.324441Z"}
+{"event": "Started server process [22400]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:16.651462Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:16.651462Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:16.750836Z"}
+{"marker": "info-only", "event": "console_noise_check_info", "logger": "console_probe", "level": "info", "timestamp": "2026-04-16T04:25:20.216309Z"}
+{"marker": "warning-visible", "event": "console_noise_check_warning", "logger": "console_probe", "level": "warning", "timestamp": "2026-04-16T04:25:20.216309Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:49.062506Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:49.171397Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:49.172394Z"}
+{"event": "Finished server process [22400]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:49.173398Z"}
+{"event": "Started server process [12704]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:51.485584Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:51.485584Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:25:51.580985Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:13.020915Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:13.129501Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:13.130496Z"}
+{"event": "Finished server process [12704]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:13.130496Z"}
+{"event": "Started server process [13460]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:47.822523Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:47.823525Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:47.917959Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:54.674553Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:54.781872Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:54.782906Z"}
+{"event": "Finished server process [13460]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:26:54.782906Z"}
