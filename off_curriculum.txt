@@ -456,3 +456,79 @@ Dataclass constraints in SQLAlchemy
         The dataclass constraints usually means 
             "How do we define SQL constraints while using dataclass-style models?"
         Eg: mapped_column()
+
+Redis 
+    What is Redis? - Overview of Redis 
+        Redis is an open source, in-memory data structure store that can be used as a database, cache, message broker, and streaming engine. 
+        It belongs to the class of NoSQL Database know as key-value stores 
+        Redis is widely adopted for its sub-milliseconds response time. rich data structures and versatility across use case from caching to real-time analytics 
+    How does Redis works?
+        Redis store all data in memory as key/value pairs, where each key is a unique identifier mapped to a typed value
+        Each data type has its own set of commands for reading and writing data 
+        For example: we can store a name in Redis string and associate it with the key "myname" using the SET command, then retrieve using GET 
+            SET myname "Kiran Khayamali"
+                OK 
+            GET myname 
+                "Kiran Khayamali"
+    What are Redis Data types?
+        Redis goes for beyond simple key/value string storage 
+        It supports a rich set of data types, each optimized for specific access pattern 
+            String 
+                The simplest type, stores text, numeric, or binary data up to 512 MB 
+                Example: Counters, cached values, session tokens 
+            Lists 
+                Ordered collection of strings(Linked lists)
+                Example: Activity feeds, message queues 
+            Sets 
+                Unordered collections of unique strings 
+                Example: tags, unique visitors, set operations 
+            Hashes 
+                Mapps of field-value pairs, similar to objects 
+                Example: User profiles, product details 
+            Sorted Sets 
+                Sets ordered by a numeric scores 
+                Example: Leaderboards, priority queues, rate limiters 
+            Streams 
+                Append-only log data structures 
+                Example: Event sourcing, activity logs 
+            JSON 
+                Native JSON document storage and querying 
+                Example: Complex nested data, API Response caching 
+            Vector Sets 
+                Elements associated with vector embedding for similarity search 
+                Example: Semantic search, recommendations, RAG 
+        Redis also supports specialized types like: Bitmap, Bitfield, Hyperloglog, and Geospatial Indexes for advanced use cases 
+    What is Redis used for?
+        Redis is used across industries wherever fast data access matters 
+        Common use cases includes 
+            Caching: Store frequently accessed data in memory to reduce database load and speed up response time 
+            Session management: Maintain user session data across distributed web applications with built-ing expiration 
+            Leaderboards and rankings: Use Sorted Sets to build real-time leaderboards with automatic ordering by score 
+            Real-time analytics: Tracks metrics, counts and time-series data with sub-milliseconds writes 
+            Pub/Sub messaging: Broadcast messages to muliple subscribers for real-time notifications and chat systems 
+            Rate limiting: Control API usage and prevent abuse using couters with expirations 
+            Queues and background jobs: Use Lists and streams as lightweight, high-performance task queues
+            GenAI and vector search: Store vector embedding and run similarity searches for semantic search, context retrival, agent memory, retrieval-augmented generation(RAG), and recommendation systems 
+    Advantages of Redis? 
+        Redis combines in-memory speed with rich data structures, persistence, and horizontal scalability 
+        Key advantages include:
+            Sub-milliseconds latency: All data lives in RAM, so reads and writes completes in microseconds rather than milliseconds
+            Rich data structures: Go beyond simple key/value strings with Lists, Sets, Hashes, Sorted Sets, Streams, JSON, and more.
+            Built-in persistence: RDB snapshots and AOF logs keeps our data durable without sacrificing performance 
+            Horizontal scalability: Redis cluster distributes data across multiple nodes with automatic sharding and failover 
+            Broad language support: Official clients libaries exists for Python, Node.js, Java, Go, .NET, and many other languages
+            Vector search and GenAI: Native support for vector embeddings, similarity search and hybrid queries makes Redis a strong fit for GenAI applications 
+            Versatile use cases: Use Redis as a cache, primary database, message broker, vector database, streaming engine, or all of the above in a single deployment 
+            Active ecosystem: A large open-source community, comprehensive docs, and Redis University courses make it easy to learn and adopt
+    How fast is Redis?
+        Redis is one of the fastest databases available 
+        Because it stores and serves all data from RAM rather than disk, typical operations complete in under one milliseconds - often in the range of single-digit microseconds 
+        A single Redis instance can handle over 100,000 operations per second on modest hardware and benchmarks on optimized configurations regularly exceed 1 millions operations per seconds 
+        This speed makes Redis an excellent choice for applications that requires real-time data access, such as gaming leaderboards, financial trading platforms, and ad-tech bidding systems 
+    How does Redis persist data?
+        Redis persists data to disk so it survives restarts, even though all reads and writes happen in memory 
+        It provides multiple persistence options to ensure durability 
+            RDB(Redis Database): Takes point-in-time snapshots of our data at configured intervals 
+            AOF(Append Only File): Logs every write operation, providing stronger durability guarentees 
+            RDB + AOF: Combines both methods for a balance of performance and data safety 
+        This means our data is durable even though all reads are served from an in-memory copy, giving us both speed and reliability
