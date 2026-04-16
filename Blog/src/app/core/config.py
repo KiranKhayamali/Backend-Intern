@@ -55,18 +55,7 @@ class FileLoggerSettings(DatabaseSettings):
     FILE_LOG_INCLUDE_STATUS_CODE: bool = True 
 
 
-class ConsoleLoggerSettings(DatabaseSettings):
-    CONSOLE_LOG_LEVEL: str = "WARNING"
-    CONSOLE_LOG_FORMAT_JSON: bool = False 
-
-    CONSOLE_LOG_INCLUDE_REQUEST_ID: bool = False 
-    CONSOLE_LOG_INCLUDE_PATH: bool = False
-    CONSOLE_LOG_INCLUDE_METHOD: bool = False 
-    CONSOLE_LOG_INCLUDE_CLIENT_HOST: bool = False 
-    CONSOLE_LOG_INCLUDE_STATUS_CODE: bool = False
-
-
-class Settings(AppSettings, CryptSetting, PostgresSettings, FileLoggerSettings, ConsoleLoggerSettings):
+class Settings(AppSettings, CryptSetting, PostgresSettings, FileLoggerSettings):
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", ".env"),
         env_file_encoding="utf-8",
