@@ -2,21 +2,25 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Request
 from fastcrud import PaginatedListResponse, compute_offset, paginated_response
 from datetime import datetime, UTC
+from sqlalchemy import update
 
 from ..core.dependencies import SessionDep
 from ..core.db.session import async_get_db
 from ..core.security import get_password_hash, blacklist_token, oauth2_scheme
 from ..core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
-from ..schemas.user import UserRead, UserCreate, UserCreateInternal, UserUpdate, UserUpdateInternal, UserDelete, UserRestoreDelete
+from ..schemas.user import UserRead, UserCreate, UserCreateInternal, UserUpdate, UserUpdateInternal, UserDelete, UserRestoreDelete, UserReadWithPost
 from ..repositories.user_repository import crud_users
+from ..repositories.post_repository import crud_posts
 from ..core.dependencies import get_current_active_user
+from ..models.users import User
+from ..models.posts import Post
 
 
 router = APIRouter(tags=["users"], prefix="/users")
 
 
 @router.get("/", response_model=PaginatedListResponse[UserRead])
-async def read_users(request: Request, db: SessionDep, page: int = 1, items_per_page: int = 10) -> dict:
+async def read_users(db: SessionDep, page: int = 1, items_per_page: int = 10) -> dict:
     users_data = await crud_users.get_multi(
         db=db,
         offset=compute_offset(page, items_per_page),
@@ -27,20 +31,33 @@ async def read_users(request: Request, db: SessionDep, page: int = 1, items_per_
     response: dict[str, Any] = paginated_response(crud_data=users_data, page=page, items_per_page=items_per_page)
     return response
 
-@router.get("/me", response_model=UserRead)
-async def read_current_user(current_user: Annotated[UserRead, Depends(get_current_active_user)]):
+@router.get("/me", response_model=UserReadWithPost)
+async def read_current_user(current_user: Annotated[UserReadWithPost, Depends(get_current_active_user)], db:SessionDep):
+    posts_result = await crud_posts.get_multi(db=db, author_id=current_user["id"])
+    if posts_result is None:
+        return None
+
+    posts = posts_result["data"]
+    current_user["posts"] = posts
+    
     return current_user
 
-@router.get("/{username_or_email}", response_model=UserRead)
-async def read_user(username_or_email:str, db:SessionDep) -> dict[str, Any]:
+@router.get("/{username_or_email}", response_model=UserReadWithPost)
+async def read_user(username_or_email:str, db:SessionDep) -> dict[str, Any]:    
     if "@" in username_or_email:
-        db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserRead)
+        db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserReadWithPost)
     else:
-        db_user = await crud_users.get(db=db, username=username_or_email, is_deleted=False, schema_to_select=UserRead)
+        db_user = await crud_users.get(db=db, username=username_or_email, is_deleted=False, schema_to_select=UserReadWithPost)
 
     if not db_user:
         raise NotFoundException("User Not Found!!!")
     
+    posts_result = await crud_posts.get_multi(db=db, author_id=db_user["id"])
+    if posts_result is None:
+        return None
+
+    posts = posts_result["data"]
+    db_user["posts"] = posts
     return db_user
 
 @router.post("/", response_model=UserRead, status_code=201)
@@ -102,13 +119,13 @@ async def update_user(username_or_email:str, user_update: UserUpdate, current_us
     return updated_user
 
 
-@router.delete("/{username_or_email}", status_code=204)
-async def delete_user(username_or_email:str, current_user: Annotated[UserRead, Depends(get_current_active_user)], db: SessionDep, token:str = Depends(oauth2_scheme)):
+@router.delete("/{username_or_email}")
+async def delete_user(username_or_email:str, current_user: Annotated[UserReadWithPost, Depends(get_current_active_user)], db: SessionDep, token:str = Depends(oauth2_scheme)):
     if "@" in username_or_email:
-        db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserRead)
+        db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserReadWithPost)
     else:
         db_user = await crud_users.get(db=db, username=username_or_email,
-        is_deleted=False, schema_to_select=UserRead)
+        is_deleted=False, schema_to_select=UserReadWithPost)
     
     if not db_user:
         raise NotFoundException("User Not Found !!!")
@@ -117,5 +134,11 @@ async def delete_user(username_or_email:str, current_user: Annotated[UserRead, D
         raise ForbiddenException()
     
     await crud_users.delete(db=db, id=db_user["id"])
+    await db.execute(
+        update(Post)
+        .where(Post.author_id == db_user["id"])
+        .values(is_deleted=True)
+        .values(deleted_at=datetime.now(UTC))
+    )
     await blacklist_token(token=token, db=db)
     return {"message": f"{current_user["username"]} has been deleted successfully!!!"}
