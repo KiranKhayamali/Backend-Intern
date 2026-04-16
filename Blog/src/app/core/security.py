@@ -55,7 +55,7 @@ async def authenticate_user(db: SessionDep, username_or_email: str, password: st
     if not db_user:
         return False
     
-    if not verify_password(password, db_user["hashed_password"]):
+    if not await verify_password(password, db_user["hashed_password"]):
         return False
     
     return db_user
