@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
+from .app.core import logger as _logger_config
 from .app.core.db.session import async_engine
 from .app.models.base import Base
 from .app.api import users, posts, login, logout
 from .app.core.schemas import HealthCheck
-from datetime import UTC, datetime
+from .app.middlewares.logger_middleware import LoggerMiddleware
 
 
 @asynccontextmanager
@@ -29,6 +31,8 @@ def root():
         timestamp=datetime.now(UTC).isoformat()
     )
 
+
+app.add_middleware(LoggerMiddleware)
 
 app.include_router(users.router)
 app.include_router(posts.router)
