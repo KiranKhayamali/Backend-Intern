@@ -126,3 +126,15 @@ Day 15:
     The schema and models are redesigned for easier understanding and less complexity 
     I completed the creation of users and post and also fetching the created users and posts using swagger UI 
     I also configured settings for the project.
+
+Day 16:
+    Today i continue the blog project and added pagination.
+    I also added login and logout features using the access_token and refresh_token
+    I also added some other fetching methods for both users and posts tables 
+    I also designed token blacklisting schema and changed verification of token 
+    I also implemented token blacklisting to prevent unauthorized access 
+    I added author_name to the posts table 
+    Some changes in CRUD operation in both user and post to make it eaiser 
+
+
+
