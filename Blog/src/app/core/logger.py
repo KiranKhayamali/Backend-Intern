@@ -29,20 +29,6 @@ def file_log_filter_processors(_, __, event_dict: EventDict) -> EventDict:
     return event_dict
 
 
-def console_log_filter_processors(_, __, event_dict: EventDict) -> EventDict:
-    if not settings.CONSOLE_LOG_INCLUDE_REQUEST_ID:
-        event_dict.pop("request_id", None)
-    if not settings.CONSOLE_LOG_INCLUDE_PATH:
-        event_dict.pop("path", None)
-    if not settings.CONSOLE_LOG_INCLUDE_METHOD:
-        event_dict.pop("method", None)
-    if not settings.CONSOLE_LOG_INCLUDE_CLIENT_HOST:
-        event_dict.pop("client_host", None)
-    if not settings.CONSOLE_LOG_INCLUDE_STATUS_CODE:
-        event_dict.pop("status_code", None)
-    return event_dict
-        
-
 #shared processors for all loggers 
 timestamper = structlog.processors.TimeStamper(fmt="iso")
 SHARED_PROCESSORS: list[Processor] = [
@@ -75,8 +61,8 @@ def build_formatter(*, json_output:bool, pre_chain: list[Processor]) -> structlo
     return structlog.stdlib.ProcessorFormatter(foreign_pre_chain=pre_chain, processors=processors)
 
 
-#Setup log directory 
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
+#Setup log directory
+LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "logs")
 os.makedirs(LOG_DIR, exist_ok=True)
 
 
@@ -93,20 +79,10 @@ file_handler.setFormatter(
 )
 
 
-console_handler = logging.StreamHandler() 
-console_handler.setLevel(settings.CONSOLE_LOG_LEVEL)
-console_handler.setFormatter(
-    build_formatter(
-        json_output=settings.CONSOLE_LOG_FORMAT_JSON, pre_chain=SHARED_PROCESSORS + [console_log_filter_processors]
-    )
-)
-
-
 root_logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 root_logger.handlers.clear() #avoid duplicate logs 
 root_logger.addHandler(file_handler)
-root_logger.addHandler(console_handler)
 
 
 for logger_name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
@@ -114,3 +90,6 @@ for logger_name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
     logger.handlers.clear()
     logger.propagate = True
     logger.setLevel(logging.INFO)
+
+watchfiles_logger = logging.getLogger("watchfiles.main")
+watchfiles_logger.setLevel(logging.WARNING)
