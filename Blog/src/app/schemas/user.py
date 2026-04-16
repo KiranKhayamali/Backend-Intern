@@ -26,7 +26,6 @@ class UserRead(BaseModel):
 class UserCreate(UserBase):
     model_config = ConfigDict(extra="forbid") # raise error if extra fields are provided
 
-    is_admin: bool = False
     password: Annotated[str, Field(min_length=6, max_length=20, examples=["Password1", "MySecurePass123"])] 
 
 class UserCreateInternal(UserBase):
