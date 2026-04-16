@@ -1,0 +1,23 @@
+{"event": "Will watch for changes in these directories: ['C:\\\\Users\\\\kiran\\\\OneDrive\\\\Desktop\\\\Backend Intern\\\\Blog\\\\src']", "logger": "uvicorn.error", "level": "info", "message": "Will watch for changes in these directories: ['C:\\\\Users\\\\kiran\\\\OneDrive\\\\Desktop\\\\Backend Intern\\\\Blog\\\\src']", "timestamp": "2026-04-16T04:38:17.610212Z"}
+{"event": "Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)", "logger": "uvicorn.error", "level": "info", "message": "Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)", "timestamp": "2026-04-16T04:38:17.611210Z"}
+{"event": "Started reloader process [27280] using WatchFiles", "logger": "uvicorn.error", "level": "info", "message": "Started reloader process [27280] using WatchFiles", "timestamp": "2026-04-16T04:38:17.613419Z"}
+{"event": "Started server process [26416]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:38:19.515257Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:38:19.516260Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:38:19.612424Z"}
+{"status_code": 200, "duration_ms": 22.57, "event": "http_request_completed", "request_id": "b2abd0aa-9227-4b5e-83f4-408c4b29a0b8", "method": "GET", "client_host": "127.0.0.1", "path": "/users/me", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:38:56.386987Z"}
+{"event": "127.0.0.1:56468 - \"GET /users/me HTTP/1.1\" 200", "request_id": "b2abd0aa-9227-4b5e-83f4-408c4b29a0b8", "method": "GET", "client_host": "127.0.0.1", "path": "/users/me", "status_code": 200, "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:38:56.386987Z"}
+{"event": "WatchFiles detected changes in 'app\\core\\logger.py'. Reloading...", "logger": "uvicorn.error", "level": "warning", "message": "WatchFiles detected changes in 'app\\core\\logger.py'. Reloading...", "timestamp": "2026-04-16T04:39:54.778972Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:54.882446Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:54.992466Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:54.992466Z"}
+{"event": "Finished server process [26416]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:54.993734Z"}
+{"event": "Started server process [17004]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:57.182729Z"}
+{"event": "Waiting for application startup.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:57.183261Z"}
+{"event": "Application startup complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:39:57.274881Z"}
+{"status_code": 200, "duration_ms": 22.89, "event": "http_request_completed", "path": "/users/me", "request_id": "b7ad2870-210b-4acc-9b6d-46d0f7343e7a", "client_host": "127.0.0.1", "method": "GET", "logger": "src.app.middlewares.logger_middleware", "level": "info", "timestamp": "2026-04-16T04:40:19.940017Z"}
+{"event": "127.0.0.1:65496 - \"GET /users/me HTTP/1.1\" 200", "status_code": 200, "path": "/users/me", "request_id": "b7ad2870-210b-4acc-9b6d-46d0f7343e7a", "client_host": "127.0.0.1", "method": "GET", "logger": "uvicorn.access", "level": "info", "timestamp": "2026-04-16T04:40:19.941022Z"}
+{"event": "WatchFiles detected changes in 'app\\core\\config.py'. Reloading...", "logger": "uvicorn.error", "level": "warning", "message": "WatchFiles detected changes in 'app\\core\\config.py'. Reloading...", "timestamp": "2026-04-16T04:41:51.763348Z"}
+{"event": "Shutting down", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:41:51.785240Z"}
+{"event": "Waiting for application shutdown.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:41:51.891299Z"}
+{"event": "Application shutdown complete.", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:41:51.893309Z"}
+{"event": "Finished server process [17004]", "logger": "uvicorn.error", "level": "info", "timestamp": "2026-04-16T04:41:51.893309Z"}
