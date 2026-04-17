@@ -19,7 +19,7 @@ SessionDep = Annotated[AsyncSession, Depends(async_get_db)]
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: SessionDep):
     token_data = await verify_token(token, TokenType.ACCESS, db)
     if not token_data:
-        return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User not authenticated!!!")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User not authenticated!!!")
     
     if "@" in token_data.username_or_email:
         user = await crud_users.get(db=db, email=token_data.username_or_email, is_deleted=False)
@@ -27,7 +27,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         user = await crud_users.get(db=db, username=token_data.username_or_email, is_deleted=False)
 
     if not user:
-        return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found!!!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found!!!")
     
     return user
 
