@@ -7,7 +7,12 @@ from sqlalchemy.dialects.postgresql import UUID
 from uuid6 import uuid7
 import uuid as uuid_pkg
 from .posts import Post
+from typing import TYPE_CHECKING
 
+
+if TYPE_CHECKING:
+    from .comments import Comment
+    
 class User(Base):
     __tablename__ = "users"
 
@@ -18,6 +23,7 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String)
 
     posts: Mapped[list["Post"]] = relationship("Post", back_populates="author", init=False)
+    comments: Mapped[list["Comment"]] = relationship("Comment", back_populates="author", init=False)
     
     profile_picture: Mapped[str] = mapped_column(default="https://unsplash.com/photos/a-gorilla-sitting-on-the-ground-QGdmkyLK7jo")
     uuid: Mapped[uuid_pkg.UUID] = mapped_column(UUID(as_uuid=True), unique=True, default_factory=uuid7)
