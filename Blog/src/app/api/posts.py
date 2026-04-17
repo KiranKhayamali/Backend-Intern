@@ -4,12 +4,11 @@ from fastcrud import PaginatedListResponse, compute_offset, paginated_response
 from datetime import datetime, UTC
 
 from ..core.dependencies import SessionDep, get_current_active_user
-from ..core.db.session import async_get_db
-# from ..core.security import 
 from ..core.exceptions.http_exceptions import NotFoundException, ForbiddenException
-from ..schemas.post import PostRead, PostCreate, PostCreateInternal, PostUpdate, PostUpdateInternal, PostDelete
+from ..schemas.post import PostRead, PostCreate, PostCreateInternal, PostUpdate, PostUpdateInternal, PostReadWithComments
 from ..repositories.post_repository import crud_posts
 from ..repositories.user_repository import crud_users
+from ..repositories.comment_repository import crud_comments
 from ..schemas.user import UserRead
 
 
@@ -19,7 +18,7 @@ router = APIRouter(tags=["posts"])
 
 
 @router.get("/posts", response_model=PaginatedListResponse[PostRead])
-async def read_posts(request:Request, db: Annotated[SessionDep, Depends(async_get_db)], page: int = 1, items_per_page: int = 10) -> dict:
+async def read_posts(db: SessionDep, page: int = 1, items_per_page: int = 10) -> dict:
     posts_data = await crud_posts.get_multi(
         db=db,
         offset=compute_offset(page, items_per_page),
@@ -30,16 +29,25 @@ async def read_posts(request:Request, db: Annotated[SessionDep, Depends(async_ge
     response: dict[str, Any] = paginated_response(crud_data=posts_data,page=page, items_per_page=items_per_page)
     return response
 
-@router.get("/post/{post_id}", response_model=PostRead)
-async def read_post(post_id: int, db: Annotated[SessionDep, Depends(async_get_db)]):
-    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
+@router.get("/post/{post_id}", response_model=PostReadWithComments)
+async def read_post(post_id: int, db: SessionDep):
+    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostReadWithComments)
     if not db_post:
         raise NotFoundException("Post Not Found!!!")
+    
+    comments = await crud_comments.get(db=db, post_id=post_id)
+    if comments is None:
+        return None 
+    
+    comments.pop("updated_at")
+    comments.pop("deleted_at")
+    comments.pop("is_deleted")
+    db_post["comments"] = [comments]
     
     return db_post
 
 @router.get("/posts/{username}", response_model=PaginatedListResponse[PostRead])
-async def read_post_of_user(username: str, db:Annotated[SessionDep, Depends(async_get_db)], page: int =1, limit: int =10):
+async def read_post_of_user(username: str, db:SessionDep, page: int =1, limit: int =10):
     db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
     if not db_user:
         raise NotFoundException("User Not Found!!!")
@@ -49,9 +57,9 @@ async def read_post_of_user(username: str, db:Annotated[SessionDep, Depends(asyn
     return result
 
 
-@router.post("/posts/{username}", response_model=PostRead, status_code=201)
-async def create_post(username:str, post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
-    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+@router.post("/posts", response_model=PostRead, status_code=201)
+async def create_post(post: PostCreate, current_user: Annotated[SessionDep, Depends(get_current_active_user)], db: SessionDep) -> dict[str, Any]:
+    db_user = await crud_users.get(db=db, username=current_user["username"], is_deleted=False, schema_to_select=UserRead)
     if db_user is None:
         raise NotFoundException("User Not Found!")
     
@@ -71,9 +79,9 @@ async def create_post(username:str, post: PostCreate, current_user: Annotated[Se
     return created_post
 
 
-@router.put("/posts/{username}/{post_id}", response_model=PostRead, status_code=201)
-async def update_post(username:str, post_id:int, post:PostUpdate, current_user:Annotated[SessionDep, Depends(get_current_active_user)], db: Annotated[SessionDep, Depends(async_get_db)]) -> dict[str, Any]:
-    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+@router.put("/posts/{post_id}", response_model=PostRead, status_code=201)
+async def update_post(post_id:int, post:PostUpdate, current_user:Annotated[SessionDep, Depends(get_current_active_user)], db: SessionDep) -> dict[str, Any]:
+    db_user = await crud_users.get(db=db, username=current_user["username"], is_deleted=False, schema_to_select=UserRead)
     if not db_user:
         raise NotFoundException("User Not Found!!!")
     
@@ -81,7 +89,7 @@ async def update_post(username:str, post_id:int, post:PostUpdate, current_user:A
         raise ForbiddenException()
     
     db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
-    if username != db_post["author_name"]:
+    if current_user["username"] != db_post["author_name"]:
         raise ForbiddenException()
     
     post_internal_dict = post.model_dump(exclude_unset=True)
@@ -95,18 +103,19 @@ async def update_post(username:str, post_id:int, post:PostUpdate, current_user:A
     return updated_post
 
 
-@router.delete("/posts/{username}/{post_id}")
-async def delete_post(username:str, post_id:int, current_user: Annotated[dict, Depends(get_current_active_user)], db: SessionDep) -> dict[str, str]:
-    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+@router.delete("/posts/{post_id}")
+async def delete_post(post_id:int, current_user: Annotated[dict, Depends(get_current_active_user)], db: SessionDep) -> dict[str, str]:
+    db_user = await crud_users.get(db=db, username=current_user["username"], is_deleted=False, schema_to_select=UserRead)
     if not db_user:
         raise NotFoundException("User Not Found!!!")
 
-    if current_user["id"] != db_user["id"]:
-        raise ForbiddenException()
 
     db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostRead)
     if db_post is None:
         raise NotFoundException("Post Not Found!!!")
+    
+    if current_user["id"] != db_post["author_id"]:
+        raise ForbiddenException()
 
     await crud_posts.db_delete(db=db, id=post_id)
 
