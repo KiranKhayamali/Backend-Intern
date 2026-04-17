@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 from .app.core import logger as _logger_config
 from .app.core.db.session import async_engine
 from .app.models.base import Base
-from .app.api import users, posts, login, logout
+from .app.api import users, posts, login, logout, comments
 from .app.core.schemas import HealthCheck
 from .app.middlewares.logger_middleware import LoggerMiddleware
 
@@ -38,3 +38,4 @@ app.include_router(users.router)
 app.include_router(posts.router)
 app.include_router(login.router)
 app.include_router(logout.router)
+app.include_router(comments.router)
