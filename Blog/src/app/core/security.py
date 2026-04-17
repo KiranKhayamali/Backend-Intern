@@ -40,7 +40,7 @@ async def verify_password(plain_password: str, hashed_password: str) -> bool:
         checker: bool = passwword_hash.verify(plain_password, hashed_password)
         return checker
     except Exception:
-        raise False
+        return False
     
 def get_password_hash(password: str) -> str:
     hashed_password: str = passwword_hash.hash(password)
@@ -54,8 +54,9 @@ async def authenticate_user(db: SessionDep, username_or_email: str, password: st
 
     if not db_user:
         return False
-    
-    if not await verify_password(password, db_user["hashed_password"]):
+
+    password_valid = await verify_password(password, db_user["hashed_password"])
+    if not password_valid:
         return False
     
     return db_user
@@ -92,13 +93,13 @@ async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep)
         username_or_email:str | None = payload.get("sub")
         token_type:str | None= payload.get("token_type")
 
-        if username_or_email is None or token_type != expected_token_type:
-            raise None
+        if username_or_email is None or token_type != expected_token_type.value:
+            return None
         
         return TokenData(username_or_email=username_or_email)
     
     except JWTError:
-        raise None
+        return None
     
 
 async def blacklist_tokens(access_token:str, refresh_token:str, db: SessionDep) -> None:
