@@ -1,8 +1,9 @@
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
-from typing import Annotated
+from typing import Annotated, List
 from datetime import datetime
 
 from ..core.schemas import UUIDSchema, TimestampSchema, PersistentDeletion
+from .post import PostRead
 
 
 class UserBase(BaseModel):
@@ -23,6 +24,10 @@ class UserRead(BaseModel):
     email: Annotated[EmailStr, Field(examples=["user@example.com", "user.name@example.com"])] 
     profile_picture: Annotated[str, Field(examples=["https://unsplash.com/photos/a-gorilla-sitting-on-the-ground-QGdmkyLK7jo"], default=None)]
 
+
+class UserReadWithPost(UserRead):
+    posts: List[PostRead] = []
+
 class UserCreate(UserBase):
     model_config = ConfigDict(extra="forbid") # raise error if extra fields are provided
 
@@ -38,8 +43,11 @@ class UserUpdate(BaseModel):
     email: Annotated[EmailStr, Field(examples=["user@example.com", "user.name@example.com"], default=None)] 
     profile_picture: Annotated[str, Field(examples=["https://unsplash.com/photos/a-gorilla-sitting-on-the-ground-QGdmkyLK7jo"], default=None)]
     is_admin: bool = False
+    password: Annotated[str | None, Field(min_length=6, max_length=20, examples=["Password1", "MySecurePass123"], default=None)]
+    
 
 class UserUpdateInternal(UserUpdate):
+    hashed_password: str | None = None
     updated_at: datetime
 
 
