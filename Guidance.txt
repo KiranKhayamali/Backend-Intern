@@ -137,5 +137,10 @@ Day 16:
     Some changes in CRUD operation in both user and post to make it eaiser 
 
 Day 17:
-
+    Today, I completed all the functionalities of blog services(posts and users)
+    I also added logger to tracks the logs of the blog project(Currently turned off for better error debugging)
+    I also learned about Redis 
+    I also made the posts created by the user(author) delete itself while deleting the user
+    Also done some minor changes to fix runtime error (verify_password warning)
+    I also design comments models and schema (currently not integrated with the blog services)
 
