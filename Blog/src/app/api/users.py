@@ -84,7 +84,7 @@ async def create_user(request: Request, user: UserCreate, db: SessionDep) -> dic
     
     return created_user
 
-@router.put("/{username_or_email}", response_model=UserRead)
+@router.patch("/{username_or_email}", response_model=UserRead)
 async def update_user(username_or_email:str, user_update: UserUpdate, current_user: Annotated[UserRead, Depends(get_current_active_user)], db: SessionDep) -> dict[str, Any]:
     if "@" in username_or_email:
         db_user = await crud_users.get(db=db, email=username_or_email, is_deleted=False, schema_to_select=UserRead)
@@ -96,8 +96,21 @@ async def update_user(username_or_email:str, user_update: UserUpdate, current_us
 
     if current_user["id"] != db_user["id"]:
         raise ForbiddenException()
+
+    old_username = db_user["username"]
     
     user_update_dict = user_update.model_dump(exclude_unset=True)
+
+    if "email" in user_update_dict and user_update_dict["email"] != db_user["email"]:
+        email_row = await crud_users.exists(db=db, email=user_update_dict["email"])
+        if email_row:
+            raise DuplicateValueException("Email is already registered!!!")
+
+    if "username" in user_update_dict and user_update_dict["username"] != old_username:
+        username_row = await crud_users.exists(db=db, username=user_update_dict["username"])
+        if username_row:
+            raise DuplicateValueException("Username not available!!!")
+
     if "password" in user_update_dict:
         user_update_dict["hashed_password"] = get_password_hash(password=user_update_dict["password"])
         del user_update_dict["password"]
@@ -115,6 +128,15 @@ async def update_user(username_or_email:str, user_update: UserUpdate, current_us
 
     if updated_user is None:
         raise NotFoundException("Failed to update user!!!")
+
+    new_username = user_update_internal_dict.get("username")
+    if new_username and new_username != old_username:
+        await db.execute(
+            update(Post)
+            .where(Post.author_id == db_user["id"])
+            .values(author_name=new_username)
+            .values(updated_at=datetime.now(UTC))
+        )
 
     return updated_user
 
