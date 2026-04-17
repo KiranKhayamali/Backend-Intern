@@ -1,7 +1,8 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Annotated
-from ..core.schemas import TimestampSchema, PersistentDeletion, UUIDSchema
+from typing import Annotated, List, Optional
 from datetime import datetime
+from ..core.schemas import TimestampSchema, PersistentDeletion, UUIDSchema
+from .comment import CommentRead
 
 
 class PostBase(BaseModel):
@@ -12,6 +13,8 @@ class PostBase(BaseModel):
 class Post(PostBase, TimestampSchema, PersistentDeletion, UUIDSchema): 
     author_id: int 
 
+    comments: Optional[List[CommentRead]] = None
+
 
 class PostRead(BaseModel):
     id: int 
@@ -20,6 +23,10 @@ class PostRead(BaseModel):
     author_id: int 
     author_name: str
     created_at: datetime 
+
+
+class PostReadWithComments(PostRead):
+    comments: List[CommentRead] = []
 
 
 class PostCreate(PostBase):
