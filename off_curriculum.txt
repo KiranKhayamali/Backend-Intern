@@ -532,3 +532,55 @@ Redis
             AOF(Append Only File): Logs every write operation, providing stronger durability guarentees 
             RDB + AOF: Combines both methods for a balance of performance and data safety 
         This means our data is durable even though all reads are served from an in-memory copy, giving us both speed and reliability
+    Using Redis with FastAPI 
+        FastAPI is a python web framework based on the starlette microframework 
+        With deep support for asyncio, FastAPI is indeed very fast 
+        FastAPI als distinguishes itself with features like automatic OpeanAPI(OAS) documentation for our API, easy-to-use data validation tools, and more 
+        Of course, the best way to make our FastAPI service even faster is to use Redis 
+        Unlike most databases, Redis excels at low-latency access because it's an in-memory database
+    Why use Redis for time series data? 
+        Redis support time series data. Time series is a great way to model any data that we want to query over time.(ie ever-changing of stocks)
+
+    What is token-based authentication?
+        Token-based authentication is a pattern where the server issues a token after a user login 
+        The client sends that token as a bearer token with every subsequent request 
+        The server validates the token, identifies the user, and decides whether to allow the request 
+        The server needs a fast way to validate, rotate, and revoke token, That is where Redis fits, It stores the live token state so every request gets a sub-milliseconds lookup, and TTL handles cleanup automatically
+    Why use Redis for authentication token storage?
+        Redis is a strong fit when we need fast token lookup and instant revocation 
+        A database can store token state, but Redis gives us low-latency reads, built-in TTL-based expiration, and single command invalidation with DEL 
+    Authentication token storage with Redis (Tutorial follows bun and docker)
+        How does the app store tokens in Redis?
+            The application uses two key prefixes:
+                1. Key: token{uuid}     Value: The username that owns the token     TTL: TOKEN_TTL(default 3600sec)     Redis Command: SET ....... NX 
+                2. Key: users{username}     Value: JSON string with username, password hash, and created date   TTL: None   Redis Command: SET ...... EX 
+            Token validation is a single GET: 
+                Lookup tokens:{token} in Redis 
+                If the key exists, the value is the username - the token is valid 
+                If the key is missing, the token has either expired(TTL removed it) or been deleted(logout removed it). Return 401 
+            This is the core Redis pattern. Every token check is one GET with O(1) complexity, and Redis removes expired tokens automatically 
+        How does registration work?
+            POST /api/auth/register creates a new user account. The application hashes the password with Bun.password.hash() and stores the user data in Redis with SET .... NX 
+            The NX flag tells Redis to set the key only if it doesn't already exist. This prevents duplicate accounts atomically - no seperate "check then insert" step that could race 
+            Under the hood, Redis stores: 
+                SET users: kiran '{"username": "kiran", "passwordHash": "..........", "createdDate": "............"}' NX 
+        How does login work ?
+            POST /api/auth/login accepts a username and password. The application reads the user record from Redis with GET, verifies the password has with Bun.password.verify(), and generates a UUID token. It stores the token in Redis with SET ..... EX, so the token expires automatically after TOKEN_TTL seconds
+            Under the hood, Redis stores: 
+                SET tokens: <token> kiran EX 3600 
+            The client includes this token in all subsequent requests as Authorization.Bearer......
+        How does request validation work?
+            Every protected route runs throught the requireAuth middleware. The middleware: 
+                Extracts the bearer token from the Authorization header 
+                Calls GET tokens:{token} in Redis 
+                If the key exists, the value is the authenticated username. The request continues 
+                If the key is missing(expired or deleted), the middleware returns 401 
+        How does token refresh work?
+            POST /api/auth/refresh rotates the token. The middleware validates the current token, then the handler deletes the old key and creates a new one with a fresh TTL 
+            The steps: 
+                GET tokens:{old_token}  -> retrieve the username 
+                DEL tokens:{old_token}  -> remove the old token 
+                SET tokens:{new_token} username EX 3600     -> store the new token with a fresh TTL 
+        How does logout work?
+            POST /api/auth/logout dletes the token from Redis with a single DEL. The next request using that token get nil from GET and the middleware returns 401 
+            No revocation markers, no cleanup jobs. DEL removes the key immediately and the token is invalid from that moment forward
