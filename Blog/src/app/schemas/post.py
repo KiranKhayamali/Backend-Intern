@@ -22,6 +22,8 @@ class PostRead(BaseModel):
     content: str 
     author_id: int 
     author_name: str
+    number_of_comments: int
+    view_count: int
     created_at: datetime 
 
 
