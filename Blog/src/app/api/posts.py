@@ -1,6 +1,7 @@
 from typing import Annotated, Any
 from fastapi import APIRouter, Depends, Request
 from fastcrud import PaginatedListResponse, compute_offset, paginated_response
+from sqlalchemy import update
 from datetime import datetime, UTC
 
 from ..core.dependencies import SessionDep, get_current_active_user
@@ -10,8 +11,7 @@ from ..repositories.post_repository import crud_posts
 from ..repositories.user_repository import crud_users
 from ..repositories.comment_repository import crud_comments
 from ..schemas.user import UserRead
-
-
+from ..models.posts import Post
 
 
 router = APIRouter(tags=["posts"])
@@ -35,15 +35,20 @@ async def read_post(post_id: int, db: SessionDep):
     if not db_post:
         raise NotFoundException("Post Not Found!!!")
     
-    comments = await crud_comments.get(db=db, post_id=post_id)
-    if comments is None:
-        return None 
+    comments = await crud_comments.get_multi(db=db, post_id=post_id)
     
-    comments.pop("updated_at")
-    comments.pop("deleted_at")
-    comments.pop("is_deleted")
-    db_post["comments"] = [comments]
+    db_post["comments"] = comments["data"] or []
     
+    await db.execute(
+        update(Post)
+        .where(Post.id == post_id)
+        .values(
+            number_of_comments=len(db_post["comments"]),
+            view_count=Post.view_count + 1
+        )
+    )
+    await db.commit()
+
     return db_post
 
 @router.get("/posts/{username}", response_model=PaginatedListResponse[PostRead])
