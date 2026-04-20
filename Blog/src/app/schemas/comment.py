@@ -11,7 +11,6 @@ class CommentBase(BaseModel):
 class Comment(CommentBase, TimestampSchema, PersistentDeletion, UUIDSchema):
     author_id: int 
     post_id: int
-    # likes: int = 0
 
 
 class CommentRead(BaseModel):
