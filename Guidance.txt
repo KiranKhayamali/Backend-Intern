@@ -149,4 +149,13 @@ Day 18:
     The combined use of poetry and uv corrupted my virtual environment and had to manually install all the dependencies(i forgot to add a requirements.txt, now its there with latest installed dependencies)
     Also learned some use of redis in FastAPI and as authentication token storage
 
-
+Day 19: 
+    Today, I implemented number of comments and view count to the posts in the blog service 
+    I also continue learning about redis and authentication token storage usability 
+    I tried redis tutorial with bun and docker for the authentication token storage 
+    I also got knowledge on how i can implement redis to my blog service project 
+    I also learned about the difference between Redis session approach and JWT approach
+    I also learned about the TTL and session expiration strategies
+    I also learned about the token randomness and security while trying redis session approach
+    I also explore the medium.com-style backend architecture 
+    And i also got knowledge about how we can use both JWT and Redis session approach to make the system gain both stateless properties and more control
