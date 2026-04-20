@@ -144,3 +144,9 @@ Day 17:
     Also done some minor changes to fix runtime error (verify_password warning)
     I also design comments models and schema (currently not integrated with the blog services)
 
+Day 18:
+    Today, I integrated comments to the blog services 
+    The combined use of poetry and uv corrupted my virtual environment and had to manually install all the dependencies(i forgot to add a requirements.txt, now its there with latest installed dependencies)
+    Also learned some use of redis in FastAPI and as authentication token storage
+
+
