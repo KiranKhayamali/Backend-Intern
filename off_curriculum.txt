@@ -814,4 +814,113 @@ Implementation of Redis in the blog service
                     Stateless microservices
                     High-scalable distributed systems 
                 JWT is better for stateless scalability, but Redis sessions are better when we need strong control over session lifecycle, such as instant revocation and multi-device session management. My choice depends on whether control or scalability is the priority.
-    
+    Using Both JWT and Redis session 
+        The common hybrid architecture 
+            Don't think: Redis Vs JWT 
+            Think: JWT for identity + Redis for control 
+            That's the hybrid model used in many production systems 
+            Flow: 
+                User logs in 
+                Server issues 
+                    Access token (JWT) -> short-lived 
+                    Refresh token (stored in Redis) -> long-lived 
+            Why does this works?
+                JWT (access token) 
+                    Fast 
+                    No Redis lookup per request 
+                    Used on every API call 
+                Redis (refresh/session layer) 
+                    Controls session lifecycle 
+                    Enables logout, revocation, device tracking 
+        What each component does?
+            JWT (stateless layer) 
+                contains 
+                    {
+                        "user_id": 123, 
+                        "role": "author",
+                        "exp": .........
+                    }
+                used for: 
+                    authenticating requests 
+                    authorizing actions 
+            Redis (stateful layer) 
+                Stores: 
+                    auth:refresh:{token} -> user_id 
+                used for:
+                    issuing new JWT 
+                    revoking sessions 
+                    tracking devices 
+        Request lifecycle (important to understand deeply)
+            Normal request 
+                Client sends JWT 
+                FastAPI verifies signature 
+                If valid -> allow request 
+                (X) No Redis call needed 
+            Token expired 
+                Client sends refresh token 
+                Server checks Redis: 
+                    await redis.get(f"auth:session:{token}")
+                if valid :
+                    issue new JWT 
+                if not: 
+                    Force login 
+            Logout 
+                await redis.delete(f"auth:session:{token}")
+                user can't refresh anymore 
+                session is effectively dead 
+        Why this is better than pure approaches 
+            Vs pure JWT 
+                problems with JWT-only: 
+                    can't revoke tokens 
+                    compromised tokens remains valid 
+                Hybrid fixes this 
+            Vs pure Redis sessions 
+                problems with Redis-only: 
+                    Redis hit on every request 
+                    Higher latency 
+                    Hybrid avoids this 
+        Optional upgrade : store JWT IDs in Redis (advanced) 
+            We can also add: 
+                {
+                    "jti": "unique-token-id"
+                }
+            Then in Redis 
+                blacklist:{jti}
+            This allows:
+                immediate JWT invalidation (rare but powerful) 
+        FastAPI structure for hybrid authentication 
+            Login endpoint 
+                generate jwt 
+                generate refresh token 
+                store refresh token in Redis 
+            Dependency for JWT validation 
+                def get_current_user(token: str = Depends(oauth2_scheme))"
+                    payload = verify_jwt(token) 
+                    return payload 
+            Refresh endpoint 
+                @app.post("/refresh") 
+                async def refresh_token(refresh_token: str): 
+                    data = await redis.get(f"auth:session:{token}")
+                    if not data: 
+                        raise HTTPException(401)
+                    return create_new_jwt(data)
+        When should we use hybrid 
+            Use this in our blog system if we have: 
+                user accounts(authors, admins) 
+                need logout from all devices 
+                want secure long sessions 
+                want scalable API performance 
+        When NOT to use hybrid 
+            Don't over-engineer if: 
+                Simple blog with basic login 
+                No security requirements 
+                No multi-device sessions 
+            Then: Just JWT is enough 
+        Senior-level insight 
+            I use JWT for request-level authentication to keep the system stateless and fast, and Redis for refresh token storage to maintain control over session lifecycle. This hybrid approach gives me both scalability and revocation capability.
+        Subtle but important warning 
+            If we say: "I stored JWT in Redis and validate it every time" 
+            Then, that's a design mistake 
+            At this point, we've :
+                lost stateless benefit 
+                Added unneccesary complexity 
