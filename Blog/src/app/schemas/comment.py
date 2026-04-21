@@ -5,21 +5,21 @@ from datetime import datetime
 
 
 class CommentBase(BaseModel):
-    content:Annotated[str, Field(min_length=1, max_length=500)]
+    content: Annotated[str, Field(min_length=1, max_length=500)]
 
 
 class Comment(CommentBase, TimestampSchema, PersistentDeletion, UUIDSchema):
-    author_id: int 
+    author_id: int
     post_id: int
 
 
 class CommentRead(BaseModel):
-    id: int 
-    content: str 
-    author_id: int 
+    id: int
+    content: str
+    author_id: int
     post_id: int
-    author_name:str 
-    post_title:str
+    author_name: str
+    post_title: str
     # likes: int = 0
     created_at: datetime
 
@@ -29,10 +29,10 @@ class CommentCreate(CommentBase):
 
 
 class CommentCreateInternal(CommentBase):
-    author_id: int 
+    author_id: int
     post_id: int
-    author_name:str 
-    post_title:str
+    author_name: str
+    post_title: str
 
 
 class CommentUpdate(BaseModel):
@@ -50,4 +50,3 @@ class CommentDelete(BaseModel):
 
     is_deleted: bool = True
     deleted_at: datetime
-
