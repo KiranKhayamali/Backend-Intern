@@ -1,11 +1,13 @@
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
+
+from fastapi import FastAPI
+
 from .app.core import logger as _logger_config
+from .app.core.schemas import HealthCheck
 from .app.core.db.session import async_engine
 from .app.models.base import Base
 from .app.api import users, posts, login, logout, comments
-from .app.core.schemas import HealthCheck
 from .app.middlewares.logger_middleware import LoggerMiddleware
 
 
@@ -19,6 +21,14 @@ async def database_lifespan(app: FastAPI):
 
     print("App is Shutting Down........")
 
+
+# NOTE: Currently unused. If importing this file should trigger logger setup side effects,
+# keep this import; otherwise it can be safely removed.
+_ = _logger_config
+
+# NOTE: Currently unused because middleware registration is commented out below.
+_ = LoggerMiddleware
+
 app = FastAPI(lifespan=database_lifespan)
 
 
@@ -28,11 +38,11 @@ def root():
         status="OK",
         environment="Development",
         version="1.0.0",
-        timestamp=datetime.now(UTC).isoformat()
+        timestamp=datetime.now(UTC).isoformat(),
     )
 
 
-# app.add_middleware(LoggerMiddleware)
+app.add_middleware(LoggerMiddleware)
 
 app.include_router(users.router)
 app.include_router(posts.router)
