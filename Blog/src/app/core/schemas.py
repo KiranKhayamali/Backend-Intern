@@ -18,7 +18,9 @@ class UUIDSchema(BaseModel):
 
 
 class TimestampSchema(BaseModel):
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None)
+    )
     updated_at: datetime | None = Field(default=None)
 
     @field_serializer("created_at")
@@ -29,12 +31,15 @@ class TimestampSchema(BaseModel):
         return None
 
     @field_serializer("updated_at")
-    def serialize_updated_at(self, updated_at: datetime | None, _info: Any) -> str | None:
+    def serialize_updated_at(
+        self, updated_at: datetime | None, _info: Any
+    ) -> str | None:
         if updated_at is not None:
             return updated_at.isoformat()
 
         return None
-    
+
+
 class PersistentDeletion(BaseModel):
     deleted_at: datetime | None = Field(default=None)
     is_deleted: bool = False
@@ -54,20 +59,3 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username_or_email: str
-
-
-class TokenBlacklistBase(BaseModel):
-    token: str
-    expires_at: datetime
-
-
-class TokenBlacklistRead(TokenBlacklistBase):
-    id: int
-
-
-class TokenBlacklistCreate(TokenBlacklistBase):
-    pass
-
-
-class TokenBlacklistUpdate(TokenBlacklistBase):
-    pass
