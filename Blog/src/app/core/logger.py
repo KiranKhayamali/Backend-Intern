@@ -1,8 +1,8 @@
 import logging
-import os 
+import os
 from logging.handlers import RotatingFileHandler
 
-import structlog 
+import structlog
 from structlog.dev import ConsoleRenderer
 from structlog.processors import JSONRenderer
 from structlog.types import EventDict, Processor
@@ -29,7 +29,7 @@ def file_log_filter_processors(_, __, event_dict: EventDict) -> EventDict:
     return event_dict
 
 
-#shared processors for all loggers 
+# shared processors for all loggers
 timestamper = structlog.processors.TimeStamper(fmt="iso")
 SHARED_PROCESSORS: list[Processor] = [
     structlog.contextvars.merge_contextvars,
@@ -39,49 +39,57 @@ SHARED_PROCESSORS: list[Processor] = [
     structlog.stdlib.ExtraAdder(),
     drop_color_message_key,
     timestamper,
-    structlog.processors.StackInfoRenderer()
+    structlog.processors.StackInfoRenderer(),
 ]
 
 
 structlog.configure(
-    processors=SHARED_PROCESSORS + [structlog.stdlib.ProcessorFormatter.wrap_for_formatter],
+    processors=SHARED_PROCESSORS
+    + [structlog.stdlib.ProcessorFormatter.wrap_for_formatter],
     logger_factory=structlog.stdlib.LoggerFactory(),
-    cache_logger_on_first_use=True
+    cache_logger_on_first_use=True,
 )
 
 
-def build_formatter(*, json_output:bool, pre_chain: list[Processor]) -> structlog.stdlib.ProcessorFormatter:
-    renderer = JSONRenderer() if json_output else ConsoleRenderer() 
+def build_formatter(
+    *, json_output: bool, pre_chain: list[Processor]
+) -> structlog.stdlib.ProcessorFormatter:
+    renderer = JSONRenderer() if json_output else ConsoleRenderer()
 
     processors = [structlog.stdlib.ProcessorFormatter.remove_processors_meta, renderer]
 
     if json_output:
         pre_chain = pre_chain + [structlog.processors.format_exc_info]
-    
-    return structlog.stdlib.ProcessorFormatter(foreign_pre_chain=pre_chain, processors=processors)
+
+    return structlog.stdlib.ProcessorFormatter(
+        foreign_pre_chain=pre_chain, processors=processors
+    )
 
 
-#Setup log directory
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "logs")
+# Setup log directory
+LOG_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "logs"
+)
 os.makedirs(LOG_DIR, exist_ok=True)
 
 
 file_handler = RotatingFileHandler(
     filename=os.path.join(LOG_DIR, "app.log"),
     maxBytes=settings.FILE_LOG_MAX_BYTES,
-    backupCount=settings.FILE_LOG_BACKUP_COUNT
+    backupCount=settings.FILE_LOG_BACKUP_COUNT,
 )
 file_handler.setLevel(settings.FILE_LOG_LEVEL)
 file_handler.setFormatter(
     build_formatter(
-        json_output=settings.FILE_LOG_FORMAT_JSON, pre_chain=SHARED_PROCESSORS + [file_log_filter_processors]
+        json_output=settings.FILE_LOG_FORMAT_JSON,
+        pre_chain=SHARED_PROCESSORS + [file_log_filter_processors],
     )
 )
 
 
 root_logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
-root_logger.handlers.clear() #avoid duplicate logs 
+root_logger.handlers.clear()  # avoid duplicate logs
 root_logger.addHandler(file_handler)
 
 
