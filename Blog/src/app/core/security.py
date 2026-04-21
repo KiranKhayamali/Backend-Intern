@@ -25,7 +25,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES: int = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 REFRESH_TOKEN_EXPIRE_DAYS: int = settings.REFRESH_TOKEN_EXPIRE_DAYS
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/auth/login")
 
 passwword_hash = PasswordHash.recommended()
 
@@ -62,7 +62,6 @@ async def authenticate_user(db: SessionDep, username_or_email: str, password: st
     return db_user
 
 
-
 async def create_access_token(data: dict, expires_delta: timedelta | None = None)-> str:
     to_encode = data.copy()
     if expires_delta:
@@ -73,6 +72,7 @@ async def create_access_token(data: dict, expires_delta: timedelta | None = None
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY.get_secret_value(), algorithm=ALGORITHM)
     return encoded_jwt
 
+
 async def create_refresh_token(data:dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
     if expires_delta:
@@ -82,6 +82,7 @@ async def create_refresh_token(data:dict, expires_delta: timedelta | None = None
     to_encode.update({"exp": expire, "token_type": TokenType.REFRESH})
     enocoded_jwt = jwt.encode(to_encode, SECRET_KEY.get_secret_value(), algorithm=ALGORITHM)
     return enocoded_jwt
+
 
 async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep) -> TokenData | None:
     is_blacklisted = await crud_token_blacklist.exists(db, token=token)
@@ -102,13 +103,16 @@ async def verify_token(token:str, expected_token_type: TokenType, db:SessionDep)
         return None
     
 
-async def blacklist_tokens(access_token:str, refresh_token:str, db: SessionDep) -> None:
-    for token in [access_token, refresh_token]:
-        payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM])
-        exp_timestamp = payload.get("exp")
-        if exp_timestamp is not None:
-            expires_at = datetime.fromtimestamp(exp_timestamp)
-            await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=token, expires_at=expires_at))
+async def blacklist_tokens(access_token:str, db: SessionDep) -> None:
+    if not access_token or access_token.count(".") != 2:
+        raise ValueError("Invalid JWT format")
+
+    payload = jwt.decode(access_token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM])
+    exp_timestamp = payload.get("exp")
+    if exp_timestamp is not None:
+        expires_at = datetime.fromtimestamp(exp_timestamp)
+        await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=access_token, expires_at=expires_at))
+
 
 async def blacklist_token(token:str, db: SessionDep) -> None:
     payload = jwt.decode(token, SECRET_KEY.get_secret_value(), algorithms=[ALGORITHM])
@@ -118,4 +122,3 @@ async def blacklist_token(token:str, db: SessionDep) -> None:
         await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=token, expires_at=expires_at))
 
 
-        
