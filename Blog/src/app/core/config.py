@@ -42,21 +42,25 @@ class PostgresSettings(DatabaseSettings):
         return f"{credentials}@{location}"
     
 
-# class FileLoggerSettings(DatabaseSettings):
-#     FILE_LOG_MAX_BYTES: int = 10 * 1024 * 1024 
-#     FILE_LOG_BACKUP_COUNT: int = 5 
-#     FILE_LOG_FORMAT_JSON: bool = True 
-#     FILE_LOG_LEVEL: str = "INFO"
+class FileLoggerSettings(DatabaseSettings):
+    FILE_LOG_MAX_BYTES: int = 10 * 1024 * 1024 
+    FILE_LOG_BACKUP_COUNT: int = 5 
+    FILE_LOG_FORMAT_JSON: bool = True 
+    FILE_LOG_LEVEL: str = "INFO"
 
-#     FILE_LOG_INCLUDE_REQUEST_ID: bool = True 
-#     FILE_LOG_INCLUDE_PATH: bool = True 
-#     FILE_LOG_INCLUDE_METHOD: bool = True 
-#     FILE_LOG_INCLUDE_CLIENT_HOST: bool = True 
-#     FILE_LOG_INCLUDE_STATUS_CODE: bool = True 
+    FILE_LOG_INCLUDE_REQUEST_ID: bool = True 
+    FILE_LOG_INCLUDE_PATH: bool = True 
+    FILE_LOG_INCLUDE_METHOD: bool = True 
+    FILE_LOG_INCLUDE_CLIENT_HOST: bool = True 
+    FILE_LOG_INCLUDE_STATUS_CODE: bool = True 
 
 
-# class Settings(AppSettings, CryptSetting, PostgresSettings, FileLoggerSettings):
-class Settings(AppSettings, CryptSetting, PostgresSettings):
+class RedisSettings(DatabaseSettings):
+    REDIS_HOST: str = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT: int = int(os.getenv("REDIS_PORT", 6379))
+
+
+class Settings(AppSettings, CryptSetting, PostgresSettings,FileLoggerSettings, RedisSettings):
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", ".env"),
         env_file_encoding="utf-8",
