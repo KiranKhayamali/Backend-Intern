@@ -1,5 +1,5 @@
 from typing import Annotated, Any
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from fastcrud import PaginatedListResponse, compute_offset, paginated_response
 from sqlalchemy import update
 from datetime import datetime, UTC
@@ -18,7 +18,11 @@ router = APIRouter(tags=["posts"])
 
 
 @router.get("/posts", response_model=PaginatedListResponse[PostRead])
-async def read_posts(db: SessionDep, page: int = 1, items_per_page: int = 10) -> dict:
+async def read_posts(
+    db: SessionDep, 
+    page: int = 1, 
+    items_per_page: int = 10
+) -> dict:
     posts_data = await crud_posts.get_multi(
         db=db,
         offset=compute_offset(page, items_per_page),
@@ -26,16 +30,31 @@ async def read_posts(db: SessionDep, page: int = 1, items_per_page: int = 10) ->
         is_deleted=False
     )
 
-    response: dict[str, Any] = paginated_response(crud_data=posts_data,page=page, items_per_page=items_per_page)
+    response: dict[str, Any] = paginated_response(
+        crud_data=posts_data,
+        page=page, 
+        items_per_page=items_per_page
+    )
     return response
 
 @router.get("/post/{post_id}", response_model=PostReadWithComments)
-async def read_post(post_id: int, db: SessionDep):
-    db_post = await crud_posts.get(db=db, id=post_id, is_deleted=False, schema_to_select=PostReadWithComments)
+async def read_post(
+    post_id: int, 
+    db: SessionDep
+) -> dict[str, Any]:
+    db_post = await crud_posts.get(
+        db=db, 
+        id=post_id, 
+        is_deleted=False, 
+        schema_to_select=PostReadWithComments
+    )
     if not db_post:
         raise NotFoundException("Post Not Found!!!")
     
-    comments = await crud_comments.get_multi(db=db, post_id=post_id)
+    comments = await crud_comments.get_multi(
+        db=db, 
+        post_id=post_id
+    )
     
     db_post["comments"] = comments["data"] or []
     
@@ -52,8 +71,18 @@ async def read_post(post_id: int, db: SessionDep):
     return db_post
 
 @router.get("/posts/{username}", response_model=PaginatedListResponse[PostRead])
-async def read_post_of_user(username: str, db:SessionDep, page: int =1, limit: int =10):
-    db_user = await crud_users.get(db=db, username=username, is_deleted=False, schema_to_select=UserRead)
+async def read_post_of_user(
+    username: str, 
+    db:SessionDep, 
+    page: int = 1, 
+    limit: int = 10
+) -> dict[str, Any]:
+    db_user = await crud_users.get(
+        db=db, 
+        username=username, 
+        is_deleted=False, 
+        schema_to_select=UserRead
+    )
     if not db_user:
         raise NotFoundException("User Not Found!!!")
     
