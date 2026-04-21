@@ -1,12 +1,13 @@
 from typing import Annotated
-from datetime import datetime, timedelta 
+from datetime import UTC, datetime, timedelta 
+import secrets
 
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 
 from ..core.dependencies import SessionDep
 from ..core.config import settings
-from ..core.db.session import async_get_db
+from ..core.db.redis_connect import redis_client 
 from ..core.exceptions.http_exceptions import UnauthorizedException
 from ..core.schemas import Token
 from ..core.security import (
@@ -19,7 +20,7 @@ from ..core.security import (
 )
 
 
-router = APIRouter(tags=["login"], prefix="/users")
+router = APIRouter(tags=["login"], prefix="/users/auth")
 
 
 @router.post("/login", response_model=Token)
@@ -28,31 +29,92 @@ async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: SessionDep
 ):
-    user = await authenticate_user(username_or_email=form_data.username, password=form_data.password, db=db)
+    user = await authenticate_user(
+        username_or_email=form_data.username,
+        password=form_data.password,
+        db=db
+    )
     if not user:
         raise UnauthorizedException("Wrong Username, Wrong Password!!!")
     
     access_token_expires =  timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = await create_access_token(data={"sub": user["username"]},expires_delta=access_token_expires)
+    access_token = await create_access_token(
+        data={"sub": user["username"]},
+        expires_delta=access_token_expires
+    )
 
-    refresh_token = await create_refresh_token(data={"sub": user["username"]})
-    max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
+    # Created Refresh Token using pure JWT and storing in cookies
+    # refresh_token = await create_refresh_token(data={"sub": user["username"]})
+    # max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
+
+    # response.set_cookie(
+    #     key="refresh_token", value=refresh_token, httponly=True, secure=True, samesite="lax", max_age=max_age
+    # )
+
+    # Created Refresh Token using Redis to store the refresh tokens
+    refresh_token = secrets.token_urlsafe(32)
+    refresh_key = f"auth:refresh:{refresh_token}"
+    redis_client.hset(
+        refresh_key,
+        mapping={
+            "username": user["username"],
+            "expires_at": (
+                datetime.now(UTC) + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+            ).isoformat()
+        }
+    )
 
     response.set_cookie(
-        key="refresh_token", value=refresh_token, httponly=True, secure=True, samesite="lax", max_age=max_age
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=False, # True in production with HTTPS
+        samesite="lax",
+        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
+    )
+
+    redis_client.expire(
+        refresh_key,
+        settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
 
+
+# Refresh Token using cookies and pure JWT without using Redis
+# @router.post("/refresh")
+# async def refresh_access_token(request:Request, db: SessionDep) -> dict[str, str]:
+#     refresh_token = request.cookies.get("refresh_token")
+#     if not refresh_token:
+#         raise UnauthorizedException("Refresh Token misssing!!!")
+    
+#     user_data = await verify_token(refresh_token, TokenType.REFRESH, db)
+#     if not user_data:
+#         raise UnauthorizedException("Invalid Refresh Token!!!")
+    
+#     new_access_token = await create_access_token(data={"sub": user_data.username_or_email})
+#     return {"access_token_from_refresh_token": new_access_token, "token_type": "bearer"}
+
+
+# Refresh Token using Redis to store the refresh tokens
 @router.post("/refresh")
-async def refresh_access_token(request:Request, db: SessionDep) -> dict[str, str]:
+async def refresh_access_token(request: Request) -> dict[str, str]:
     refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
         raise UnauthorizedException("Refresh Token misssing!!!")
     
-    user_data = await verify_token(refresh_token, TokenType.REFRESH, db)
+    refresh_key = f"auth:refresh:{refresh_token}"
+    user_data = redis_client.hgetall(refresh_key)
     if not user_data:
         raise UnauthorizedException("Invalid Refresh Token!!!")
     
-    new_access_token = await create_access_token(data={"sub": user_data.username_or_email})
-    return {"access_token_from_refresh_token": new_access_token, "token_type": "bearer"}
+    username = user_data.get("username")
+    if not username:
+        raise UnauthorizedException("Corrupted Refresh Token data!!!")
+    
+    new_access_token = await create_access_token(data={"sub": username})
+    return {
+        "access_token_from_refresh_token": new_access_token,
+        "token_type": "bearer"
+    }
+
