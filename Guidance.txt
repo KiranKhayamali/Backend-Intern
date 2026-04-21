@@ -159,3 +159,13 @@ Day 19:
     I also learned about the token randomness and security while trying redis session approach
     I also explore the medium.com-style backend architecture 
     And i also got knowledge about how we can use both JWT and Redis session approach to make the system gain both stateless properties and more control
+
+Day 20: 
+    Today, I completed my blog services project by adding redis as refresh token storage and formatting all the codes to make it consistent and cleaner 
+    I continue to learn about redis
+        I learned to connect redis to the server 
+        I also learned and tried various data operations in redis 
+        I also learned and tried the 4 core usages of redis(Store, Expire, Cache, Invalidate)
+    I also removed blacklisting from the blog services project which added unnecessary complexity to the project
+    I also restated the logger features to track the logs of the project
+    I also explore various ai agents
