@@ -169,3 +169,13 @@ Day 20:
     I also removed blacklisting from the blog services project which added unnecessary complexity to the project
     I also restated the logger features to track the logs of the project
     I also explore various ai agents
+
+Day 21: 
+    Today, I learned about GraphQL
+    I learned why GraphQL is better than REST 
+    I also learned the core concepts of GraphQL(SDL, Queries, Mutations, Subscriptions, Schema)
+    I also learned about the architecture of GraphQL(3 use cases, and resolver functions)
+    I also learned about the client and server side operations in GraphQL
+    I also learned about more GraphQL concepts(Fragments, Arguments, Aliases, Advanced SDL) 
+    I also learned about Tooling and Ecosystems(Introspection)
+    I also learned about the security concepts for GraphQL.
