@@ -2778,4 +2778,40 @@ Implementation of Redis in the blog service
                     "age": 23
                 })  #True
                 redis_client.hgetall("user-session-123")
-    
+    Learning Redis from chatgpt 
+        Step 1: Get a single Redis instance running 
+            Since we're on windows, the cleanest way is Docker 
+                docker run -d -p 6380:6379 redis 
+            6380 port is used to avoid port conflict problem 
+        Step 2: Connect from Python 
+            import redis 
+            redis_client = redis.Redis(host-'localhost', port=6380, decode_response=True)
+            print(redis_client.ping())   #should return True 
+        Step 3: Learn the core Redis data types 
+            Strings (Most basic) 
+                redis_client.set("name", "Kiran")
+                print(redis_client.get("name"))
+            Hashes 
+                redis_client.hset("user:1", mapping={
+                    "username": "Ashura",
+                    "email": "kirankhayamali09@gmail.com"
+                })
+                print(redis_client.hgetall("user:1"))
+            Lists 
+                redis_client.rpush("tasks", "task1", "task2")
+                print(redis_client.lrange("tasks", 0, -1))
+            Sets 
+                redis_client.sadd("tags", "python", "redis")
+                print(redis_client.smembers("tags))
+        Things we should NOT worry about yet 
+            Avoid theses for now: 
+                Redis cluster 
+                sharding 
+                Pub/Sub (later)
+                Streams (later)
+            These are advanced topics 
+        Mental model 
+            Think of Redis as: 
+                A super-fast dictionary(key-value store) in memory
+            Example: 
+                "user:1" -> {"username": "Ashura"}
