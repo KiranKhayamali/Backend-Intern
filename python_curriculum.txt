@@ -2893,3 +2893,106 @@ Implementation of Redis in the blog service
             Cache = "Can I avoid recomputing this"
             Expiration = "When should this disappear automatically"
             Invalidation = "How do I handle changes"
+
+Introduction to GraphQL 
+    GraphQL is a query language for our APIs, and a server-side runtime for executing queries using a type system we define for our data 
+    GraphQL isn't tied to any specific database or storage engine - It is backed by our existing code and data 
+    Schemas and Types 
+        The GraphQL type system describes what data can be queried from the API 
+        The collection of those capabilities is referred as the service's schema and clients use that schema to send queries to the API that return predictable results 
+        String is one of the built-in scalar types. These are types that resolve to a single scalar value and can't have sub-selections in the query 
+        String! means that the field is a Non-Null type meaning GraphQL service promises to give us a value whenever we query this field. In SDL, we represent those with an exclamation mark 
+        Example: 
+            type Character {
+                id: ID! 
+                name: String!
+                height(unit: HeightUnit = METER) : Float 
+            }
+    The Query, Mutation and Subscription types 
+        Every GraphQL schema must support query operations 
+        The entry point for this root operation type is a regular object type called Query by default 
+            SDL                                 Operation                               Response 
+            type Query{                         {                                       {
+                droid(id:ID!): Droid                droid(id:"1234"){                       "data":{
+            }                                           name                                    "droid":{
+                                                    }                                               "name": "......."
+                                                }                                               }
+                                                                                            }
+                                                                                        }
+    Enum types 
+        Enum types, also know as enumeration types are a special kind of scalar that is restricted to a particular set of allow values 
+        This allows us to: 
+            Validate that any arguments of this type ar one of the allowed values 
+            Communicate through the type system that a field will always be one of a finite set of values 
+        Here's what an Enum type definition looks like in SDL: 
+            enum Department{
+                Architecture
+                Civil 
+                Computer 
+                Electronics
+            }
+            This means that wherever we use the type Department in our schema, we expect it to be exactly one of Architecture, Civil, Computer, Electronics
+    Interface Types 
+        Like many type streams, GraphQL support abstract types 
+        It defines a certain set of fields that a concrete objects type or other interface type must also includ to implement it 
+    Union Types 
+        GraphQL supports a second abstract type called a union type 
+        Union types share similarities with interface types, but they cannot define any shared fields among the constituent types 
+        A union types is defined by indirecting its member object types 
+            union SearchResult = Human/ Droid/ Starship 
+        Wherever we return a SearchResult type in our schema, we might get a Human, a Droid, or a Starship 
+    Queries 
+        Fields 
+            At its simplest, GraphQL is about asking to specific fields on objects 
+    
+    GraphQL is better than REST 
+        Data Fetching with REST Vs GraphQL
+        No more Over and Under fetching 
+            Overfetching: Downloading superfluous data 
+            Underfetching and the n+1 problem 
+        Rapid Product Iterations on the Frontend 
+        Insightful Analytics on the Backend 
+    Core Concepts 
+        The Schema Definition Language(SDL)
+        Fetching Data with Queries 
+            Basic Queries 
+            Queries with Arguments 
+        Writing Data with Mutations 
+        Realtime Update with Subscriptions 
+        Defining a Schema 
+    Big Picture (Architecture)
+        Use case: 
+            GraphQL server with a connected database
+            GraphQL layer that integrates existing systems 
+            Hybrid approach with connected database and integration of existing system 
+        Resolver Functions 
+        GraphQL Client libaries
+    Clients 
+        Send Queries and Mutations Directly 
+        View layer Integrations and UI updates 
+        Caching Query Results: Concepts and Strategies 
+        Build-time Schema Validation and Optimization 
+        Colocating views and Data Dependencies
+    Server 
+        GraphQL execution 
+        Batch Resolving 
+    More GraphQL Concepts 
+        Enhancing Reusability with Fragments 
+        Parameterizing Fields with Arguments 
+        Named Query Results with Aliases 
+        Advanced SDL 
+            Object and Scalar Types 
+            Enums 
+            Interface 
+            Union 
+    Tooling and Ecosystem 
+        Introspection 
+        GraphQL playground, Prisma Pulse and Prisma Accelerate 
+    Security 
+        Timeout 
+        Maximum Query Depth 
+        Query Complexity
+        Throttling 
+            Throttling Based on Server Time 
+            Throttling Based on Query Complexity
+    
