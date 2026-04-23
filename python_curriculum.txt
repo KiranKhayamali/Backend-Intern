@@ -2759,3 +2759,23 @@ Implementation of Redis in the blog service
             At this point, we've :
                 lost stateless benefit 
                 Added unneccesary complexity 
+
+    Connect to the server 
+        Basic connection 
+            redis_client = redis.Redis(host='localhost', port=6379, decode_response=True) 
+            connect to localhost on port 6379
+            set a value in Redis, and retrieve it 
+            All responses are returned as bytes in python 
+            To receive decoded strings, set decode_response = True
+            store and retrieve a simple string 
+                redis_client.set("username", "Kiran")
+                redis_client.get("username")
+            store and retrieve a dict 
+                redis_client.hset("user-session-123", mapping={
+                    "name": "Kiran",
+                    "surname": "Khayamali",
+                    "email": "kirankhayamali@gmail.com",
+                    "age": 23
+                })  #True
+                redis_client.hgetall("user-session-123")
+    
