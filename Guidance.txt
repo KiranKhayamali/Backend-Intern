@@ -179,3 +179,10 @@ Day 21:
     I also learned about more GraphQL concepts(Fragments, Arguments, Aliases, Advanced SDL) 
     I also learned about Tooling and Ecosystems(Introspection)
     I also learned about the security concepts for GraphQL.
+
+Day 22: 
+    Today I went off track with the learning and learn my choice(AWS)
+    I relearned AI, ML, DL, and GenAI 
+    I also got to know about the infrastructure and Technologies of AWS 
+    I also learned about the responsible AI 
+    
