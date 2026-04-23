@@ -2815,3 +2815,81 @@ Implementation of Redis in the blog service
                 A super-fast dictionary(key-value store) in memory
             Example: 
                 "user:1" -> {"username": "Ashura"}
+
+    Core use cases of Redis 
+        How do we store a session ?
+            A session is just user-specific data keyed by a unique ID 
+                session_id = "session:123" 
+                redis_client.set(session_id, json.dumps({
+                    "user_id": 16,
+                    "role": "admin"
+                }))
+            In practice: 
+                Key pattern: session:<id>
+                Value: JSON or a hash 
+            Example with a hash (cleaner for updates)
+                redis_client.hset("session:123", mapping={
+                    "user_id": 16,
+                    "role": "admin"
+                })
+        How do we expire it?
+            Sessions should auto-expire 
+            Best practice: set TTL at creation time 
+                redis_client.set("session:123", json_data, ex=3600) #1hours
+            Or (Sliding session):
+                Refresh expiry when the user is active 
+                    redis_client.expire("session:123", 3600)
+                This creates a "keep alive" session 
+        How do we cache something?
+            Caching = storing expensive-to-compute data 
+            Basic pattern 
+                key = "user:16"
+                cached = redis_client.get(key)
+                if cached: 
+                    return cached 
+                data = fetch_from_database()
+                redis_client.set(key, data, ex=3600)
+                return data 
+            Key idea 
+                Always set a TTL 
+                Use meaningful keys: 
+                    user:16 
+                    posts:page:1
+                    product:99
+        How do we invalidate data?
+            This is where most bugs happen 
+            Option A: Delete manually 
+                redis_client.delete("user:16")
+                use when: 
+                    Data changes(eg: user updates profile)
+            Option B: Let TTL expire 
+                Do nothing - just wait 
+                Good for: 
+                    Data that can be slightly stale 
+                    Simpler systems 
+            Option C: Pattern - based invalidation 
+                for key in redis_client.scan_iter("user:*"):
+                    redis_client.delete(key)
+                useful when:
+                    Many related keys must be cleared 
+            Option D: Versioning (advanced + powerful)
+                version = redis_client.get("user:16:version") or 1 
+                key = f"user:16:{version}"
+                #Invalidate by bumping version:
+                redis_client.incr("user:16:version")
+                Old cache becomes irrelevant without deleting anything 
+        Putting it all together 
+            Think of it in patterns: 
+                Sessions: 
+                    Store -> set/hset 
+                    Expire -> ex or expire 
+                    Refresh -> sliding or TTL 
+                Caching 
+                    Read -> Check Redis first 
+                    Miss -> Compute + Store with TTL 
+                    Invalidate -> delete or version 
+        Mental Model 
+            Sessions = "Who is this user right now"
+            Cache = "Can I avoid recomputing this"
+            Expiration = "When should this disappear automatically"
+            Invalidation = "How do I handle changes"
