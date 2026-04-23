@@ -457,4 +457,28 @@ Dataclass constraints in SQLAlchemy
             "How do we define SQL constraints while using dataclass-style models?"
         Eg: mapped_column()
 
-                
+AWS Infrastructure and Technologies
+    ML Frameworks 
+        Amazon SageMaker 
+    AI/ML Services 
+        Text and documents 
+            Amazon Comprehend 
+            Amazon Translate 
+            Amazon Textract 
+        Chatbots 
+            Amazon lex 
+        Speech 
+            Amazon polly 
+            Amazon Transcribe 
+        Vision 
+            Amazon Rekognition 
+        Search 
+            Amazon Kendra 
+        Recommendation
+            Amazon Personalize 
+        Misc 
+            AWS DeepRacer 
+    Generative AI 
+        Amazon SageMaker JumpStart 
+        Amazon Bedrock 
+        Amazon Q and Amazon Q Developer
