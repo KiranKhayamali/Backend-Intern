@@ -1,0 +1,29 @@
+🔹 General Prompt Libraries
+    FlowGPT
+        A huge community-driven library with thousands of prompts for ChatGPT and similar models. You can search by category like business, marketing, coding, etc.
+    PromptHero
+        Great for both text and image prompts. Especially strong for Stable Diffusion, Midjourney, and DALL·E prompts.
+    PromptBase
+        A marketplace where people sell high-quality prompts. Paid, but often more refined and tested.
+🔹 Curated / High-Quality Collections
+    Awesome ChatGPT Prompts
+        One of the most popular open-source prompt collections. Covers roles like “act as a lawyer,” “act as a teacher,” etc.
+    Learn Prompting
+        Not just a library—also teaches prompt engineering techniques with examples.
+🔹 Image Generation Prompt Libraries
+    Lexica
+        Searchable gallery of prompts with generated images—great for inspiration.
+    Krea
+        Visual-heavy platform for discovering and remixing prompts.
+🔹 Developer / Power User Resources
+    OpenAI Cookbook
+        Practical examples and prompt patterns for building apps.
+    LangChain Hub
+        Useful if you're building AI workflows or apps with structured prompts.
+🔹 Niche / Specialized Libraries
+    Marketing prompts (copywriting, ads)
+    Coding prompts (debugging, generation)
+    Roleplay / simulation prompts
+    Business & productivity prompts
+
+Many of these are embedded within the platforms above rather than standalone sites.
