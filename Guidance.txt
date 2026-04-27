@@ -193,3 +193,16 @@ Day 23:
     I learned about the concepts of Machine learning operations(MLOps)
     I learned about developing Generative AI Solutions 
     I also learned about the improving performance of a Foundational Model for GenAI
+
+Day 24: 
+    Today i continue to learn about GenAI
+    I learned about the optimization of foundation model with RAG and Fine-tuning
+    I also learned to evaluate foundation models with both RAG and fine-tuning 
+    I also learned about the model evaluation pararmeters(ROUGE, BLEU, BERTScore)
+    I also learned about the security, compliance, and governance for AI solutions 
+    I also started to learned about the essential of Prompt Engineering 
+        I learned why prompt engineering is so important?
+        I also got knowledge about prompts 
+        I also learned about the elements of prompts 
+        I also learned about negative prompting, modifying prompt for better result from the models 
+        I also learned some practices for prompting  
