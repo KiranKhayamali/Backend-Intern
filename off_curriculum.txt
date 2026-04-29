@@ -1,315 +1,315 @@
 Extra I Explore without following the curriculum:
-    FastCRUD 
-        can be used to avoid repeatative CRUD operation codes 
-        Project Fit Analysis 
-            Admin Dashboard (Excellent) -> Standard CRUDs with filtering, minimal custom logic 
-            REST APIs (Very Good) -> Consistent endpoints, pagination, OpenAPI docs 
-            Microservices(Very Good) -> Each service has focused CRUD operations 
-            Analytics platforms (Mixed) -> Good for user/config management, poor for reporting queries 
-            Workflow Engine(Poor) -> State transistion, complex business rule 
-            High Frequency Trading (Poor) -> Hard-optimized queries, microsecond performance 
+    FastCRUD
+        can be used to avoid repeatative CRUD operation codes
+        Project Fit Analysis
+            Admin Dashboard (Excellent) -> Standard CRUDs with filtering, minimal custom logic
+            REST APIs (Very Good) -> Consistent endpoints, pagination, OpenAPI docs
+            Microservices(Very Good) -> Each service has focused CRUD operations
+            Analytics platforms (Mixed) -> Good for user/config management, poor for reporting queries
+            Workflow Engine(Poor) -> State transistion, complex business rule
+            High Frequency Trading (Poor) -> Hard-optimized queries, microsecond performance
     Explore Boilerplate Code of benavlabs:
-        https://github.com/benavlabs/FastAPI-boilerplate.git boilerplate was explored and tried to gain knowledge on how to use Redis and nginx in the project 
+        https://github.com/benavlabs/FastAPI-boilerplate.git boilerplate was explored and tried to gain knowledge on how to use Redis and nginx in the project
         I also got knowledge about how we can rate limit for our project and keep logs also.
-        I also got to know about the tier based user for our project 
+        I also got to know about the tier based user for our project
 
-AWS Learning Guidance 
-    Phase 0: What we're Actually Learning 
-        Before touching AWS, understand this 
-            AWS(Amazon Web services) is not "one thing" 
-            It is a collection of services to solve problem like 
-                Hosting applications 
-                Storing data 
-                Running backend systems 
-                Scaling infrastructure 
-                Handling Security 
-            So, instead of "Learning AWS", we're learning 
-                How to design and run system in cloud 
+AWS Learning Guidance
+    Phase 0: What we're Actually Learning
+        Before touching AWS, understand this
+            AWS(Amazon Web services) is not "one thing"
+            It is a collection of services to solve problem like
+                Hosting applications
+                Storing data
+                Running backend systems
+                Scaling infrastructure
+                Handling Security
+            So, instead of "Learning AWS", we're learning
+                How to design and run system in cloud
     Phase 1: Foundations(Must Not Skip)
-        Core Concepts 
+        Core Concepts
             Learn thse first
                 What is cloud computing?
                 Iaas Vs PaaS Vs SaaS?
-                Regions and Availability Zones 
-                Pay-as-you-go pricing 
+                Regions and Availability Zones
+                Pay-as-you-go pricing
             Key AWS Concepts
                 Region -> Geographic Area(Eg: Asia South)
-                Availability Zone -> Isolated data centers 
-                IAM -> Permission System 
-            Think of AWS like 
-                Regions = Countries 
-                Availability Zones = Cities 
-                Sevices = tools in those cities 
-    Phase 2: Core Service 
-        These are our "daily tools" as a developer 
-        Compute 
-            Amazon EC2 -> raw servers 
-            AWS Lambda -> run code without servers 
+                Availability Zone -> Isolated data centers
+                IAM -> Permission System
+            Think of AWS like
+                Regions = Countries
+                Availability Zones = Cities
+                Sevices = tools in those cities
+    Phase 2: Core Service
+        These are our "daily tools" as a developer
+        Compute
+            Amazon EC2 -> raw servers
+            AWS Lambda -> run code without servers
             Learn difference
-                EC2 = we manage server 
+                EC2 = we manage server
                 Lambda = AWS manage everthing
-        Storage 
-            Amazon S3 
-            Tasks 
+        Storage
+            Amazon S3
+            Tasks
                 Upload file
-                Host a static Website 
+                Host a static Website
                 Set public/private permission
         Database
-            Amazon RDS 
-            Tasks 
+            Amazon RDS
+            Tasks
                 Create MySQL/PostgreSQL
-                Connect from EC2 
-        Networking 
-            Amazon VPC 
-            Tasks/learn 
-                Subnets 
-                Public Vs Private 
+                Connect from EC2
+        Networking
+            Amazon VPC
+            Tasks/learn
+                Subnets
+                Public Vs Private
                 Internet Gateway
     Phase 3: Build Real Projects
-        Now, we move from "services" of "systems" 
-        Project I: Simple Web App 
+        Now, we move from "services" of "systems"
+        Project I: Simple Web App
             Architecture
-                EC2 -> backend server 
-                RDS -> database 
-                S3 -> static files 
-            we would learn 
-                How services connect 
-                Security groups 
-                Basic Architecture thinking 
-        Project II: Serverless App 
-            Use 
-                AWS Lambda 
+                EC2 -> backend server
+                RDS -> database
+                S3 -> static files
+            we would learn
+                How services connect
+                Security groups
+                Basic Architecture thinking
+        Project II: Serverless App
+            Use
+                AWS Lambda
                 Amazon API Gateway
-            Build 
-                REST API without servers 
+            Build
+                REST API without servers
     Phase 4: Security and permissions(Critical)
         IAM(Most Important Skill)
             AWS Identity and Access Management
-            Learn 
-                Users Vs Roles 
+            Learn
+                Users Vs Roles
                 Policies(JSON)
-                Least privilege principle 
+                Least privilege principle
             Mistake begineers make "Giving admin access everywhere"
-    Phase 5: Scaling and Production Thinking 
-        Now, Think like a senior engineer 
-            Learn 
-                Elastic Load Balancing 
-                Amazon Cloud Watch 
-                Auto Scaling 
-            Concepts 
+    Phase 5: Scaling and Production Thinking
+        Now, Think like a senior engineer
+            Learn
+                Elastic Load Balancing
+                Amazon Cloud Watch
+                Auto Scaling
+            Concepts
                 High availability
-                Fault tolerance 
-                Observability 
-    Phase 6: DevOps and Automation 
-        Tools 
-            AWS Cloud Formattion 
-            AWS Cloud Pipeline 
-        Goal: Stop clicking in UI -> Start automating 
+                Fault tolerance
+                Observability
+    Phase 6: DevOps and Automation
+        Tools
+            AWS Cloud Formattion
+            AWS Cloud Pipeline
+        Goal: Stop clicking in UI -> Start automating
     How to Study(Important)
         Don't do this
-            Watch endless tutorials 
-            Memorize services 
-        DO this 
-            Build projects 
-            Break things and fix them 
-            Draw Architecture diagrams 
-    Roadmap for learning 
-        Week 1 
-            EC2, S3, RDS basics 
-            Launch + Connect Services 
+            Watch endless tutorials
+            Memorize services
+        DO this
+            Build projects
+            Break things and fix them
+            Draw Architecture diagrams
+    Roadmap for learning
+        Week 1
+            EC2, S3, RDS basics
+            Launch + Connect Services
         Week 2
-            Build 2 projects 
-            Learn IAM + VPC 
-        Week 3 
-            Learn Lambda + API Gateway 
-            Add monitoring + scaling 
-    AWS is not about knowing 200 services 
+            Build 2 projects
+            Learn IAM + VPC
+        Week 3
+            Learn Lambda + API Gateway
+            Add monitoring + scaling
+    AWS is not about knowing 200 services
         It about "Given a problem, can we design a system that is scalable, secure and cost-efficient?"
 
-File Structure 
+File Structure
     Core Principle(Before Structure)
-        Think in terms of seperation of concerns 
+        Think in terms of seperation of concerns
             API layer -> handles HTTP(router)
-            Service layer -> business logic 
-            Data layer -> database interaction 
+            Service layer -> business logic
+            Data layer -> database interaction
             Schemas -> validation (pydantic)
             Models -> database structure(ORM)
-        If we mix these, our code becomes painful very quickly 
+        If we mix these, our code becomes painful very quickly
     Recommended Project Structure(From Chatgpt)
-        Here's solid, production ready layout 
+        Here's solid, production ready layout
             schemas/
-                user.py 
-                item.py 
-            
+                user.py
+                item.py
+
             services/
-                user_service.py 
-                item_service.py 
-            
+                user_service.py
+                item_service.py
+
             repositories/
-                user_repository.py 
-                item_repository.py 
+                user_repository.py
+                item_repository.py
 
             db/
-                base.py 
-                session.py 
+                base.py
+                session.py
                 migrations/
-            
-            test/ 
-                test_users.py 
+
+            test/
+                test_users.py
                 test_items.py
 
-        Breakdown 
-            main.py -> Entry Point 
-                Keep it thin, No logic here 
-            api/ -> Routes Layer 
-                Only HTTP concerns 
-                    Request 
-                    Response 
-                    Status Code 
-                No database queries here 
+        Breakdown
+            main.py -> Entry Point
+                Keep it thin, No logic here
+            api/ -> Routes Layer
+                Only HTTP concerns
+                    Request
+                    Response
+                    Status Code
+                No database queries here
             schemas/ -> Pydantic Models(Validation)
-                Used for 
-                    Request Validation 
-                    Response Validation 
+                Used for
+                    Request Validation
+                    Response Validation
             models/ -> Database Models(ORM)
-                These represents actual database tables 
-            services/ -> Business logic 
-                This is where 
-                    Rules lives 
-                    Logic grows 
-                    Complexity belong 
-                If our project get messy, it usually because this layer is missing 
-            repositories/ -> Database Access 
-                Only responsibility 
-                    CRUD operations 
-                    Queries 
-                No business logic 
+                These represents actual database tables
+            services/ -> Business logic
+                This is where
+                    Rules lives
+                    Logic grows
+                    Complexity belong
+                If our project get messy, it usually because this layer is missing
+            repositories/ -> Database Access
+                Only responsibility
+                    CRUD operations
+                    Queries
+                No business logic
             core/ -> Shared infrastructure
                 config.py -> enviroment Variables
                 security.py -> auth helpers (JWT, hashing)
                 dependencies.py -> reusable FastAPI dependencies
-            db/ -> Database setup 
-                session.py -> Database session 
-                base.py -> Base Class 
-                migrations -> Alembic 
-            tests/ -> Tests 
-                for testing the models and features 
+            db/ -> Database setup
+                session.py -> Database session
+                base.py -> Base Class
+                migrations -> Alembic
+            tests/ -> Tests
+                for testing the models and features
             Optional(But useful as we grow)
-                We can later add 
+                We can later add
                     utils/
-                    exceptions/ 
+                    exceptions/
                     middlewares/
         Common mistakes
-            Putting everthing in routes 
-                This becomes unmaintainable fast 
-            Skipping service layer 
-                Leads to duplicated logic 
-                Hard to test 
-                Tight coupling 
-            Mixing Schemas and Models 
-                Causing confusion 
-                Breaks seperation of concerns 
+            Putting everthing in routes
+                This becomes unmaintainable fast
+            Skipping service layer
+                Leads to duplicated logic
+                Hard to test
+                Tight coupling
+            Mixing Schemas and Models
+                Causing confusion
+                Breaks seperation of concerns
         Mental Model(Remember This)
             Think:
-                Request -> API -> Service -> Repository -> Database 
+                Request -> API -> Service -> Repository -> Database
                                     ^
                                     |
                                     Schemas
-        Advice 
-            Start Simple, but structure early 
+        Advice
+            Start Simple, but structure early
             Enforce boundaries(routes != logic != database)
             Name things clearly( user_service, not utils)
-            Refractor agressively as complexity grows 
-                
+            Refractor agressively as complexity grows
+
 DeclarativeBase Vs declarative_base
     declarative_base() -> old style(functions that returns a base class)
     DeclarativeBase -> new style (explicts base class we inherit from)
     Both are from SQLAlchemy, but, DeclarativeBase is the mordern, recommended approach(SQLAlchemy 2.0.1)
-    Side-by-Side Comparision 
+    Side-by-Side Comparision
         Old way: declarative_base()
             What's happening?
-                We call a function 
-                It dynamically creates a base class 
-                We inherits from that 
+                We call a function
+                It dynamically creates a base class
+                We inherits from that
             Feels a bit "magical"
         New way: DeclarativeBase
             What's happening?
-                We explictly define a base class 
+                We explictly define a base class
                 Much clearer and more type-safe
     Why DeclarativeBase Exists?
-        The new approach improves 
-            Type hinting 
+        The new approach improves
+            Type hinting
                 Better support for:
-                    IDE autocomplete 
+                    IDE autocomplete
                     Static analysis(mypy, pyright)
-            Explictness 
+            Explictness
                 Instead of : Base = declarative_base()
-                we now have: class Base(DeclarativeBase): pass 
+                we now have: class Base(DeclarativeBase): pass
                 more pythonic, less "magic"
-            Extensibility 
-                We can customize our base class 
-                And all models will inherit this behaviour automatically 
+            Extensibility
+                We can customize our base class
+                And all models will inherit this behaviour automatically
 
 Difference between using Column and mapped_column()
     Column -> Old style (classic SQLAlchemy)
     mapped_column -> new style (SQLAlchemy 2.0, type-safe)
     Both are from SQLAlchemy, but, mapped_column is designed to work with python hints(Mapped[])
     Side-By-Side Comparision
-        Old way: Column 
+        Old way: Column
             Problems:
-                No real type safety 
-                IDEs/mypy struggle 
+                No real type safety
+                IDEs/mypy struggle
                 Types are duplicated(Python Vs SQLAlchemy)
         New way: mapped_column()
             Much cleaner:
                 Types comes from python(int, str)
-                SQLAlchemy infers the database logic 
+                SQLAlchemy infers the database logic
     Core difference
         Column(old mental model)
             id = Column(Integer)
-            This is a database column 
+            This is a database column
         mapped_column(new mental model)
             id: Mapped[int] = mapped_column()
-            This is a python mapped to database column 
+            This is a python mapped to database column
     Why mapped_column is better?
-        Type Safety 
+        Type Safety
             name: Mapped[str]
             works perfectly with:
-                mypy 
-                pyright 
+                mypy
+                pyright
                 IDE autocomplete
-        Less Duplication 
-            No need to repeat types in two systems 
-        Cleaner models 
+        Less Duplication
+            No need to repeat types in two systems
+        Cleaner models
             We can even ommit mapped_column()
             SQLAlchemy infers everthing
-        Designed for SQLAlchemy 2.0 
-            This is the official mordern pattern 
-    mapped_column() is the mordern, type-safe replacement for Column, designed to work seamlessly with python hints in SQLAlchemy 2.0 
+        Designed for SQLAlchemy 2.0
+            This is the official mordern pattern
+    mapped_column() is the mordern, type-safe replacement for Column, designed to work seamlessly with python hints in SQLAlchemy 2.0
 
     (Note: init=False is used to tell puthon NOT to include this attribute in the model's __init__ method. In other words, we cannot set it when creating an instance)
 
 Tracing the boilerplate of benavlabs
-    Big Picture 
+    Big Picture
         The boilerplate code follows a layered architecture
             Client -> API -> CRUD(business logic) -> Models(database) -> Database
                                ^
                                |
                             Schemas(validations)
             This seperation is intentional:
-                API = handles HTTP 
-                CRUD = Logic 
+                API = handles HTTP
+                CRUD = Logic
                 Models = database structure
-                Schemas = validation and serialization 
-            This is called seperation of concerns 
+                Schemas = validation and serialization
+            This is called seperation of concerns
     Root Structure(What matters Vs What doesn't)
         FastAPI-boilerplate/
-            src/    <- our main code 
+            src/    <- our main code
             tests/  <- tests
-            docs/   <- documentation 
-            Docker stuff    <- Deployment 
-            
-            We can initially ignore the docker and spend 90% of our time in src/ 
+            docs/   <- documentation
+            Docker stuff    <- Deployment
+
+            We can initially ignore the docker and spend 90% of our time in src/
     Inside src/ (core of the system)
         src/
             app/
@@ -325,160 +325,254 @@ Tracing the boilerplate of benavlabs
                 models/
                 schemas/
                 middlewares/
-            
+
         Let's break this:
-            main.py -> Entry Point 
-                This is where the app starts 
+            main.py -> Entry Point
+                This is where the app starts
                 Think: app = FastAPI()
                 But in this boilerplate:
-                    uses app factory pattern 
-                    loads configurations 
-                    register routes 
+                    uses app factory pattern
+                    loads configurations
+                    register routes
                     adds middlewares
-                This is the bootloader of our backend 
+                This is the bootloader of our backend
             api/ -> where HTTP lives
                 api/v1/
                     users.py
-                    posts.py 
-                    login.py 
+                    posts.py
+                    login.py
                 This is what or frontend talks to
                 Example: @router.post("/users")
                          async def create_users():
-                But: 
-                    No heavy logic here 
-                    Only: 
-                        request validation 
-                        calling CRUD 
-                        returning response 
-                Rule: API layer should be thin  
-            schema/ -> Data Contracts 
-                These are pydantic models 
-                Example: UserCreate, UserRead, UserDelete, UserUpdate 
+                But:
+                    No heavy logic here
+                    Only:
+                        request validation
+                        calling CRUD
+                        returning response
+                Rule: API layer should be thin
+            schema/ -> Data Contracts
+                These are pydantic models
+                Example: UserCreate, UserRead, UserDelete, UserUpdate
                 Why schemas exists?
-                    validate input 
-                    control output 
+                    validate input
+                    control output
                     prevent security issues
-                They sit between API and CRUD 
-            models/ -> Data Structure 
-                These are SQLAlchemy models 
-                Tis maps directly to database tables 
-            crud/ -> Business logic layer 
+                They sit between API and CRUD
+            models/ -> Data Structure
+                These are SQLAlchemy models
+                Tis maps directly to database tables
+            crud/ -> Business logic layer
                 This is where:
-                    database queries happen 
-                    logic lives 
-                    reusable operation exists 
+                    database queries happen
+                    logic lives
+                    reusable operation exists
                 This project uses FastCRUD
-                    Generic CRUD generator 
-                    saves us from rewriting queries 
-                This is the service layer 
-            core/ -> the Brain 
-                core/ 
-                    config.py 
-                    security.py 
+                    Generic CRUD generator
+                    saves us from rewriting queries
+                This is the service layer
+            core/ -> the Brain
+                core/
+                    config.py
+                    security.py
                     db/
                     exceptions/
-                This is where system-wide logic lives 
+                This is where system-wide logic lives
     Important Part:
-        config.py 
-            Reads .env 
-            Stores settings 
-            Single source of truth 
-        security.py 
-            Handles 
-                JWT Token 
-                Password Hashing 
-                Auth logic 
+        config.py
+            Reads .env
+            Stores settings
+            Single source of truth
+        security.py
+            Handles
+                JWT Token
+                Password Hashing
+                Auth logic
             Critical for authentication
-        db/ 
-            Database connections 
+        db/
+            Database connections
             session management
-            used via dependency injection 
+            used via dependency injection
         exceptions/
-            Custom errors 
-            Centralized error handling 
-    DataFlow 
-        Let's trace a real request 
-            Example: Create User 
+            Custom errors
+            Centralized error handling
+    DataFlow
+        Let's trace a real request
+            Example: Create User
                 Client request (POST /users)
-                API layer (create_users()) ---> validate using schemas 
+                API layer (create_users()) ---> validate using schemas
                 Convert to internal schemas (password hashing)
-                CRUD layer 
+                CRUD layer
                 Model -> Database (sqlalchemy saves to database)
-                Response 
-            Final Flow 
-                Request -> Schema -> API -> CRUD -> Model -> Database 
+                Response
+            Final Flow
+                Request -> Schema -> API -> CRUD -> Model -> Database
                 Response <- Schema <- API <- CRUD <- Model <- Database
-    Advanced Features 
+    Advanced Features
         This isn't just CRD - it includes:
             Authentication
-                JWT access + refresh tokens 
-                Cookie-based security 
-            Async everywhere 
+                JWT access + refresh tokens
+                Cookie-based security
+            Async everywhere
                 FastAPI + async SQLAlchemy
-            Background Jobs 
-                uses Redis + ARQ 
-            Rate Limiting 
-                Per user tier 
-            Caching 
-                Redis caching layer 
-            Deployment-ready 
-                Docker + NGNIX + Gunicorn 
+            Background Jobs
+                uses Redis + ARQ
+            Rate Limiting
+                Per user tier
+            Caching
+                Redis caching layer
+            Deployment-ready
+                Docker + NGNIX + Gunicorn
     Design Principles (Why it's built this way)
-        Seperation of Concerns 
-            API != Database != Logic 
-        Modularity 
-            We can 
-                Remove auth 
-                Replace database 
-                Add features 
-            Scalablity 
-                Async 
-                Background workers 
+        Seperation of Concerns
+            API != Database != Logic
+        Modularity
+            We can
+                Remove auth
+                Replace database
+                Add features
+            Scalablity
+                Async
+                Background workers
                 Caching
-            Maintainability 
-                Easy to debug 
-                Easy to extend 
-            
-    Common Mistakes 
-        Putting logic in API 
-        Mixing schema + model 
-        Direct database queries in routes 
-        Ignoring internal schemas 
-    Final mental model 
-        If we remember just one thing: 
-            API talks -> Schemas validate -> CRUD Thinks -> Models store 
+            Maintainability
+                Easy to debug
+                Easy to extend
+
+    Common Mistakes
+        Putting logic in API
+        Mixing schema + model
+        Direct database queries in routes
+        Ignoring internal schemas
+    Final mental model
+        If we remember just one thing:
+            API talks -> Schemas validate -> CRUD Thinks -> Models store
 
 Dataclass constraints in SQLAlchemy
     What is dataclass means in SQLAlchemy?
-        SQLAlchemy can integrate with python's built-in dataclasses module to let us define ORM in more concise, typed way 
+        SQLAlchemy can integrate with python's built-in dataclasses module to let us define ORM in more concise, typed way
     What is constraints means?
-        Constraints are still database-level rules, not dataclass-specific rules 
-        The dataclass constraints usually means 
+        Constraints are still database-level rules, not dataclass-specific rules
+        The dataclass constraints usually means
             "How do we define SQL constraints while using dataclass-style models?"
         Eg: mapped_column()
 
 AWS Infrastructure and Technologies
-    ML Frameworks 
-        Amazon SageMaker 
-    AI/ML Services 
-        Text and documents 
-            Amazon Comprehend 
-            Amazon Translate 
-            Amazon Textract 
-        Chatbots 
-            Amazon lex 
-        Speech 
-            Amazon polly 
-            Amazon Transcribe 
-        Vision 
-            Amazon Rekognition 
-        Search 
-            Amazon Kendra 
+    ML Frameworks
+        Amazon SageMaker
+    AI/ML Services
+        Text and documents
+            Amazon Comprehend
+            Amazon Translate
+            Amazon Textract
+        Chatbots
+            Amazon lex
+        Speech
+            Amazon polly
+            Amazon Transcribe
+        Vision
+            Amazon Rekognition
+        Search
+            Amazon Kendra
         Recommendation
-            Amazon Personalize 
-        Misc 
-            AWS DeepRacer 
-    Generative AI 
-        Amazon SageMaker JumpStart 
-        Amazon Bedrock 
+            Amazon Personalize
+        Misc
+            AWS DeepRacer
+    Generative AI
+        Amazon SageMaker JumpStart
+        Amazon Bedrock
         Amazon Q and Amazon Q Developer
+
+Developing Machine Learning Solutions
+    Machine Learning Lifecycle
+    Machine Learning Models and Performance Evaluation
+        Model evaluation datasets
+            Validation Set
+            Test Set
+        Model Fit
+            Overfitting     (High Variance)
+            Underfitting    (High Bias)
+            Balanced
+        Bias and Variance
+            Bias -> Gap between the predicted value and actual value
+            Variance -> How dispersed predicted values are
+
+Fundamental Concepts of Machine Learning Opearations (MLOps)
+    Similar to DevOps (extension of DevOps)
+    The model deployment pipelines includes:
+        Source
+        Build
+        Deployment to staging enviroment
+        Testing
+        Promotion to production enviroment
+
+Developing Generative Artificial Intelligence Solutions
+    Generative AI application lifecycle:
+        Defining a business use case
+        Selecting a foundation model (FM)
+        Improving the performance of FM
+        Evaluating the performance of FM
+        Deployment and its impact on business objectives
+    Improving the performance of a Foundation Model (FM)
+        Prompt Engineering
+            Some key aspects of prompt engineering includes:
+                Design
+                Augmentation
+                Tuning
+                Ensembling
+                Mining
+            Prompt Techniques
+                Zero-shot prompting
+                Few-shot prompting
+                Chain-of-thought (CoT) prompting
+                Self-consistency
+                Tree of thought (ToT)
+                Retrieval Augmented Generation (RAG)
+                Automatic Reasoning and Tool-use (ART)
+                ReAct prompting
+    Optimizing Foundation models
+        RAG (Retrieval Augmented Generation)
+            Vector Embedding
+                Embedding is the process by which text, images and audio are given numerical representation in a vector space
+                    Raw data -> Tokenization and Vectorization -> (Token IDs) Embeddings -> Vector stores
+            Storing Vectors
+                The core function of vector databases is to compactly store billions of high dimensional vectors representing words and entities
+                Vector database provide ultra-fast similarity searches across those billions of vectors in real time
+                The most common algorithms used to perform the similarity search are k-nearest neighbors(KNN) or cosine similarity
+            Agents
+    Evaluating Foundation models
+        Human evaluation
+            interacting with AI model to provides feedback based on their experiences
+        Benchmark datasets
+            consist of predefined datasets and associated metrics that offers a consistent, objective means to measure model performance
+        Creating a benchmark datasets
+            Create relevant questions
+            Context identification
+            Answer drafting
+    Optimizing a foundational model with Fine-tuning
+        Although foundational models are highly versatile, they often require fine-tuning to tailor their broad capabilities to specific applications or to enhance their performance in particular domains
+        Different Fine-tuning approaches
+            Instruction tuning
+                involves retraining the model on new dataset that consists of prompts followed by the desired outputs
+            Reinforcement Learning from Human Feedback (RLHF)
+                where the model is initially trained using supervised learning to predict human-like responses. Then, it is further refined through a reinforcement learning process, where a reword model built from human feedback guides the model toward generating more preferable outputs
+    Model Evaluation
+        ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
+            A set of metrics used to evaluate automatic summarization of texts, in addition to machine translation quality in NLP
+            The main idea behind ROUGE is to count the number of overlapping units
+        BLEU (Bilingual Evaluation Understudy)
+            A metric used to evaluate the quality of text that has been machine-translated from one natural language to another
+            Quality is calculated by comparing the machine-generated text to one or more high-quality human translations
+        The BERTScore
+            Uses the pretrained contextual embeddings from models like BERT to evaluate the quality of text-generation tasks
+            BERTScore computes the cosine similarity between the contextual embeddings of words in the candidate and the reference texts
+            This is unlike traditional metrics that rely on exact matches of N-grams or words
+
+Security, Compliance, and Governance for AI solutions
+    Security
+        Ensure that cofidentiality, integrity and availability are maintained for organizational data and information assets and infrastructure
+    Governance
+        Ensure that an organization can add value and manage risk in the operation of business
+    Compliance
+        Ensure normative adherence to requirements across the functions of an organization
+
