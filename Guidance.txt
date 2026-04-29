@@ -39,10 +39,10 @@ Day 4:
     I also learned about handling errors using FastAPI HTTPException and Starlette HTTPException.
 
 Day 5:
-    I learned about dependencies in FastAPI 
-    I majorly spends the day learning about security in FastAPI 
-    I learned about the types of security used, and flow of security in FastAPI 
-    I learned and implemented OAuth2PasswordBearer of FastAPI 
+    I learned about dependencies in FastAPI
+    I majorly spends the day learning about security in FastAPI
+    I learned about the types of security used, and flow of security in FastAPI
+    I learned and implemented OAuth2PasswordBearer of FastAPI
     I learned about JWT and generated for the prototype security system
     I also learned about password hashing and implemented them using "pwdlib[argon2]"
     I also learned about Middleware and implement them
@@ -51,25 +51,25 @@ Day 5:
 
 Day 6:
     Today i relearned about the Git - Version Control(from git docs)
-    I learned about the basic workflow of git and checked the usages of the commands in git 
+    I learned about the basic workflow of git and checked the usages of the commands in git
     I also learned about the difference between reset, restore and revert, and when to use what?
-    I also relearned the Overview of Git Basic, Git Branch(Merge Vs Rebase) 
-    I relearned about Github and Git remote Commands Slides 
+    I also relearned the Overview of Git Basic, Git Branch(Merge Vs Rebase)
+    I relearned about Github and Git remote Commands Slides
     I learned and use Gitlab in this day(Created a new gitlab account)
-    I also learned about the difference between HTTPS Vs SSH Key 
-    I generated a new SSH Key and used it in both github and gitlab, and test it 
+    I also learned about the difference between HTTPS Vs SSH Key
+    I generated a new SSH Key and used it in both github and gitlab, and test it
 
 Day 7:
-    Today i learned about poetry, installated and initialized project with poetry 
+    Today i learned about poetry, installated and initialized project with poetry
     I also explore the alternative for poetry and pip(uv)
-    I also relearned about the GET Request Method Overview 
+    I also relearned about the GET Request Method Overview
     I also relearned other HTTP Request Method Overview(like POST, PUT, DELETE)
     I also relearned about PATH and QUERY Parameter Overview
     And Implemented all in one project for books
 
 Day 8:
-    Today, I relearned about the Path parameter and Query parameter 
-    I learned little more in depth about pydantic and data validation 
+    Today, I relearned about the Path parameter and Query parameter
+    I learned little more in depth about pydantic and data validation
     I also relearned about the Fields - Data Validation
     I also relearned about the Status Code and Explicit Status Code Responses
     I also learned about the sqlmodel and connected my FastAPI application with sqlite.
@@ -80,129 +80,137 @@ Day 9:
     I relearned about the SQL queries, indexes, relationship, constraints, and many more in database
     I also read the document of sqlalchemy for knowledge of sqlalchemy.
     I also learned about the Database tables(Models) in sqlalchemy
-    I setup my fastAPI application with the postgresql database using sqlalchemy as orm 
+    I setup my fastAPI application with the postgresql database using sqlalchemy as orm
 
 Day 10:
-    Tody i majorly study about the authentication and authorization 
-    I also implement authentication file using Router scale 
-    I learned more about the relationship in database, How to use Foreign Keys 
+    Tody i majorly study about the authentication and authorization
+    I also implement authentication file using Router scale
+    I learned more about the relationship in database, How to use Foreign Keys
     I also added a user authentication for the user in the todo project
     I also used authorization to give what power to the user(update and delete notes)
 
 Day 11:
     Today i learned about the various techniques that can enhance authentication (Like Stronger Security, Multi-Factor Authentication(MFA), Better Token Handling, Smarter Session Control)
     I also learned about the authorization improvements with role-based access control(RBAC)
-    I also relearned JWT token in little detailed and implement jwt token and authentication in todo project 
+    I also relearned JWT token in little detailed and implement jwt token and authentication in todo project
     I also relearned to work with files
-    I learned about SQLAlchemy and used to connect to a postgresql database 
+    I learned about SQLAlchemy and used to connect to a postgresql database
     I also learned about boilerplate code and production DBMS
 
 Day 12:
-    Today, I relearned about postgresql and some most commonly used postgresql commands 
-    I also learned to install postgresql in both windows and mac 
+    Today, I relearned about postgresql and some most commonly used postgresql commands
+    I also learned to install postgresql in both windows and mac
     I learned about Alembic Data Migration Tool in this day.
-    I setup Alembic and used it to add new column to users table 
-    I also learned about the upgrade and enhancement in application with alembic 
+    I setup Alembic and used it to add new column to users table
+    I also learned about the upgrade and enhancement in application with alembic
     I learned about Render and how we can deploy our application, and database through render.
-    I also relearned docker and applied docker in the todo project 
+    I also relearned docker and applied docker in the todo project
 
 Day 13:
-    Today i explore at my own, i read blog posts, got guidance for learning AWS 
+    Today i explore at my own, i read blog posts, got guidance for learning AWS
     I also learned and tried boilerplate code from benavlabs(https://github.com/benavlabs/FastAPI-boilerplate.git)
-    I explored the boilerplate and got knowledge about the use Redis for caching, rate limiting and tier based user, logging 
+    I explored the boilerplate and got knowledge about the use Redis for caching, rate limiting and tier based user, logging
     I also learned about FastCRUD which helps to avoid CRUD operation repeatative codes using both crud_router and instance of FastCRUD
 
 Day 14:
     Today i explore different file structure and learned to use them effectively.
-    I also learned about the common mistake made during the file structure of a project 
-    I also started to build a blog service project with FastAPI 
-    I also learned about the difference between DeclarativeBase and declarative_base() 
-    I also learned about the difference between using Column and mapped_column 
-    I also designed the schema and models for the blog project 
+    I also learned about the common mistake made during the file structure of a project
+    I also started to build a blog service project with FastAPI
+    I also learned about the difference between DeclarativeBase and declarative_base()
+    I also learned about the difference between using Column and mapped_column
+    I also designed the schema and models for the blog project
 
-Day 15: 
+Day 15:
     Today i continue the blog project from the previous day.
     I also explore the benavlabs boilerplate code for reference and proceed to use refresh token and access token for authentication
-    The schema and models are redesigned for easier understanding and less complexity 
-    I completed the creation of users and post and also fetching the created users and posts using swagger UI 
+    The schema and models are redesigned for easier understanding and less complexity
+    I completed the creation of users and post and also fetching the created users and posts using swagger UI
     I also configured settings for the project.
 
 Day 16:
     Today i continue the blog project and added pagination.
     I also added login and logout features using the access_token and refresh_token
-    I also added some other fetching methods for both users and posts tables 
-    I also designed token blacklisting schema and changed verification of token 
-    I also implemented token blacklisting to prevent unauthorized access 
-    I added author_name to the posts table 
-    Some changes in CRUD operation in both user and post to make it eaiser 
+    I also added some other fetching methods for both users and posts tables
+    I also designed token blacklisting schema and changed verification of token
+    I also implemented token blacklisting to prevent unauthorized access
+    I added author_name to the posts table
+    Some changes in CRUD operation in both user and post to make it eaiser
 
 Day 17:
     Today, I completed all the functionalities of blog services(posts and users)
     I also added logger to tracks the logs of the blog project(Currently turned off for better error debugging)
-    I also learned about Redis 
+    I also learned about Redis
     I also made the posts created by the user(author) delete itself while deleting the user
     Also done some minor changes to fix runtime error (verify_password warning)
     I also design comments models and schema (currently not integrated with the blog services)
 
 Day 18:
-    Today, I integrated comments to the blog services 
+    Today, I integrated comments to the blog services
     The combined use of poetry and uv corrupted my virtual environment and had to manually install all the dependencies(i forgot to add a requirements.txt, now its there with latest installed dependencies)
     Also learned some use of redis in FastAPI and as authentication token storage
 
-Day 19: 
-    Today, I implemented number of comments and view count to the posts in the blog service 
-    I also continue learning about redis and authentication token storage usability 
-    I tried redis tutorial with bun and docker for the authentication token storage 
-    I also got knowledge on how i can implement redis to my blog service project 
+Day 19:
+    Today, I implemented number of comments and view count to the posts in the blog service
+    I also continue learning about redis and authentication token storage usability
+    I tried redis tutorial with bun and docker for the authentication token storage
+    I also got knowledge on how i can implement redis to my blog service project
     I also learned about the difference between Redis session approach and JWT approach
     I also learned about the TTL and session expiration strategies
     I also learned about the token randomness and security while trying redis session approach
-    I also explore the medium.com-style backend architecture 
+    I also explore the medium.com-style backend architecture
     And i also got knowledge about how we can use both JWT and Redis session approach to make the system gain both stateless properties and more control
 
-Day 20: 
-    Today, I completed my blog services project by adding redis as refresh token storage and formatting all the codes to make it consistent and cleaner 
+Day 20:
+    Today, I completed my blog services project by adding redis as refresh token storage and formatting all the codes to make it consistent and cleaner
     I continue to learn about redis
-        I learned to connect redis to the server 
-        I also learned and tried various data operations in redis 
+        I learned to connect redis to the server
+        I also learned and tried various data operations in redis
         I also learned and tried the 4 core usages of redis(Store, Expire, Cache, Invalidate)
     I also removed blacklisting from the blog services project which added unnecessary complexity to the project
     I also restated the logger features to track the logs of the project
     I also explore various ai agents
 
-Day 21: 
+Day 21:
     Today, I learned about GraphQL
-    I learned why GraphQL is better than REST 
+    I learned why GraphQL is better than REST
     I also learned the core concepts of GraphQL(SDL, Queries, Mutations, Subscriptions, Schema)
     I also learned about the architecture of GraphQL(3 use cases, and resolver functions)
     I also learned about the client and server side operations in GraphQL
-    I also learned about more GraphQL concepts(Fragments, Arguments, Aliases, Advanced SDL) 
+    I also learned about more GraphQL concepts(Fragments, Arguments, Aliases, Advanced SDL)
     I also learned about Tooling and Ecosystems(Introspection)
     I also learned about the security concepts for GraphQL.
 
-Day 22: 
+Day 22:
     Today I went off track with the learning and learned my choice(AWS)
-    I relearned AI, ML, DL, and GenAI 
-    I also got to know about the infrastructure and Technologies of AWS 
-    I also learned about the responsible AI 
+    I relearned AI, ML, DL, and GenAI
+    I also got to know about the infrastructure and Technologies of AWS
+    I also learned about the responsible AI
 
 Day 23:
-    Today i continue to learn about AWS 
+    Today i continue to learn about AWS
     I learned about transparent and expainable AI models
     I learned developing machine learning solutions(lifecycle, evaluation, model fit)
     I learned about the concepts of Machine learning operations(MLOps)
-    I learned about developing Generative AI Solutions 
+    I learned about developing Generative AI Solutions
     I also learned about the improving performance of a Foundational Model for GenAI
 
-Day 24: 
+Day 24:
     Today i continue to learn about GenAI
     I learned about the optimization of foundation model with RAG and Fine-tuning
-    I also learned to evaluate foundation models with both RAG and fine-tuning 
+    I also learned to evaluate foundation models with both RAG and fine-tuning
     I also learned about the model evaluation pararmeters(ROUGE, BLEU, BERTScore)
-    I also learned about the security, compliance, and governance for AI solutions 
-    I also started to learned about the essential of Prompt Engineering 
+    I also learned about the security, compliance, and governance for AI solutions
+    I also started to learned about the essential of Prompt Engineering
         I learned why prompt engineering is so important?
-        I also got knowledge about prompts 
-        I also learned about the elements of prompts 
-        I also learned about negative prompting, modifying prompt for better result from the models 
-        I also learned some practices for prompting  
+        I also got knowledge about prompts
+        I also learned about the elements of prompts
+        I also learned about negative prompting, modifying prompt for better result from the models
+        I also learned some practices for prompting
+
+Day 25:
+    Today I continue to learn about prompt engineering
+    I also learned about prompt engineering techniques(Zero-shot, Few-shot, and Chain-of-thought prompting)
+    I also learned about the misuses and risks of prompts(Poisoning, Hijacking, and prompt injection)
+    I also learned about the exposure, and prompt leaking and also Jailbreaking
+    I also designed ER diagram for the cafePOS system
+
