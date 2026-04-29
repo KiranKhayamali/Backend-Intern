@@ -576,3 +576,88 @@ Security, Compliance, and Governance for AI solutions
     Compliance
         Ensure normative adherence to requirements across the functions of an organization
 
+Essentials of Prompt Engineering?
+    Why is prompt engineering so important?
+        As generative AI models or foundation models become increasingly advanced and capable, the prompts we provide them plays a crucial role in shaping the quality and accuracy of the content generated
+        Effective prompts can lead to better results, improved efficiency, and enhanced understanding between humans and AI systems
+    Understanding Prompts
+        Improving the way that we prompt a foundation model is the fastest way to harness the power of generative artificial intelligence (GenAI)
+        By interacting with a model through a series of questions, statements, or instructions, we can adjust model output behaviour based on the specific context of the output that we want to achieve
+    Elements of Prompts
+        A prompt's form depends on the task that we are giving to a model
+        Some of the elements:
+            Instructions:
+                tasks for the LLMs to do. It provides a task description or instruction for how the model should perform
+            Context:
+                external information to guide the model
+            Input data:
+                the input for which we want a response
+            Output indicator:
+                the output type of format
+    Negative Prompting
+        Sometimes its easier to guide a model toward a desire output by including what we don't want included in the output
+        Negative prompting is used to guide the model away from producing certain types of content or exhibiting specific behaviours
+    Modifying prompts
+        Although foundation models (FMs) are generally highly capable, their outputs can be greatly influenced by the prompts provided
+        Inference parameters
+            When interacting with FMs, we can often configure inference parameters to limit or influence the model response
+            Inference parameters fits into a range of categories, with the most common being randomness and diversity, and length
+            Randomness and Diversity
+                This is the most common category of inference parameters
+                Randomness and diversity parameters influence the variation in generated responses by limiting the outputs to more likely outcomes or by changing the shape of the probability distribution of outputs
+            Length
+                The length inference parameter category refers to the settings that control the maximum length of the generated output and specify the stope sequences that signal the end of the generation process
+    Best practices for prompting
+        Although inference parameters are important and clearly influence a model's output, they are mostly just settings that we can adjust as part of the prompting process
+        To craft an effective prompt, it's important to follow some best practices
+        Some useful tips for designing prompt:
+            Be clear and concise
+            Include context if needed
+            Use directives for the appropriate response types
+            Consider the output in the prompt
+            Start prompts with an interrogation (Who, what, where, why, and how)
+            Provide an example responses
+            Break up complex tasks
+            Experiment and be creative
+            Use prompt templates
+
+Prompt Engineering Techniques
+    Zero-shot prompting
+        Technique where a user presents a tasks to a generative model without providing any examples or explicit training for that specific task
+        In this approach, the user relies on the model's general knowledge and capabilities to understand and carry out the task without any prior exposure, or shots, of similar task
+        Remarkably, mordern foundation models have demonstrated impressive zero-shot performance, effectively tackling tasks that they were not explicitly trained for
+    Few-shot prompting
+        Technique that invloves providing a language model with contextual examples to guide its understanding and expected output for a specific task
+        In this approach, we supplement the prompt with same inputs and their corresponding desired outputs, effectively giving the model a few shots or demostrations to condition it for the requested task
+        Although few-shot prompting provides a model with multiple examples, we can also use single-shot or one-shot prompting by providing just one example
+    Chain-of-thought (CoT) prompting
+        Technique that divides intricate reasoning tasks into smaller, intermediary steps
+        This approach can be employed using either zero-shot of few-shot prompting techniques.
+        Chain-of-thought prompts are tailored to specific types
+        To initiate the chain-of-thought reasoning process in a machine learning model, we can use the phrase "Think step by step"
+        It is recommended to use chain-of-thought prompting when the task requires multiple steps or a series of logical reasoning
+
+Prompt Misuses and Risks
+    Poisoning, Hijacking, and prompt injection
+        Poisoning
+            The intentional introduction of malicious or biased data into the training dataset of a model
+            This can lead to the model producing biased, offensive, or harmful outputs, either intentionally or unintentionally
+        Hijacking and prompt injection
+            Technique of influencing the outputs of generative models by embedding specific instructions within the prompts themselves
+            The goal is to hijack the model's behaviour and make it produce outputs that align with the attacker's intention, such as generating the misinformation or running malicious code
+    Exposure and prompt leaking
+        Exposure
+            Risk of exposing sensitive or confidential information to a generative model during training or inference
+            A foundation model can then inadvertently  reveal this sensitive data from their training corpus, leading to potential data leaks or privacy violation
+        Prompt Leaking
+            Unintentional disclosure or leakage of the prompts or inputs(regardless of whether these are protected data or not) used within a model
+            Prompt leaking doesn't necessarily expose protected data. But it can expose other data used by the model, which can reveal information of how the model works and this can be used against it
+    Jailbreaking
+        Practice of modifying or circumventing the constraints and safely measure implemented in a generative model or AI assistant to gain unauthorized access or functionality
+        Jailbreaking attempts involves crafting carefully constructed prompts or input sequences that aim to bypass or exploit vulnerabilities in the AI system's filtering mechanisms or constraints
+        The goal is to "break out" of the intended model limitations
+
+PartyRock
+    free, hands-on generative AI application-building tool created by AWS
+    Allows us to experiment directly with powerful foundation model to generate text, create images, and analyze data-all without needing to write code or manage cloud infrastructure.
+
