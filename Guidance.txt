@@ -222,3 +222,11 @@ Day 26:
     I also learned about debugging and testing
     I also learned about unit testing
 
+Day 27:
+    Today i continue to learned about testing and debugging
+    I also learned about integration testing
+    I also learned about testing POST endpoints
+    I also learned about dependency override
+    I also implemented test cases for the previously made projects
+    I also research some project ideas
+
