@@ -1,8 +1,7 @@
 env
+venv
 .venv
 .env
-.secrets/
-ToDo/.secrets/
 
 __pycache__
 .pytest_cache
