@@ -214,3 +214,11 @@ Day 25:
     I also learned about the exposure, and prompt leaking and also Jailbreaking
     I also designed ER diagram for the cafePOS system
 
+Day 26:
+    Today i completed my AWS AI practitioner challenge from udacity
+    I also learned about AWS PartyRock
+    I built a FitCoach (Personalize AI trainer) application in PartyRock
+    I also used PartyRock to analyze data to gain insights from a large datasets
+    I also learned about debugging and testing
+    I also learned about unit testing
+
