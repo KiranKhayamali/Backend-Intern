@@ -57,7 +57,7 @@ async def read_user(user_id: int, db: SessionDep):
 
 #Creating User from Request Body
 @app.post("/users/", response_model=UserSchema)
-async def create_user(user:UserSchema, db:SessionDep):
+async def create_user(user:UserSchema, db:SessionDep):  
     db_user = User(**user.model_dump())
     db.add(db_user)
     await db.commit()
@@ -82,6 +82,6 @@ async def delete_user(user_id: int, db:SessionDep):
     user = await db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found!")
-    await db.delete(user)
+    await db.delete(user) #await was used, or it will continuouly delete the user from the database 
     await db.commit()
     return{"message": f"{user.name} has been successfully deleted from the database."}
