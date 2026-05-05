@@ -234,3 +234,9 @@ Day 28:
     Today I explore some prebuilt project for better idea
     Today I designed schemas and models for the CafePOS project
 
+Day 29:
+    Today I modified some schemas and models for clear and concise use
+    I also used alembic to migrate these changes to postgres database
+    I also configured global configuration for effective use of environment variable without exposing them
+    I also written custom exceptions(most commonly) for easier and less repeatable codes for exceptions
+    I also written services and repositories supporting reading and creation of users
