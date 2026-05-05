@@ -230,3 +230,7 @@ Day 27:
     I also implemented test cases for the previously made projects
     I also research some project ideas
 
+Day 28:
+    Today I explore some prebuilt project for better idea
+    Today I designed schemas and models for the CafePOS project
+
