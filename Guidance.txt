@@ -240,3 +240,13 @@ Day 29:
     I also configured global configuration for effective use of environment variable without exposing them
     I also written custom exceptions(most commonly) for easier and less repeatable codes for exceptions
     I also written services and repositories supporting reading and creation of users
+
+Day 30:
+    Today I developed CRUD Functionalities for
+        Users
+        Dishes
+        Sections
+        Tables
+        Items
+        Orders
+    Stucked in circular dependency problem where for the generation of item, i need order_id and for the generation of order, i need list of item_ids.
