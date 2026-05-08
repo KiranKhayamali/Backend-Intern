@@ -249,4 +249,38 @@ Day 30:
         Tables
         Items
         Orders
-    Stucked in circular dependency problem where for the generation of item, i need order_id and for the generation of order, i need list of item_ids.
+    Stuck in circular dependency problem where for the generation of item, i need order_id and for the generation of order, i need list of item_ids.
+
+Day 31:
+    Today, I completed developing CRUD functionalities for
+        Items
+        Orders (Solved the circular dependency problem)
+        Bills
+    I also went out of track and learned about:
+        API Gateway     -> API Management,
+        Load Balancer   -> Traffic distribution,
+        Reverse Proxy   -> Front backend servers,
+        Rate Limiting   -> Request caps ,
+        Throttling      -> slow excessive traffic,
+        Pagination      -> split large results ,
+        Cache Stampede  -> simultaneously miss cache and overload Database,
+        Idempotency     -> same result no matter number of operation,
+        GraphQL         -> Flexible API Querying,
+        gRPC            -> Fast service communication,
+        Webhooks        -> Event driven callbacks,
+        JWT             -> Stateless auth token,
+        OAuth           -> Delegated authorization,
+        Cache Invalidatoion -> updating/removing stale cache data,
+        Composite Index -> Index on multiple columns,
+        Query Optimization -> Improving query performance,
+        CAP Theorem     -> Distributed Tradeoffs,
+        ACID Properties -> Transaction guarantees,
+        Sharding        -> Horizontal Database Scaling,
+        Circuit Breaker -> Prevent cascading failure,
+        Livelock        -> Thread keep reacting to each other but make no progress,
+        CSRF            -> attack that tricks into unwanted requests,
+        Back pressure   -> mechanism that minimizes the difference between consumer and producer,
+        False sharing   -> performance issue in multithreading,
+        mTLS            -> mutual authentication,
+        Background jobs -> work executed asynchronously outside the main request-response cycle,
+        Message queues  -> middleware that store message/jobs until consumer process them,
