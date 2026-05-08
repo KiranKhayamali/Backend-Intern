@@ -661,3 +661,361 @@ PartyRock
     free, hands-on generative AI application-building tool created by AWS
     Allows us to experiment directly with powerful foundation model to generate text, create images, and analyze data-all without needing to write code or manage cloud infrastructure.
 
+
+Interesting Topics of Backend
+    Networking and API Infrastructure
+        API Gateway
+            An API gateway is the "front door" for APIs in a microservices system
+            It:
+                Receives client requests
+                Routes them to appropriate services
+                Handles authentication, rate limiting, logging, caching, etc
+            Gateway routes:
+                /users  -> User Services
+                /payments -> Payment Services
+                /orders -> Order Services
+            Benefits:
+                Centralized auth/security
+                Request aggregation
+                Monitoring
+                Versioning
+                Traffic control
+            Popular Tools
+                Kong
+                NGINX
+                AWS API Gateway
+            Difference from Load Balancer
+                load balancer distributes traffic
+                API gateway manages API-specific concerns
+
+        Load Balancer
+            An load balancer distributes incoming traffic across mutliple servers
+            Goal :
+                Prevent one server from becoming overloaded
+            Algorithms:
+                Round Robin
+                Least Connections
+                IP Hash
+                Weighted Routing
+            Types:
+                Layer 4 (Transport)
+                    Routes based on IP/port
+                Layer 7 (Application)
+                    Routes based on
+                        URL
+                        Headers
+                        Cookies
+            Popular:
+                HAProxy
+                NGINX
+                AWS ELB/ALB
+
+        Reverse Proxy
+            A reverse proxy sits in front of backend servers
+            Clients thinks they're talking directly to the server
+            Uses:
+                SSL termination
+                Caching
+                Compression
+                Security
+                Load Balancing
+            Difference from forward proxy
+                Forward proxy protects client
+                Reverse proxy protects servers
+            Examples
+                NGINX
+                Cloudflare
+                Envoy
+
+    Traffic Control
+        Rate Limiting
+            Controls how many requests a client can make
+            WHY?
+                Prevents abuse
+                Protect infrastructure
+                Fair usage
+            Algorithms:
+                Token Bucket
+                Leaky Bucket
+                Fixed Window
+                Sliding Window
+            Response ;
+                Usually : 429 Too Many Requests
+
+        Throttling
+            Throttling slows down or restricts traffic when limits are exceeded
+            Difference from Rate limiting
+                Rate Limiting = Hard cap
+                Throttling = gradual slowing/reduction
+            Example:
+                After 100 requests:
+                    Instead of blocking
+                    System delay responses
+
+        Back pressure
+            A mechanism where a slow consumer tells a fast producer - "Slow down; I can't keep up"
+            Common in:
+                Streaming systems
+                Kafka
+                Reactive systems
+            Example
+                If server B processes 100 msgs/sec but server A sends 10,000 msgs/sec
+                    query explodes
+                    memory spikes
+                Back pressure prevents overload
+
+    API Design
+        Pagination
+            Breaking large result sets into smaller chunks
+            WHY?
+                without pagination:
+                    slow queries
+                    huge payloads
+                    memory issues
+            Types:
+                Offset Pagination (LIMIT 10 OFFSET 20)
+                    Problem:
+                        Slow on large datasets
+                        Inconsistent during inserts/deletes
+                Cursor Pagination
+                    uses stable cursor:     ?cursor=abc123
+                    Better for:
+                        infinite scroll
+                        large systems
+
+        GraphQL
+            A query language for APIs
+            Clients requests exactly the data they need
+            REST problem:
+                REST may overfetch: {users, posts, comments, ......}
+            GraphQL:
+                Client asks: {user{name}}
+            Benefits:
+                Flexible
+                Reduced over-fitting
+                Single-endpoint
+            Downsides
+                Complex caching
+                Harder monitoring
+                Expensive queries possible
+
+        gRPC
+            A high-performance RPC framework from Google
+            Uses:
+                HTTP/2
+                Protocol Buffers (protobuf)
+            Benefits:
+                Fast
+                Strongly typed
+                Streaming support
+                Efficient binary Protocol
+            Best for
+                Microservices
+                Internal communication
+            Not ideal for
+                Browser (less native support)
+
+        Webhooks
+            A system where one service calls another when an event occurs
+            Example
+                Payment completed
+                    Esewa -> POST /payment-success
+            Push Model
+                Instead of polling:
+                    "Did payments happen?"
+                The server notifies automatically
+            Challenges:
+                Retries
+                Signature verification
+                Idempotency
+
+    Authentication and Security
+        JWT(JSON Web Tokens)
+            A signed token containing user data
+            Structure
+                header.payload.signature
+            Example Payload
+                {
+                    "userID": 123,
+                    "role": "admin"
+                }
+            Benefits:
+                Stateless auth
+                Easy scaling
+            Risks
+                Cannot easily revoke before expiry
+
+        OAuth
+            Authorization Framework
+            Lets applications access user resources without passwords
+            Example:
+                "Login with Google"
+            Flow:
+                User logs into Google
+                Google gives token
+                Application accesses approved data
+            Key terms:
+                Access Token
+                Refressh Token
+                Authorization Server
+            OAuth Vs JWT
+                OAuth = authorization format
+                JWT = token format
+            OAuth may use JWT internally
+
+        CSRF (Cross-Site Request Forgery)
+            An attack where a malicious site tricks a user into unwanted requests
+            Example
+                User logged into bank:
+                    <img src="bank.com/transfer?amout=1000">
+                Browser auto-sends cookies
+            Preventions:
+                CSRF Tokens
+                SameSite Cookies
+                Double-submit cookies
+
+        mTLS (Mutual TLS)
+            Both client and server verify each other using certificates
+            Normal TLS:
+                Client verifies server
+            mTLS:
+                Server also verfies client
+            used in:
+                Internal microservices
+                Zero-trust systems
+
+    Reliability and Resilience
+        Circuit Breaker
+            Prevents cascading failure
+            Example
+                If payment service is failing:
+                    Stop calling it temporarily
+                    Fail fast
+            States
+                Closed = Normal
+                Open = Reject requests
+                Half-open = testing recovery
+            Popular:
+                Hystrix
+                Resilience4j
+
+        Idempotency
+            An operation that produces the same results no matter how many times repeated
+            Example: PUT /users/1
+                Repeated requests
+                    Same outcome
+            Important For:
+                Payment APIs
+                Retries
+                Distributed Systems
+            Non-idempotent: POST /users
+                may create duplicates
+
+    Caching
+        Cache Stampede
+            Many requests simultaneously miss cache and overloads database
+            Example:
+                10,000 users -> database at once
+            Solutions:
+                Cache locking
+                Probablistic expiration
+                Background refresh
+                Request coalescing
+
+        Cache Invalidation
+            Updating/removing stale cache data
+            One of the hardest problems in computing
+            Strategies:
+                TTL Expiration
+                Write-through
+                Write-back
+                Event-based invalidation
+
+    Databases
+        Composite Index
+            An index on multiple columns
+            Example:
+                SQL: INDEX(first_name, last_name)
+                Efficient for:
+                    SQL: WHERE first_name="Kiran" AND last_name="khayamali"
+            Leftmost Prefix Rule:
+                This index helps:
+                    (first_name)
+                    (first_name, last_name)
+                But not:
+                    (last_name) alone
+
+        Query Optimization
+            Improving query performance
+            Techniques
+                Proper indexes
+                Avoid SELECT *
+                Reduce joins
+                Partitioning
+                Query plans(EXPLAIN)
+            Common Bottlenecks
+                Full table scans
+                N+1 queries
+                Missing indexes
+
+        Sharding
+            Spliting database across multiple machines
+            Example:
+                Users:
+                    A-M -> Database1
+                    N-Z -> Database2
+            Benefits:
+                Horizontal Scaling
+            Challenges:
+                Rebalancing
+                Cross-shard joins
+                Hot shards
+
+    Distributed Systems
+        CAP Theorem
+            In a distributed system, we can only guarantees 2 of 3:
+            C - Consistency
+                ALl nodes see same data
+            A - Availability
+                System always responds
+            P - Partition Tolerance
+                System survives network splits
+                Since partitions are unavoidable
+                We choose between:
+                    CP
+                    AP
+            Example:
+                MongoDB -> CP-ish
+                Cassendra -> AP-ish
+
+        ACID Properties
+            Guarantees reliable database transactions
+            A - Atomicity
+                All or nothing
+            C - Consistency
+                Valid state transactions only
+            I - Isolation
+                Concurrent transactions don't interfere
+            D - Durability
+                Committed data survives crashes
+
+    Concurrency and Multithreading
+        Livelock
+            Threads keep reacting to each other but makes no progress
+            Example:
+                Two people:
+                    both move asid repeatedly
+                    still block each other
+            Difference
+                Deadlock = stuck
+                Livelock = active but useless
+
+        False Sharing
+            Performance issue in multithreading
+            Two threads modify different variables that share same CPU cache line
+            Result:
+                Cache invalidation
+                Severe slowdown
+            Fix:
+                Padding
+                Cache-ling alignment
