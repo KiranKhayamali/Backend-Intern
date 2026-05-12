@@ -292,3 +292,14 @@ Day 32:
     I also built various test cases for creating user
 
 
+Day 33:
+    Today, I written some scripts that automatically creates a admin when server is run
+    I also written some scripts that seeded some demo data for frontend usage
+    I majorily built test cases for user route today:
+        for login features
+        for set_cookies
+        for refresh token features
+        for logout features
+        for fetching user data
+        for updating user data
+        for deleting user data
