@@ -284,3 +284,11 @@ Day 31:
         mTLS            -> mutual authentication,
         Background jobs -> work executed asynchronously outside the main request-response cycle,
         Message queues  -> middleware that store message/jobs until consumer process them,
+
+Day 32:
+    Today i explore various testing packages used in FastAPI
+    I also got knowledge about which testing packages should be used for which scenario(pytest, httpx, FastAPI TestClient, anyio, pytest-asyncio, coverage.py, Factory_boy, faker)
+    I also built test cases for checking health of the project
+    I also built various test cases for creating user
+
+
