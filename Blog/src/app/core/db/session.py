@@ -15,6 +15,6 @@ async def async_get_db() -> AsyncGenerator[AsyncSession, None]:
             await db.commit()
         except Exception as e:
             await db.rollback()
-            raise
+            raise e
         finally:
             await db.close()
